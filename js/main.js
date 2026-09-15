@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(animateRing);
     })();
 
-    document.querySelectorAll('a, button, .project-row, .cap-item, .filter-btn, input, textarea')
+    document.querySelectorAll('a, button, .project-row, .work-hero__item, .cap-item, .filter-btn, input, textarea')
       .forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── 7. WORK PAGE FILTER ───────────────────────────────────── */
   const filterBtns   = document.querySelectorAll('.filter-btn');
-  const projectItems = document.querySelectorAll('.project-row[data-market]');
+  const projectItems = document.querySelectorAll('.work-hero__item[data-market]');
   const projectCount = document.querySelector('.work-count');
 
   if (filterBtns.length) {
