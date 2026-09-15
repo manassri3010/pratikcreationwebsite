@@ -75,4 +75,70 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   }
 
+
+  /* ── product showcase: tracks whichever title was last hovered ── */
+  const showcaseSets  = document.querySelectorAll('.work-showcase__set');
+  const showcaseLabel = document.querySelector('.work-showcase__label-name');
+
+  function setActiveProject(project, label) {
+    let changed = false;
+    showcaseSets.forEach(set => {
+      const isMatch = set.getAttribute('data-project') === project;
+      if (isMatch && !set.classList.contains('is-active')) changed = true;
+      set.classList.toggle('is-active', isMatch);
+    });
+    if (showcaseLabel && label) showcaseLabel.textContent = label;
+    if (changed && typeof ScrollTrigger !== 'undefined') {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
+  }
+
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      setActiveProject(item.getAttribute('data-project'), item.getAttribute('data-label'));
+    });
+  });
+
+
+  /* ── scroll-triggered reveal for showcase images + giant wordmark fade ── */
+  const showcaseItems = document.querySelectorAll('.work-showcase__item');
+  const giant          = document.querySelector('.work-giant');
+  const showcase       = document.querySelector('.work-showcase');
+
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    showcaseItems.forEach(item => {
+      gsap.to(item, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    });
+
+    if (giant && showcase) {
+      gsap.to(giant, {
+        opacity: 0.015,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: showcase,
+          start: 'top bottom',
+          end: 'top center',
+          scrub: true
+        }
+      });
+    }
+  } else {
+    showcaseItems.forEach(item => {
+      item.style.opacity = '1';
+      item.style.transform = 'none';
+    });
+  }
+
 });

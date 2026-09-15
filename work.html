@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
   <style>
-    .work-page { padding-top: var(--nav-h); position: relative; }
+    .work-page { padding-top: var(--nav-h); position: relative; --work-orange: #C25A2C; }
 
     /* giant fixed "WORK" wordmark — permanent background layer, never scrolls */
     .work-giant {
@@ -220,6 +220,76 @@
       z-index: 1;
     }
 
+    /* ── work-showcase: scroll-revealed product images for the
+       selected project, layered over the giant wordmark ─────── */
+    .work-showcase {
+      position: relative;
+      z-index: 1;
+      padding: var(--sp-120) var(--page-pad) var(--sp-64);
+    }
+
+    .work-showcase__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      margin-bottom: var(--sp-48);
+    }
+
+    .work-showcase__set {
+      display: none;
+      flex-direction: column;
+      gap: var(--sp-64);
+    }
+
+    .work-showcase__set.is-active {
+      display: flex;
+    }
+
+    .work-showcase__item {
+      display: block;
+      width: 100%;
+      max-width: 640px;
+      text-decoration: none;
+      color: var(--c-ink);
+      cursor: none;
+      opacity: 0;
+      transform: translateY(60px);
+    }
+
+    .work-showcase__item:nth-child(odd)  { align-self: flex-start; }
+    .work-showcase__item:nth-child(even) { align-self: flex-end; margin-top: calc(var(--sp-64) * -1); }
+
+    .work-showcase__item img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: border-color 0.3s var(--ease), transform 0.3s var(--ease-out);
+    }
+
+    .work-showcase__item-spec {
+      display: block;
+      margin-top: var(--sp-16);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      transition: color 0.3s var(--ease);
+    }
+
+    .work-showcase__item:hover img {
+      border-color: var(--work-orange);
+      transform: translateY(-4px);
+    }
+
+    .work-showcase__item:hover .work-showcase__item-spec {
+      color: var(--work-orange);
+    }
+
     @media (max-width: 1100px) {
       .work-hero { grid-template-columns: 1fr; }
       .work-hero__image-stage { display: none; }
@@ -231,6 +301,8 @@
       .work-hero__item { padding-left: 28px; }
       .work-hero__item-desc { display: none; }
       .work-giant { font-size: clamp(90px, 34vw, 220px); }
+      .work-showcase { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-showcase__item:nth-child(even) { margin-top: 0; align-self: flex-start; }
     }
   </style>
 </head>
@@ -299,7 +371,8 @@
            data-image="images/projects/suzao/card-front.png"
            data-color="#F5F0E8"
            data-label="Studio Suzao"
-           data-market="china">
+           data-market="china"
+           data-project="suzao">
           <span class="work-hero__item-desc" aria-hidden="true">Brand &amp; print</span>
           <span class="work-hero__item-num">01</span>
           <span class="work-hero__item-title">Studio Suzao</span>
@@ -311,7 +384,8 @@
            data-image="images/projects/matiere/hero.png"
            data-color="#B5AD9E"
            data-label="MATIÈRE"
-           data-market="uk">
+           data-market="uk"
+           data-project="matiere">
           <span class="work-hero__item-desc" aria-hidden="true">Perfume box</span>
           <span class="work-hero__item-num">02</span>
           <span class="work-hero__item-title">MATIÈRE</span>
@@ -337,6 +411,33 @@
     <!-- shows when a filter returns 0 results -->
     <div class="empty-state" style="padding-left:var(--page-pad)">
       No projects in this market yet. <a href="#" class="link" onclick="document.querySelector('[data-filter=all]').click();return false;">See all work →</a>
+    </div>
+
+    <!-- product showcase: reveals on scroll, tracks whichever title was last hovered above -->
+    <div class="work-showcase">
+      <p class="work-showcase__label">— <span class="work-showcase__label-name">Studio Suzao</span>, full set</p>
+
+      <div class="work-showcase__set is-active" data-project="suzao">
+        <a class="work-showcase__item" href="work-suzao.html">
+          <img src="images/projects/suzao/hero.png" alt="Studio Suzao — full card set" loading="lazy">
+          <span class="work-showcase__item-spec">01 — Business Cards, Brand Print</span>
+        </a>
+        <a class="work-showcase__item" href="work-suzao.html">
+          <img src="images/projects/suzao/card-front.png" alt="Studio Suzao — card front" loading="lazy">
+          <span class="work-showcase__item-spec">02 — Soft-Touch, Spot UV</span>
+        </a>
+        <a class="work-showcase__item" href="work-suzao.html">
+          <img src="images/projects/suzao/card-back.png" alt="Studio Suzao — card back" loading="lazy">
+          <span class="work-showcase__item-spec">03 — Foil Stamp Detail</span>
+        </a>
+      </div>
+
+      <div class="work-showcase__set" data-project="matiere">
+        <a class="work-showcase__item" href="work-matiere.html">
+          <img src="images/projects/matiere/hero.png" alt="MATIÈRE — No. 07 Vétiver" loading="lazy">
+          <span class="work-showcase__item-spec">01 — Perfume Box, Blind Deboss, Gold Foil</span>
+        </a>
+      </div>
     </div>
 
     <!-- CTA -->
@@ -382,6 +483,7 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/work-hero.js"></script>
 </body>
