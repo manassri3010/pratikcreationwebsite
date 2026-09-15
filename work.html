@@ -10,9 +10,33 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
   <style>
-    .work-page { padding-top: var(--nav-h); }
+    .work-page { padding-top: var(--nav-h); position: relative; }
+
+    /* giant fixed "WORK" wordmark — permanent background layer, never scrolls */
+    .work-giant {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(160px, 26vw, 520px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--c-ink);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      transition: opacity 0.6s var(--ease);
+    }
+    .work-giant--dim    { opacity: 0.045; }
+    .work-giant--bright { opacity: 0.12; }
 
     .work-header {
+      position: relative;
+      z-index: 1;
       padding: var(--sp-64) var(--page-pad) var(--sp-32);
       border-bottom: 1px solid var(--c-border);
     }
@@ -21,6 +45,7 @@
       display: flex;
       align-items: baseline;
       justify-content: space-between;
+      gap: var(--sp-16);
       margin-bottom: var(--sp-24);
     }
 
@@ -32,14 +57,157 @@
       line-height: 0.95;
     }
 
+    .work-header__meta {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-16);
+    }
+
     .work-header__count {
       font-family: var(--font-mono);
       font-size: 13px;
       color: var(--c-muted);
     }
 
-    .work-list {
+    /* plain "+" cross accents scattered across the page */
+    .work-cross {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      line-height: 1;
+      color: var(--c-muted);
+      opacity: 0.55;
+      user-select: none;
+    }
+
+    .work-cross--row {
+      display: flex;
+      justify-content: center;
+      padding: var(--sp-32) 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── work-hero: title list + crossfading image stage ───────── */
+    .work-hero {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: var(--sp-48);
+      align-items: start;
       padding: 0 var(--page-pad);
+    }
+
+    .work-hero__list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-hero__item {
+      position: relative;
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-24);
+      padding: var(--sp-32) 0 var(--sp-32) 40px;
+      border-bottom: 1px solid var(--c-border);
+      text-decoration: none;
+      color: var(--c-ink);
+      cursor: none;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .work-hero__item:first-child {
+      border-top: 1px solid var(--c-border);
+    }
+
+    .work-hero__item-desc {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .work-hero__item-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--c-muted);
+      min-width: 28px;
+      flex-shrink: 0;
+    }
+
+    .work-hero__item-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 60px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      flex: 1;
+      transition: color 0.3s var(--ease), transform 0.3s var(--ease-out);
+    }
+
+    .work-hero__item-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted);
+      flex-shrink: 0;
+    }
+
+    .work-hero__item:hover .work-hero__item-title,
+    .work-hero__item:focus-visible .work-hero__item-title {
+      color: var(--c-gold);
+      transform: translateX(10px);
+    }
+
+    .work-hero__image-stage {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--sp-48));
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 2px;
+      background: var(--c-hover-bg);
+    }
+
+    .work-hero__image-stage-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s var(--ease);
+    }
+
+    .work-hero__image-stage-layer.visible {
+      opacity: 1;
+    }
+
+    .work-hero__image-placeholder {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(13, 13, 13, 0.3);
     }
 
     /* empty state */
@@ -48,11 +216,21 @@
       padding: var(--sp-48) 0;
       font-size: 14px;
       color: var(--c-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 1100px) {
+      .work-hero { grid-template-columns: 1fr; }
+      .work-hero__image-stage { display: none; }
     }
 
     @media (max-width: 900px) {
       .work-header { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
-      .work-list   { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-hero   { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-hero__item { padding-left: 28px; }
+      .work-hero__item-desc { display: none; }
+      .work-giant { font-size: clamp(90px, 34vw, 220px); }
     }
   </style>
 </head>
@@ -63,11 +241,6 @@
   <div class="cursor" aria-hidden="true">
     <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
     <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
-  </div>
-
-  <div class="project-hover-image" aria-hidden="true">
-    <img src="" alt="" loading="lazy">
-    <div class="placeholder"></div>
   </div>
 
   <!-- NAV -->
@@ -95,10 +268,15 @@
 
   <main class="work-page">
 
+    <h2 class="work-giant work-giant--dim" aria-hidden="true">WORK</h2>
+
     <div class="work-header">
       <div class="work-header__top">
         <h1 class="work-header__title reveal">Work</h1>
-        <span class="work-count work-header__count reveal">— 2 projects</span>
+        <span class="work-header__meta">
+          <span class="work-cross" aria-hidden="true">+</span>
+          <span class="work-count work-header__count reveal">— 2 projects</span>
+        </span>
       </div>
       <!-- filters -->
       <div class="filters reveal reveal-d1">
@@ -110,50 +288,49 @@
       </div>
     </div>
 
-    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 var(--page-pad) 0;margin-top:0;padding-bottom:0">
-    </div>
+    <div class="work-cross--row"><span class="work-cross" aria-hidden="true">+</span></div>
 
-    <div class="work-list">
+    <div class="work-hero">
 
-      <a class="project-row"
-         href="work-suzao.html"
-         data-image="images/projects/suzao/card-front.png"
-         data-color="#F5F0E8"
-         data-label="Studio Suzao"
-         data-market="china">
-        <span class="project-row__num">01</span>
-        <span class="project-row__name">Studio Suzao — Business Cards, Brand Identity Print</span>
-        <span class="project-row__tags">
-          <span class="project-row__tag">Business Cards</span>
-          <span class="project-row__tag">Brand Print</span>
-          <span class="project-row__tag">Soft-Touch</span>
-          <span class="project-row__tag">Spot UV</span>
-        </span>
-        <span class="project-row__meta">China · 2024</span>
-      </a>
+      <div class="work-hero__list">
 
-      <a class="project-row"
-         href="work-matiere.html"
-         data-image="images/projects/matiere/hero.png"
-         data-color="#B5AD9E"
-         data-label="MATIÈRE"
-         data-market="uk">
-        <span class="project-row__num">02</span>
-        <span class="project-row__name">MATIÈRE — No. 07 Vétiver, Fragrance Packaging</span>
-        <span class="project-row__tags">
-          <span class="project-row__tag">Perfume Box</span>
-          <span class="project-row__tag">Blind Deboss</span>
-          <span class="project-row__tag">Gold Foil</span>
-          <span class="project-row__tag">Soft-Touch</span>
-        </span>
-        <span class="project-row__meta">UK · 2024</span>
-      </a>
+        <a class="work-hero__item"
+           href="work-suzao.html"
+           data-image="images/projects/suzao/card-front.png"
+           data-color="#F5F0E8"
+           data-label="Studio Suzao"
+           data-market="china">
+          <span class="work-hero__item-desc" aria-hidden="true">Brand &amp; print</span>
+          <span class="work-hero__item-num">01</span>
+          <span class="work-hero__item-title">Studio Suzao</span>
+          <span class="work-hero__item-meta">China · 2024</span>
+        </a>
 
-      <!--
-        ADD NEW PROJECTS HERE as the portfolio grows.
-        Copy the <a class="project-row"> block above,
-        update the number, name, tags, market, and image path.
-      -->
+        <a class="work-hero__item"
+           href="work-matiere.html"
+           data-image="images/projects/matiere/hero.png"
+           data-color="#B5AD9E"
+           data-label="MATIÈRE"
+           data-market="uk">
+          <span class="work-hero__item-desc" aria-hidden="true">Perfume box</span>
+          <span class="work-hero__item-num">02</span>
+          <span class="work-hero__item-title">MATIÈRE</span>
+          <span class="work-hero__item-meta">UK · 2024</span>
+        </a>
+
+        <!--
+          ADD NEW PROJECTS HERE as the portfolio grows.
+          Copy the <a class="work-hero__item"> block above,
+          update the number, desc, title, market, and image path.
+        -->
+
+      </div>
+
+      <div class="work-hero__image-stage" aria-hidden="true">
+        <img class="work-hero__image-stage-layer" src="" alt="" loading="lazy">
+        <img class="work-hero__image-stage-layer" src="" alt="" loading="lazy">
+        <div class="work-hero__image-placeholder"></div>
+      </div>
 
     </div>
 
@@ -163,7 +340,8 @@
     </div>
 
     <!-- CTA -->
-    <div style="padding: var(--sp-120) var(--page-pad)">
+    <div class="work-cross--row"><span class="work-cross" aria-hidden="true">+</span></div>
+    <div style="padding: 0 var(--page-pad) var(--sp-120); position: relative; z-index: 1;">
       <div class="cta-bar reveal">
         <p class="cta-bar__text">Like what you see?</p>
         <a href="samples.html" class="cta-bar__link">Request a sample kit →</a>
@@ -203,6 +381,8 @@
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/work-hero.js"></script>
 </body>
 </html>
