@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How every Pratik Creation order is made — 8 steps from brief to dispatch. In-house. Documented. Consistent.">
+  <title>Process — Pratik Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    .process-page { padding-top: var(--nav-h); }
+
+    /* ── page-level progress bar (top edge) ── */
+    .page-progress {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--c-gold);
+      z-index: 99;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* ── header ── */
+    .process-header {
+      padding: var(--sp-80) var(--page-pad) var(--sp-64);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-80);
+      align-items: end;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .process-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7vw, 96px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 0.93;
+    }
+    .process-header__right {}
+    .process-header__sub {
+      font-size: 15px;
+      color: var(--c-muted);
+      line-height: 1.8;
+      margin-bottom: var(--sp-32);
+    }
+    .process-header__meta {
+      display: flex;
+      gap: var(--sp-48);
+    }
+    .process-meta-item {}
+    .process-meta-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-4);
+    }
+    .process-meta-val {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--c-ink);
+    }
+
+    /* ── two-column layout: sticky nav + scrolling steps ── */
+    .process-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* sticky left navigator */
+    .proc-nav {
+      position: sticky;
+      top: var(--nav-h);
+      align-self: start;
+      height: calc(100vh - var(--nav-h));
+      border-right: 1px solid var(--c-border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .proc-nav__header {
+      padding: var(--sp-32) var(--sp-32) var(--sp-24);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proc-nav__title {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+    }
+
+    /* vertical progress line inside nav */
+    .proc-nav__progress-track {
+      position: relative;
+      width: 1px;
+      background: var(--c-border);
+      position: absolute;
+      left: 31px;
+      top: 90px; /* below header */
+      bottom: 0;
+    }
+    .proc-nav__progress-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0%;
+      background: var(--c-gold);
+      transition: height 0.15s linear;
+    }
+
+    .proc-nav__list {
+      padding: var(--sp-24) 0;
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: none;
+      position: relative;
+      z-index: 1;
+    }
+    .proc-nav__list::-webkit-scrollbar { display: none; }
+
+    .proc-nav__item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-16);
+      padding: var(--sp-12) var(--sp-32);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      margin-left: -1px; /* overlap border-right of parent */
+      text-decoration: none;
+    }
+    .proc-nav__item:hover { background: var(--c-hover-bg); }
+    .proc-nav__item.active {
+      border-left-color: var(--c-gold);
+      background: var(--c-hover-bg);
+    }
+    .proc-nav__item-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-muted);
+      min-width: 20px;
+      transition: color 0.2s;
+    }
+    .proc-nav__item.active .proc-nav__item-num { color: var(--c-gold); }
+    .proc-nav__item-name {
+      font-size: 12px;
+      color: var(--c-muted);
+      transition: color 0.2s;
+      line-height: 1.3;
+    }
+    .proc-nav__item.active .proc-nav__item-name { color: var(--c-ink); font-weight: 500; }
+
+    /* ── steps on the right ── */
+    .proc-steps { }
+
+    .proc-step {
+      padding: var(--sp-80) var(--page-pad);
+      border-bottom: 1px solid var(--c-border);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+    .proc-step:first-child { border-top: 1px solid var(--c-border); }
+
+    /* large watermark number behind content */
+    .proc-step__watermark {
+      position: absolute;
+      right: var(--page-pad);
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(100px, 15vw, 200px);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      color: rgba(13,13,13,0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      transition: color 0.25s;
+    }
+    .proc-step:hover .proc-step__watermark {
+      color: rgba(13,13,13,0.06);
+    }
+
+    .proc-step__inner {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: var(--sp-48);
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .proc-step__num-block {}
+    .proc-step__num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-8);
+    }
+    .proc-step__phase {
+      font-size: 10px;
+      color: var(--c-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .proc-step__content {}
+    .proc-step__name {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: var(--sp-24);
+      color: var(--c-ink);
+    }
+    .proc-step__desc {
+      font-size: 15px;
+      color: var(--c-muted);
+      line-height: 1.8;
+      max-width: 540px;
+      margin-bottom: var(--sp-32);
+    }
+
+    /* detail pills */
+    .proc-step__details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-8);
+    }
+    .proc-detail {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-muted);
+      border: 1px solid var(--c-border);
+      padding: 4px 12px;
+      border-radius: 20px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .proc-step:hover .proc-detail {
+      border-color: rgba(13,13,13,0.2);
+      color: var(--c-ink);
+    }
+
+    /* image placeholder */
+    .proc-step__photo {
+      margin-top: var(--sp-48);
+      width: 100%;
+      height: 360px;
+      background: #E8E4DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: rgba(13,13,13,0.25);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      overflow: hidden;
+      position: relative;
+      /* 3D tilt setup */
+      transform-style: preserve-3d;
+      will-change: transform;
+      transform: perspective(900px) rotateX(0deg) rotateY(0deg) scale(1);
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+                  box-shadow 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: none;
+    }
+    .proc-step__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      /* image itself scales very slightly to prevent edge gaps during tilt */
+      transform: scale(1.05);
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    /* video in step — same dimensions as photo */
+    .proc-step__photo video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+      transform: scale(1.05);
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    /* moving light gloss overlay — injected by JS */
+    .proc-photo-shine {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    /* dim the non-hovered step when any photo is active */
+    .proc-step.photo-dimmed {
+      opacity: 0.5;
+      transition: opacity 0.4s ease;
+    }
+    .proc-step__photo:hover img,
+    .proc-step__photo:hover video {
+      transform: scale(1);
+    }
+
+    /* ── dark lead time section ── */
+    .process-times {
+      background: var(--c-ink);
+      color: var(--c-bg);
+      padding: var(--sp-80) var(--page-pad);
+    }
+    .process-times__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: var(--sp-48);
+      padding-bottom: var(--sp-32);
+      border-bottom: 1px solid rgba(247,244,239,0.12);
+    }
+    .process-times__title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .process-times__note {
+      font-size: 12px;
+      color: rgba(247,244,239,0.45);
+      max-width: 280px;
+      text-align: right;
+      line-height: 1.6;
+    }
+    .lead-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .lead-table th {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(247,244,239,0.4);
+      padding: var(--sp-16) var(--sp-16) var(--sp-16) 0;
+      text-align: left;
+      border-bottom: 1px solid rgba(247,244,239,0.12);
+    }
+    .lead-table td {
+      font-size: 14px;
+      color: var(--c-bg);
+      padding: var(--sp-20) var(--sp-16) var(--sp-20) 0;
+      border-bottom: 1px solid rgba(247,244,239,0.08);
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+    .lead-table td:first-child { font-weight: 500; }
+    .lead-table tr:last-child td { border-bottom: none; color: var(--c-gold); }
+    .lead-table tr:last-child td:first-child { color: var(--c-gold); }
+
+    /* air vs sea badges */
+    .time-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: rgba(247,244,239,0.08);
+      color: rgba(247,244,239,0.7);
+    }
+    .time-badge.fast { background: rgba(200,169,110,0.15); color: var(--c-gold); }
+
+    .process-times__caveat {
+      font-size: 12px;
+      color: rgba(247,244,239,0.35);
+      margin-top: var(--sp-24);
+      line-height: 1.6;
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 1100px) {
+      .process-body { grid-template-columns: 200px 1fr; }
+    }
+    @media (max-width: 900px) {
+      .process-header {
+        grid-template-columns: 1fr;
+        padding: var(--sp-48) var(--page-pad-mob);
+        gap: var(--sp-32);
+      }
+      .process-header__meta { gap: var(--sp-32); }
+      .process-body { grid-template-columns: 1fr; }
+      .proc-nav { display: none; } /* hide step nav on mobile */
+      .proc-step { padding: var(--sp-48) var(--page-pad-mob); }
+      .proc-step__inner { grid-template-columns: 1fr; gap: var(--sp-16); }
+      .proc-step__watermark { display: none; }
+      .proc-step__photo { height: 200px; }
+      .process-times { padding: var(--sp-48) var(--page-pad-mob); }
+      .process-times__header { flex-direction: column; align-items: flex-start; gap: var(--sp-16); }
+      .process-times__note { text-align: left; }
+      .lead-table td { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- scroll progress bar -->
+  <div class="page-progress" id="pageProgress" aria-hidden="true"></div>
+
+  <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
+    <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
+  </div>
+
+  <nav class="nav" role="navigation">
+    <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
+    <ul class="nav__links" role="list">
+      <li><a href="work.html"    class="nav__link">Work</a></li>
+      <li><a href="about.html"   class="nav__link">About</a></li>
+      <li><a href="process.html" class="nav__link active">Process</a></li>
+      <li><a href="samples.html" class="nav__link nav__link--cta">Samples</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-overlay">
+    <button class="nav-overlay__close" aria-label="Close menu">✕</button>
+    <a href="work.html"    class="nav-overlay__link">Work</a>
+    <a href="about.html"   class="nav-overlay__link">About</a>
+    <a href="process.html" class="nav-overlay__link">Process</a>
+    <a href="samples.html" class="nav-overlay__link">Samples</a>
+    <span class="nav-overlay__email">hello@pratikcreation.com</span>
+  </div>
+
+  <main class="process-page">
+
+    <!-- ── HEADER ── -->
+    <div class="process-header">
+      <h1 class="process-header__title reveal">How we<br>make it.</h1>
+      <div class="process-header__right reveal reveal-d1">
+        <p class="process-header__sub">
+          Eight steps. None outsourced. Each one documented,
+          checked, and signed off before the next begins.
+          The same sequence, the same standard, on every order.
+        </p>
+        <div class="process-header__meta">
+          <div class="process-meta-item">
+            <span class="process-meta-label">Steps</span>
+            <span class="process-meta-val">08</span>
+          </div>
+          <div class="process-meta-item">
+            <span class="process-meta-label">Outsourced</span>
+            <span class="process-meta-val">00</span>
+          </div>
+          <div class="process-meta-item">
+            <span class="process-meta-label">QC checkpoints</span>
+            <span class="process-meta-val">03</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BODY: sticky nav + steps ── -->
+    <div class="process-body">
+
+      <!-- sticky step navigator -->
+      <nav class="proc-nav" aria-label="Process steps">
+        <div class="proc-nav__header">
+          <span class="proc-nav__title">Steps</span>
+        </div>
+        <div class="proc-nav__list" id="procNavList">
+          <a class="proc-nav__item active" data-step="1" href="#step-1">
+            <span class="proc-nav__item-num">01</span>
+            <span class="proc-nav__item-name">Material selection</span>
+          </a>
+          <a class="proc-nav__item" data-step="2" href="#step-2">
+            <span class="proc-nav__item-num">02</span>
+            <span class="proc-nav__item-name">Pre-production sample</span>
+          </a>
+          <a class="proc-nav__item" data-step="3" href="#step-3">
+            <span class="proc-nav__item-num">03</span>
+            <span class="proc-nav__item-name">Printing</span>
+          </a>
+          <a class="proc-nav__item" data-step="4" href="#step-4">
+            <span class="proc-nav__item-num">04</span>
+            <span class="proc-nav__item-name">Cutting & forming</span>
+          </a>
+          <a class="proc-nav__item" data-step="5" href="#step-5">
+            <span class="proc-nav__item-num">05</span>
+            <span class="proc-nav__item-name">Foil stamping</span>
+          </a>
+          <a class="proc-nav__item" data-step="6" href="#step-6">
+            <span class="proc-nav__item-num">06</span>
+            <span class="proc-nav__item-name">Emboss · Deboss · UV</span>
+          </a>
+          <a class="proc-nav__item" data-step="7" href="#step-7">
+            <span class="proc-nav__item-num">07</span>
+            <span class="proc-nav__item-name">Quality control</span>
+          </a>
+          <a class="proc-nav__item" data-step="8" href="#step-8">
+            <span class="proc-nav__item-num">08</span>
+            <span class="proc-nav__item-name">Packing & dispatch</span>
+          </a>
+        </div>
+
+        <!-- vertical fill line -->
+        <div class="proc-nav__progress-track" aria-hidden="true">
+          <div class="proc-nav__progress-fill" id="procNavFill"></div>
+        </div>
+      </nav>
+
+      <!-- scrolling steps -->
+      <div class="proc-steps">
+
+        <div class="proc-step reveal" id="step-1" data-step="1">
+          <div class="proc-step__watermark" aria-hidden="true">01</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">01 / 08</span>
+              <span class="proc-step__phase">Preparation</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Material selection</div>
+              <p class="proc-step__desc">
+                Paper stock, board, foil, and laminate specified to your exact
+                requirements. Pantone references confirmed in writing. Material
+                weights documented. No substitutions without written approval —
+                not even close alternatives.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">Pantone matching</span>
+                <span class="proc-detail">GSM specification</span>
+                <span class="proc-detail">Foil colour confirmation</span>
+                <span class="proc-detail">Laminate type</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/01-material.png"
+                  alt="Material swatch cards — Pratik Creation material selection process"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-2" data-step="2">
+          <div class="proc-step__watermark" aria-hidden="true">02</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">02 / 08</span>
+              <span class="proc-step__phase">Preparation</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Pre-production sample</div>
+              <p class="proc-step__desc">
+                One physical sample made before the full run begins. Photographed
+                from three angles, emailed to you the same day. Production does not
+                start until you reply with written approval. Not assumed approval.
+                Written approval.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">Physical sample produced</span>
+                <span class="proc-detail">3-angle photography</span>
+                <span class="proc-detail">Written client sign-off</span>
+                <span class="proc-detail">QC checkpoint 1</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/02-sample.png"
+                  alt="Pre-production print proof — client approval before full run"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-3" data-step="3">
+          <div class="proc-step__watermark" aria-hidden="true">03</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">03 / 08</span>
+              <span class="proc-step__phase">Production</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Printing</div>
+              <p class="proc-step__desc">
+                CMYK offset or digital print, depending on run size.
+                Colour output matched to approved Pantone references.
+                A printed proof checked before the full sheet run begins.
+                Registration verified across all panels.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">CMYK offset or digital</span>
+                <span class="proc-detail">Pantone-matched output</span>
+                <span class="proc-detail">Colour proof approval</span>
+                <span class="proc-detail">Registration check</span>
+              </div>
+              <div class="proc-step__photo">
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  aria-label="Printing process — Pratik Creation production facility"
+                >
+                  <source src="images/video/hero.webm" type="video/webm">
+                  <source src="images/video/hero.mp4"  type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-4" data-step="4">
+          <div class="proc-step__watermark" aria-hidden="true">04</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">04 / 08</span>
+              <span class="proc-step__phase">Production</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Cutting & forming</div>
+              <p class="proc-step__desc">
+                Die-cutting, creasing, scoring, and forming all done in-house.
+                Box construction, bag blanks, tag die-cuts — each to the dimension
+                spec documented on the job card. Tolerance: ±1mm. Any deviation
+                from spec is identified and corrected before the finishing stage.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">In-house die-cutting</span>
+                <span class="proc-detail">±1mm tolerance</span>
+                <span class="proc-detail">Job card verified</span>
+                <span class="proc-detail">Crease & score</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/04-cutting.png"
+                  alt="In-house cutting and forming machines — Pratik Creation facility"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-5" data-step="5">
+          <div class="proc-step__watermark" aria-hidden="true">05</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">05 / 08</span>
+              <span class="proc-step__phase">Finishing</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Foil stamping</div>
+              <p class="proc-step__desc">
+                Applied in-house on our foil press. Temperature, pressure, and
+                dwell time documented per job — not guessed, documented. Gold,
+                silver, rose gold, or custom matched foil colours. First sheet
+                of every run checked against the approved pre-production sample
+                before the run continues.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">In-house foil press</span>
+                <span class="proc-detail">Temperature documented</span>
+                <span class="proc-detail">Gold · Silver · Rose Gold</span>
+                <span class="proc-detail">Custom foil colours</span>
+                <span class="proc-detail">QC checkpoint 2</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/05-foil.png"
+                  alt="Foil stamping press — in-house foil application at Pratik Creation"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-6" data-step="6">
+          <div class="proc-step__watermark" aria-hidden="true">06</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">06 / 08</span>
+              <span class="proc-step__phase">Finishing</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Emboss · Deboss · UV</div>
+              <p class="proc-step__desc">
+                Applied in sequence where multiple finishes are specified.
+                Emboss depth confirmed against the approved sample before
+                the run continues. UV curing verified under inspection light.
+                Soft-touch laminate applied last — never before foil, which
+                would prevent adhesion.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">Emboss depth verified</span>
+                <span class="proc-detail">Deboss registration</span>
+                <span class="proc-detail">UV curing check</span>
+                <span class="proc-detail">Soft-touch laminate</span>
+                <span class="proc-detail">Applied in correct sequence</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/06-emboss.png"
+                  alt="Emboss and deboss finish close-up — texture detail on premium card"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-7" data-step="7">
+          <div class="proc-step__watermark" aria-hidden="true">07</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">07 / 08</span>
+              <span class="proc-step__phase">Quality control</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Quality control</div>
+              <p class="proc-step__desc">
+                10% random batch check across all completed units. Each checked
+                against the signed-off pre-production sample: finish quality,
+                dimensional accuracy, colour consistency, structural integrity.
+                Any defect rate above 2% triggers a partial rerun. We dispatch
+                nothing we wouldn't be satisfied receiving ourselves.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">10% batch check</span>
+                <span class="proc-detail">Checked vs approved sample</span>
+                <span class="proc-detail">Defect rate tracked</span>
+                <span class="proc-detail">&lt;2% defect threshold</span>
+                <span class="proc-detail">QC checkpoint 3</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/07-qc.png"
+                  alt="Quality control — spot UV and finish inspection"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proc-step reveal" id="step-8" data-step="8">
+          <div class="proc-step__watermark" aria-hidden="true">08</div>
+          <div class="proc-step__inner">
+            <div class="proc-step__num-block">
+              <span class="proc-step__num">08 / 08</span>
+              <span class="proc-step__phase">Dispatch</span>
+            </div>
+            <div class="proc-step__content">
+              <div class="proc-step__name">Packing & dispatch</div>
+              <p class="proc-step__desc">
+                Pre-dispatch photos of finished units sent to you before packing
+                begins. Your written confirmation required before dispatch is
+                authorised. Double-boxed for all international shipments. Tracking
+                number sent the moment the order leaves the facility — not when
+                it arrives at the destination.
+              </p>
+              <div class="proc-step__details">
+                <span class="proc-detail">Pre-dispatch photography</span>
+                <span class="proc-detail">Client sign-off required</span>
+                <span class="proc-detail">Double-boxed international</span>
+                <span class="proc-detail">Full tracking provided</span>
+                <span class="proc-detail">Air or sea freight</span>
+              </div>
+              <div class="proc-step__photo">
+                <img
+                  src="images/process/08-dispatch.png"
+                  alt="Order fulfilment and dispatch — packed orders ready to ship"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end proc-steps -->
+    </div><!-- end process-body -->
+
+    <!-- ── LEAD TIMES — dark section ── -->
+    <div class="process-times reveal">
+      <div class="process-times__header">
+        <h2 class="process-times__title">Lead times.</h2>
+        <p class="process-times__note">
+          Production times run from pre-production sample approval.
+          Expedited production available on request.
+        </p>
+      </div>
+      <table class="lead-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Production · India</th>
+            <th>Air freight</th>
+            <th>Sea freight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rigid boxes</td>
+            <td><span class="time-badge">12–16 days</span></td>
+            <td><span class="time-badge fast">7–10 days</span></td>
+            <td><span class="time-badge">25–35 days</span></td>
+          </tr>
+          <tr>
+            <td>Premium paper bags</td>
+            <td><span class="time-badge">10–14 days</span></td>
+            <td><span class="time-badge fast">7–10 days</span></td>
+            <td><span class="time-badge">25–35 days</span></td>
+          </tr>
+          <tr>
+            <td>Hang tags</td>
+            <td><span class="time-badge">7–10 days</span></td>
+            <td><span class="time-badge fast">7–10 days</span></td>
+            <td><span class="time-badge">25–35 days</span></td>
+          </tr>
+          <tr>
+            <td>Woven labels</td>
+            <td><span class="time-badge">10–14 days</span></td>
+            <td><span class="time-badge fast">7–10 days</span></td>
+            <td><span class="time-badge">25–35 days</span></td>
+          </tr>
+          <tr>
+            <td>Full packaging suite</td>
+            <td><span class="time-badge">16–20 days</span></td>
+            <td><span class="time-badge fast">7–10 days</span></td>
+            <td><span class="time-badge">25–35 days</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="process-times__caveat">
+        Air freight total door-to-door: 19–30 days · Sea freight total: 41–55 days
+      </p>
+    </div>
+
+    <!-- ── CTA ── -->
+    <div style="padding: var(--sp-80) var(--page-pad)">
+      <div class="cta-bar reveal">
+        <p class="cta-bar__text">Ready to start?</p>
+        <a href="samples.html" class="cta-bar__link">Request a sample kit →</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <a href="index.html" class="footer__logo">PRATIK·CREATION</a>
+        <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
+      </div>
+      <div>
+        <span class="footer__col-title">Work</span>
+        <div class="footer__links">
+          <a href="work.html"         class="footer__link">All projects</a>
+          <a href="work-suzao.html"   class="footer__link">Studio Suzao</a>
+          <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer__col-title">Studio</span>
+        <div class="footer__links">
+          <a href="about.html"   class="footer__link">About</a>
+          <a href="process.html" class="footer__link">Process</a>
+          <a href="samples.html" class="footer__link">Request samples</a>
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
+      <p class="footer__est">Est. 2007</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── Page scroll progress bar ── */
+    const pageProgress = document.getElementById('pageProgress');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      pageProgress.style.width = (scrolled / total * 100) + '%';
+    }, { passive: true });
+
+    /* ── Scroll-tracked step navigator ── */
+    const procSteps    = document.querySelectorAll('.proc-step[data-step]');
+    const procNavItems = document.querySelectorAll('.proc-nav__item[data-step]');
+    const procNavFill  = document.getElementById('procNavFill');
+    const navList      = document.getElementById('procNavList');
+
+    if (procSteps.length && procNavItems.length) {
+      let currentStep = 1;
+
+      const stepObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const step = parseInt(entry.target.dataset.step, 10);
+            if (step !== currentStep) {
+              currentStep = step;
+              procNavItems.forEach(item => {
+                item.classList.toggle('active', parseInt(item.dataset.step) === step);
+              });
+              if (procNavFill) {
+                const pct = ((step - 1) / (procSteps.length - 1)) * 100;
+                procNavFill.style.height = pct + '%';
+              }
+              const activeNavItem = navList.querySelector('.proc-nav__item.active');
+              if (activeNavItem) {
+                activeNavItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+              }
+            }
+          }
+        });
+      }, { threshold: 0.35, rootMargin: '-10% 0px -40% 0px' });
+
+      procSteps.forEach(step => stepObs.observe(step));
+
+      procNavItems.forEach(item => {
+        item.addEventListener('click', e => {
+          e.preventDefault();
+          const target = document.querySelector(item.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PROCESS PHOTO HOVER ANIMATIONS
+       3D cursor-tracking tilt + moving light source (gloss)
+       ══════════════════════════════════════════════════════ */
+    if (window.innerWidth > 900) {
+
+      const photos   = document.querySelectorAll('.proc-step__photo');
+      const allSteps = document.querySelectorAll('.proc-step');
+
+      photos.forEach(photo => {
+        /* inject gloss overlay */
+        const shine = document.createElement('div');
+        shine.className = 'proc-photo-shine';
+        photo.appendChild(shine);
+
+        let raf;
+
+        photo.addEventListener('mouseenter', () => {
+          allSteps.forEach(step => {
+            if (!step.contains(photo)) step.classList.add('photo-dimmed');
+          });
+          shine.style.opacity = '1';
+        });
+
+        photo.addEventListener('mousemove', e => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const rect = photo.getBoundingClientRect();
+            const nx = (e.clientX - rect.left)  / rect.width  - 0.5;
+            const ny = (e.clientY - rect.top)   / rect.height - 0.5;
+            const tiltX  = ny * -16;
+            const tiltY  = nx *  16;
+            const shadowX = nx * -18;
+            const shadowY = ny * -18;
+
+            photo.style.transform =
+              `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.03)`;
+            photo.style.boxShadow =
+              `${shadowX}px ${shadowY}px 40px rgba(0,0,0,0.22),
+               ${shadowX * 0.4}px ${shadowY * 0.4}px 12px rgba(0,0,0,0.12)`;
+
+            const gx = ((e.clientX - rect.left)  / rect.width)  * 100;
+            const gy = ((e.clientY - rect.top)   / rect.height) * 100;
+            shine.style.background =
+              `radial-gradient(circle at ${gx}% ${gy}%,
+                rgba(255,255,255,0.22) 0%,
+                rgba(255,255,255,0.06) 30%,
+                transparent 60%)`;
+          });
+        });
+
+        photo.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(raf);
+          photo.style.transition =
+            'transform 0.7s cubic-bezier(0.23,1,0.32,1), box-shadow 0.7s cubic-bezier(0.23,1,0.32,1)';
+          photo.style.transform =
+            'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+          photo.style.boxShadow = 'none';
+          shine.style.opacity  = '0';
+          allSteps.forEach(step => step.classList.remove('photo-dimmed'));
+        });
+
+        photo.addEventListener('mousedown', () => {
+          photo.style.transition = 'transform 0.1s ease, box-shadow 0.1s ease';
+          photo.style.transform  =
+            photo.style.transform.replace('scale(1.03)', 'scale(0.99)');
+        });
+        photo.addEventListener('mouseup', () => {
+          photo.style.transition =
+            'transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s ease';
+          photo.style.transform  =
+            photo.style.transform.replace('scale(0.99)', 'scale(1.03)');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

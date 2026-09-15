@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATIÈRE No. 07 — Pratik Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    .proj { padding-top: var(--nav-h); }
+
+    /* ── 1. TEXT INTRO ── */
+    .proj-intro {
+      padding: var(--sp-80) var(--page-pad) var(--sp-64);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-intro__eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted);
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: var(--sp-32);
+    }
+    .proj-intro__title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4.8vw, 74px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 0.97;
+      max-width: 900px;
+      margin-bottom: var(--sp-64);
+    }
+    /* metadata strip */
+    .proj-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--c-border);
+      padding-top: var(--sp-32);
+    }
+    .proj-meta__item {
+      padding-right: var(--sp-32);
+      border-right: 1px solid var(--c-border);
+      margin-right: var(--sp-32);
+    }
+    .proj-meta__item:last-child { border-right: none; }
+    .proj-meta__label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-8);
+    }
+    .proj-meta__val {
+      font-size: 13px;
+      color: var(--c-ink);
+      line-height: 1.5;
+    }
+
+    /* ── IMAGE CONTAINERS ── */
+
+    /*
+      Standard windowed — the document spread floats on a sandy background.
+      Generous side padding creates the "window" effect.
+    */
+    .proj-window {
+      background: #C8C0B2; /* sand tone matching the document */
+      padding: var(--sp-80) 8vw;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-window img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* subtle shadow to lift the document off the background */
+      box-shadow: 0 16px 64px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /*
+      Dark panel — crops just the left half of the spread (the "07" panel).
+      Bleeds full width, very impactful contrast after the sandy windowed view.
+    */
+    .proj-dark-panel {
+      background: #0D0D0D;
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 1px solid #0D0D0D;
+      position: relative;
+    }
+    .proj-dark-panel img {
+      width: 100%;
+      height: 75vh;
+      min-height: 480px;
+      object-fit: cover;
+      /* crop to the left half — the black panel with "07" */
+      object-position: left center;
+      display: block;
+      filter: contrast(1.05);
+    }
+    /* "07" typographic overlay — reinforces what the spread is */
+    .proj-dark-panel__label {
+      position: absolute;
+      bottom: var(--sp-32);
+      left: var(--page-pad);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: rgba(200, 192, 178, 0.5);
+      text-transform: uppercase;
+    }
+
+    /*
+      Full spread again — same sandy window but slightly more open (less padding)
+      giving it a different feel to the first appearance.
+    */
+    .proj-window--open {
+      background: #B5AD9E;
+      padding: var(--sp-64) 4vw;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-window--open img {
+      width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.22);
+    }
+
+    /* ── NARRATIVE ── */
+    .proj-narrative {
+      padding: var(--sp-80) var(--page-pad);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-80);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-narrative__heading {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .proj-narrative__body p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--c-muted);
+      margin-bottom: var(--sp-20);
+    }
+    .proj-narrative__body p:last-child { margin-bottom: 0; }
+
+    /* ── next project ── */
+    .next-project {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-32) var(--page-pad);
+      border-top: 1px solid var(--c-border);
+      text-decoration: none;
+      color: var(--c-ink);
+      transition: background 0.2s;
+      gap: var(--sp-32);
+    }
+    .next-project:hover { background: var(--c-hover-bg); }
+    .next-project__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted);
+      margin-bottom: var(--sp-8);
+    }
+    .next-project__name {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.8vw, 34px);
+      font-weight: 500;
+      letter-spacing: -0.015em;
+    }
+    .next-project__img {
+      width: 180px;
+      height: 120px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .next-project__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top left;
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 900px) {
+      .proj-intro { padding: var(--sp-48) var(--page-pad-mob) var(--sp-48); }
+      .proj-meta { grid-template-columns: 1fr 1fr; gap: var(--sp-24); }
+      .proj-meta__item { border-right: none; margin-right: 0; padding-right: 0; border-bottom: 1px solid var(--c-border); padding-bottom: var(--sp-16); }
+      .proj-meta__item:last-child { border-bottom: none; }
+      .proj-window { padding: var(--sp-32) var(--page-pad-mob); }
+      .proj-window--open { padding: var(--sp-32) var(--page-pad-mob); }
+      .proj-dark-panel img { height: 55vw; min-height: 280px; }
+      .proj-dark-panel__label { left: var(--page-pad-mob); }
+      .proj-narrative { grid-template-columns: 1fr; gap: var(--sp-32); padding: var(--sp-48) var(--page-pad-mob); }
+      .next-project { padding: var(--sp-24) var(--page-pad-mob); }
+      .next-project__img { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
+    <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation">
+    <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
+    <ul class="nav__links" role="list">
+      <li><a href="work.html"    class="nav__link active">Work</a></li>
+      <li><a href="about.html"   class="nav__link">About</a></li>
+      <li><a href="process.html" class="nav__link">Process</a></li>
+      <li><a href="samples.html" class="nav__link nav__link--cta">Samples</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-overlay">
+    <button class="nav-overlay__close" aria-label="Close menu">✕</button>
+    <a href="work.html"    class="nav-overlay__link">Work</a>
+    <a href="about.html"   class="nav-overlay__link">About</a>
+    <a href="process.html" class="nav-overlay__link">Process</a>
+    <a href="samples.html" class="nav-overlay__link">Samples</a>
+    <span class="nav-overlay__email">hello@pratikcreation.com</span>
+  </div>
+
+  <main class="proj">
+
+    <!-- ── 1. TEXT INTRO — text comes first, no image ── -->
+    <div class="proj-intro">
+      <span class="proj-intro__eyebrow reveal">MATIÈRE · No. 07 — Vétiver · Céleste Eau de Parfum · 2024</span>
+      <h1 class="proj-intro__title reveal reveal-d1">
+        A fragrance developed<br>over thirty-one months.<br>The documentation<br>had to match.
+      </h1>
+      <div class="proj-meta reveal reveal-d2">
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Client</span>
+          <span class="proj-meta__val">MATIÈRE<br>Céleste</span>
+        </div>
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Products</span>
+          <span class="proj-meta__val">Brand document<br>Certificate insert<br>Fragrance box</span>
+        </div>
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Finishes</span>
+          <span class="proj-meta__val">170gsm uncoated<br>No laminate<br>No finishing</span>
+        </div>
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Edition · Year</span>
+          <span class="proj-meta__val">200 units<br>Serial numbered<br>2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. FULL SPREAD — windowed on sandy background ── -->
+    <div class="proj-window reveal">
+      <img
+        src="images/projects/matiere/hero.png"
+        alt="MATIÈRE No. 07 — full document spread"
+        loading="eager"
+      >
+    </div>
+
+    <!-- ── 3. DARK PANEL — left half of spread, the "07" panel, full bleed ── -->
+    <div class="proj-dark-panel reveal">
+      <img
+        src="images/projects/matiere/hero.png"
+        alt="MATIÈRE No. 07 — edition panel"
+        loading="lazy"
+      >
+      <span class="proj-dark-panel__label">No. 07 — Vétiver · Edition of 200</span>
+    </div>
+
+    <!-- ── 4. NARRATIVE ── -->
+    <div class="proj-narrative">
+      <div>
+        <h2 class="proj-narrative__heading reveal">
+          Luxury at this<br>level doesn't<br>announce itself.<br>It presents evidence.
+        </h2>
+        <a href="samples.html" class="link" style="display:inline-block;margin-top:var(--sp-48);font-size:13px;font-weight:500;">
+          Interested in something similar? →
+        </a>
+      </div>
+      <div class="proj-narrative__body reveal reveal-d1">
+        <p>
+          MATIÈRE's No. 07 is a Vétiver eau de parfum produced in editions of
+          200 units, each bottle serial-numbered at the base. The formula was
+          developed across sixteen reformulations under the direction of nose
+          Hélène Caron in Grasse. A product at this level of specificity demands
+          print that can carry the same weight.
+        </p>
+        <p>
+          We produced the accompanying brand document — a two-panel insert:
+          a black-field left page carrying only the edition number, and an
+          uncoated sand-tone right page with full formula disclosure and
+          provenance notes printed in a single weight of type.
+        </p>
+        <p>
+          170gsm uncoated stock. No laminate. No finishing. The restraint
+          is deliberate. At this price point, decoration is a signal of
+          insecurity. The quality of the paper and the precision of the
+          print do all the work.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- NEXT PROJECT -->
+  <a class="next-project" href="work-suzao.html">
+    <div>
+      <p class="next-project__label">Next project</p>
+      <p class="next-project__name">Studio Suzao — Brand Identity →</p>
+    </div>
+    <div class="next-project__img">
+      <img src="images/projects/suzao/card-front.png" alt="Studio Suzao" loading="lazy">
+    </div>
+  </a>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <a href="index.html" class="footer__logo">PRATIK·CREATION</a>
+        <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
+      </div>
+      <div>
+        <span class="footer__col-title">Work</span>
+        <div class="footer__links">
+          <a href="work.html"         class="footer__link">All projects</a>
+          <a href="work-suzao.html"   class="footer__link">Studio Suzao</a>
+          <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer__col-title">Studio</span>
+        <div class="footer__links">
+          <a href="about.html"   class="footer__link">About</a>
+          <a href="process.html" class="footer__link">Process</a>
+          <a href="samples.html" class="footer__link">Request samples</a>
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
+      <p class="footer__est">Est. 2007</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── Cursor-tracking parallax + gloss on project images ── */
+    if (window.innerWidth > 900) {
+
+      const containers = document.querySelectorAll(
+        '.proj-window, .proj-dark-panel'
+      );
+
+      containers.forEach(container => {
+        const img = container.querySelector('img');
+        if (!img) return;
+
+        container.style.position = 'relative';
+
+        const shine = document.createElement('div');
+        shine.style.cssText =
+          'position:absolute;inset:0;pointer-events:none;z-index:3;' +
+          'opacity:0;transition:opacity 0.35s ease;';
+        container.appendChild(shine);
+
+        img.style.willChange = 'transform';
+
+        /* dark panel image already does object-position so treat carefully */
+        const isDark = container.classList.contains('proj-dark-panel');
+        const baseScale = isDark ? 1.0 : 1.04;
+
+        img.style.transition = 'transform 0.15s ease';
+        img.style.transform  = `scale(${baseScale}) translate(0px,0px)`;
+
+        let raf;
+
+        container.addEventListener('mouseenter', () => {
+          shine.style.opacity = '1';
+        });
+
+        container.addEventListener('mousemove', e => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const rect = container.getBoundingClientRect();
+            const nx = (e.clientX - rect.left)  / rect.width  - 0.5;
+            const ny = (e.clientY - rect.top)   / rect.height - 0.5;
+            const tx = nx * -12;
+            const ty = ny * -8;
+            const hoverScale = baseScale + 0.025;
+
+            img.style.transition = 'transform 0.1s ease';
+            img.style.transform  = `scale(${hoverScale}) translate(${tx}px, ${ty}px)`;
+
+            const gx = ((e.clientX - rect.left)  / rect.width)  * 100;
+            const gy = ((e.clientY - rect.top)   / rect.height) * 100;
+            shine.style.background =
+              `radial-gradient(circle at ${gx}% ${gy}%,
+                 rgba(255,255,255,0.14) 0%,
+                 rgba(255,255,255,0.04) 28%,
+                 transparent 55%)`;
+          });
+        });
+
+        container.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(raf);
+          img.style.transition = 'transform 0.7s cubic-bezier(0.23,1,0.32,1)';
+          img.style.transform  = `scale(${baseScale}) translate(0px,0px)`;
+          shine.style.opacity  = '0';
+        });
+      });
+    }
+  </script>
+</body>
+</html>

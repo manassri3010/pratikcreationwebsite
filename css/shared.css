@@ -1,0 +1,1101 @@
+/* ============================================================
+   PRATIK CREATION — shared.css
+   Design system. Every page imports this.
+   Inspired by both.studio — minimal, editorial, craft-first.
+   ============================================================ */
+
+
+/* ── 1. RESET ───────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+
+/* ── 2. DESIGN TOKENS ───────────────────────────────────────── */
+
+:root {
+  /* colours — 4 only, no exceptions */
+  --c-bg:       #F7F4EF;   /* warm off-white — the background */
+  --c-ink:      #0D0D0D;   /* near-black — all primary text */
+  --c-muted:    #888580;   /* muted — secondary text, labels */
+  --c-gold:     #C8A96E;   /* gold — logo accent, hover lines */
+  --c-border:   rgba(13, 13, 13, 0.12);  /* border colour */
+  --c-hover-bg: #F0EBE3;   /* subtle warm tint on row hover */
+
+  /* typography */
+  --font-display: 'Syne', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  /* spacing — 8px base grid */
+  --sp-4:    4px;
+  --sp-8:    8px;
+  --sp-12:   12px;
+  --sp-16:   16px;
+  --sp-24:   24px;
+  --sp-32:   32px;
+  --sp-48:   48px;
+  --sp-64:   64px;
+  --sp-80:   80px;
+  --sp-120:  120px;
+
+  /* layout */
+  --page-pad: 60px;       /* left/right page padding desktop */
+  --page-pad-mob: 24px;   /* mobile */
+  --nav-h: 72px;          /* nav height */
+
+  /* transitions */
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+/* ── 3. BASE ────────────────────────────────────────────────── */
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none; /* we use custom cursor on desktop */
+}
+
+/* show default cursor on mobile */
+@media (max-width: 900px) {
+  body { cursor: auto; }
+}
+
+
+/* ── 4. TYPOGRAPHY ──────────────────────────────────────────── */
+
+/* display headings — Syne */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* hero headline */
+.t-hero {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 8vw, 120px);
+  font-weight: 500;
+  line-height: 0.93;
+  letter-spacing: -0.025em;
+}
+
+/* section heading */
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+}
+
+/* sub heading */
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* project name in list */
+.t-project {
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.8vw, 19px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* body copy */
+.t-body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+/* small body */
+.t-small {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+/* label — used for section identifiers, tags */
+.t-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+/* mono — used for project numbers */
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--c-muted);
+}
+
+/* muted text colour utility */
+.muted { color: var(--c-muted); }
+
+
+/* ── 5. LAYOUT UTILITIES ────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+.section {
+  padding-top: var(--sp-120);
+  padding-bottom: var(--sp-120);
+}
+
+.section-sm {
+  padding-top: var(--sp-80);
+  padding-bottom: var(--sp-80);
+}
+
+/* horizontal rule / divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--c-border);
+  border: none;
+}
+
+/* grid utilities */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-32);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sp-32);
+}
+
+/* sidebar layout — used on project pages */
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--sp-64);
+  align-items: start;
+}
+
+
+/* ── 6. NAV ─────────────────────────────────────────────────── */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--page-pad);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.35s var(--ease);
+}
+
+/* border appears on scroll — class added by JS */
+.nav.scrolled {
+  border-color: var(--c-border);
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--c-ink);
+  transition: opacity 0.2s;
+}
+
+.nav__logo:hover {
+  opacity: 0.6;
+}
+
+/* the dot in "PRATIK · CREATION" */
+.nav__logo-dot {
+  color: var(--c-gold);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-32);
+}
+
+.nav__link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--c-muted);
+  position: relative;
+  transition: color 0.2s;
+}
+
+/* animated underline — slides in from left */
+.nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.nav__link:hover {
+  color: var(--c-ink);
+}
+
+.nav__link:hover::after,
+.nav__link.active::after {
+  transform: scaleX(1);
+}
+
+.nav__link.active {
+  color: var(--c-ink);
+}
+
+/* samples link — slightly differentiated */
+.nav__link--cta {
+  color: var(--c-ink);
+  font-weight: 500;
+}
+
+.nav__link--cta::after {
+  background: var(--c-gold);
+}
+
+/* hamburger — mobile only */
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--c-ink);
+  transition: all 0.3s var(--ease);
+}
+
+/* mobile nav overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: var(--c-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-32);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+.nav-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav-overlay__link {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 8vw, 56px);
+  font-weight: 500;
+  color: var(--c-bg);
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s var(--ease-out);
+}
+
+.nav-overlay.open .nav-overlay__link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* stagger overlay links */
+.nav-overlay.open .nav-overlay__link:nth-child(1) { transition-delay: 0.08s; }
+.nav-overlay.open .nav-overlay__link:nth-child(2) { transition-delay: 0.14s; }
+.nav-overlay.open .nav-overlay__link:nth-child(3) { transition-delay: 0.20s; }
+.nav-overlay.open .nav-overlay__link:nth-child(4) { transition-delay: 0.26s; }
+
+.nav-overlay__email {
+  position: absolute;
+  bottom: 40px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(247, 244, 239, 0.4);
+  letter-spacing: 0.04em;
+}
+
+.nav-overlay__close {
+  position: absolute;
+  top: 28px;
+  right: var(--page-pad);
+  font-size: 28px;
+  color: var(--c-bg);
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  background: none;
+  border: none;
+}
+
+.nav-overlay__close:hover {
+  opacity: 1;
+}
+
+
+/* ── 7. PROJECT ROW ─────────────────────────────────────────── */
+/* used on homepage (selected work) and work.html */
+
+.project-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-24);
+  padding: var(--sp-24) 0;
+  border-bottom: 1px solid var(--c-border);
+  text-decoration: none;
+  color: var(--c-ink);
+  transition: background-color 0.2s var(--ease);
+  cursor: none;
+  position: relative;
+}
+
+.project-row:first-child {
+  border-top: 1px solid var(--c-border);
+}
+
+.project-row:hover {
+  background-color: var(--c-hover-bg);
+}
+
+/* nudge everything slightly when hovered */
+.project-row:hover .project-row__name {
+  transform: translateX(6px);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.project-row__num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-muted);
+  min-width: 32px;
+  flex-shrink: 0;
+}
+
+.project-row__name {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  flex: 1;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.project-row__tags {
+  display: flex;
+  gap: var(--sp-8);
+  flex-shrink: 0;
+}
+
+.project-row__tag {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+  padding: 3px 10px;
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+}
+
+.project-row__meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-muted);
+  flex-shrink: 0;
+  min-width: 80px;
+  text-align: right;
+}
+
+/* hover image — fixed panel right side, shown by JS */
+.project-hover-image {
+  position: fixed;
+  right: var(--page-pad);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 260px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.project-hover-image.visible {
+  opacity: 1;
+}
+
+.project-hover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* placeholder when no image */
+.project-hover-image .placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(13, 13, 13, 0.3);
+}
+
+
+/* ── 8. MARQUEE ─────────────────────────────────────────────── */
+
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+  padding: 14px 0;
+  white-space: nowrap;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__track {
+  display: inline-flex;
+  animation: marquee-scroll 36s linear infinite;
+}
+
+.marquee__item {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  padding: 0 var(--sp-32);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-32);
+}
+
+.marquee__item::after {
+  content: '·';
+  color: var(--c-gold);
+  font-size: 18px;
+  line-height: 1;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+
+/* ── 9. CAPABILITY STRIP ────────────────────────────────────── */
+
+.cap-strip {
+  display: flex;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cap-item {
+  flex: 1;
+  padding: var(--sp-32) var(--sp-24);
+  border-right: 1px solid var(--c-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.cap-item:last-child {
+  border-right: none;
+}
+
+.cap-item__num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--c-muted);
+  margin-bottom: var(--sp-16);
+  display: block;
+}
+
+.cap-item__name {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--sp-8);
+  position: relative;
+}
+
+/* animated underline on hover */
+.cap-item__name::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.cap-item:hover .cap-item__name::after {
+  transform: scaleX(1);
+}
+
+.cap-item__desc {
+  font-size: 11px;
+  color: var(--c-muted);
+  line-height: 1.5;
+}
+
+
+/* ── 10. FOOTER ─────────────────────────────────────────────── */
+
+.footer {
+  padding: var(--sp-64) var(--page-pad);
+  border-top: 1px solid var(--c-border);
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sp-48);
+  padding-bottom: var(--sp-48);
+  border-bottom: 1px solid var(--c-border);
+  margin-bottom: var(--sp-32);
+}
+
+.footer__logo {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--c-ink);
+  margin-bottom: var(--sp-12);
+  display: block;
+}
+
+.footer__tagline {
+  font-size: 13px;
+  color: var(--c-muted);
+  line-height: 1.65;
+  max-width: 220px;
+}
+
+.footer__col-title {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: var(--sp-16);
+  display: block;
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-12);
+}
+
+.footer__link {
+  font-size: 13px;
+  color: var(--c-muted);
+  position: relative;
+  width: fit-content;
+  transition: color 0.2s;
+}
+
+.footer__link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.footer__link:hover {
+  color: var(--c-ink);
+}
+
+.footer__link:hover::after {
+  transform: scaleX(1);
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__copy {
+  font-size: 11px;
+  color: var(--c-muted);
+  opacity: 0.6;
+}
+
+.footer__est {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-muted);
+  opacity: 0.6;
+}
+
+
+/* ── 11. INLINE TEXT LINK ───────────────────────────────────── */
+
+.link {
+  position: relative;
+  color: var(--c-ink);
+  transition: color 0.2s;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* ── 12. BUTTON ─────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 14px 28px;
+  border: 1px solid var(--c-ink);
+  color: var(--c-ink);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  background: var(--c-ink);
+  color: var(--c-bg);
+}
+
+/* filled variant */
+.btn--filled {
+  background: var(--c-ink);
+  color: var(--c-bg);
+}
+
+.btn--filled:hover {
+  background: #2a2a2a;
+  color: var(--c-bg);
+}
+
+
+/* ── 13. PAGE TRANSITION OVERLAY ────────────────────────────── */
+
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--c-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.page-transition.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+
+/* ── 14. CUSTOM CURSOR ──────────────────────────────────────── */
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  background: var(--c-ink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s var(--ease);
+}
+
+.cursor__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(13, 13, 13, 0.35);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s var(--ease), height 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+
+/* expand ring on hoverable elements */
+.cursor.hovering .cursor__ring {
+  width: 56px;
+  height: 56px;
+  opacity: 0.5;
+}
+
+.cursor.hovering .cursor__dot {
+  transform: translate(-50%, -50%) scale(1.8);
+}
+
+
+/* ── 15. SCROLL REVEAL ──────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* stagger delays for child elements */
+.reveal-d1 { transition-delay: 0.08s; }
+.reveal-d2 { transition-delay: 0.16s; }
+.reveal-d3 { transition-delay: 0.24s; }
+.reveal-d4 { transition-delay: 0.32s; }
+.reveal-d5 { transition-delay: 0.40s; }
+
+
+/* ── 16. FULL-WIDTH IMAGE ───────────────────────────────────── */
+
+.img-full {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  display: block;
+}
+
+/* placeholder used until real photos exist */
+.img-placeholder {
+  width: 100%;
+  background: #E8E4DE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(13,13,13,0.3);
+}
+
+
+/* ── 17. ONE-LINE CTA BAR ───────────────────────────────────── */
+
+.cta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-32) 0;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cta-bar__text {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.cta-bar__link {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-muted);
+  letter-spacing: 0.04em;
+  position: relative;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.cta-bar__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.cta-bar__link:hover {
+  color: var(--c-ink);
+}
+
+.cta-bar__link:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* ── 18. FORM ELEMENTS (for samples page) ───────────────────── */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  margin-bottom: var(--sp-24);
+}
+
+.form-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--c-border);
+  padding: var(--sp-12) 0;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--c-ink);
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: 0;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--c-muted);
+  opacity: 0.6;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--c-ink);
+}
+
+.form-textarea {
+  resize: none;
+  min-height: 100px;
+  line-height: 1.7;
+}
+
+
+/* ── 19. FILTER BUTTONS (work page) ────────────────────────── */
+
+.filters {
+  display: flex;
+  gap: var(--sp-24);
+  margin-bottom: var(--sp-8);
+}
+
+.filter-btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--c-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  color: var(--c-ink);
+}
+
+.filter-btn.active::after {
+  transform: scaleX(1);
+}
+
+
+/* ── 20. RESPONSIVE ─────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .project-hover-image {
+    display: none; /* hide hover image on small screens */
+  }
+  .sidebar-layout {
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--sp-48);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --page-pad: var(--page-pad-mob);
+    --nav-h: 60px;
+  }
+
+  body {
+    cursor: auto;
+  }
+
+  .cursor { display: none; }
+
+  .nav__links { display: none; }
+  .nav__hamburger { display: flex; }
+
+  .section { padding-top: var(--sp-80); padding-bottom: var(--sp-80); }
+  .section-sm { padding-top: var(--sp-48); padding-bottom: var(--sp-48); }
+
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .sidebar-layout { grid-template-columns: 1fr; gap: var(--sp-32); }
+
+  .footer__top { grid-template-columns: 1fr; gap: var(--sp-32); }
+  .footer__bottom { flex-direction: column; gap: var(--sp-12); align-items: flex-start; }
+
+  .cap-strip { flex-direction: column; }
+  .cap-item { border-right: none; border-bottom: 1px solid var(--c-border); }
+  .cap-item:last-child { border-bottom: none; }
+
+  .cta-bar { flex-direction: column; gap: var(--sp-16); align-items: flex-start; }
+
+  .project-row { flex-wrap: wrap; gap: var(--sp-12); }
+  .project-row__tags { display: none; }
+  .project-row__meta { min-width: auto; text-align: left; }
+
+  .filters { flex-wrap: wrap; gap: var(--sp-16); }
+}

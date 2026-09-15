@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, woven labels, hang tags, paper bags. In-house foil, emboss, UV. Mumbai, India.">
+  <title>Pratik Creation — Premium Packaging Manufacturer</title>
+
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- styles -->
+  <link rel="stylesheet" href="css/shared.css">
+
+  <style>
+    /* ── PAGE-SPECIFIC: homepage ── */
+
+    /* ══════════════════════════════════════════════════════════
+       FIXED VIDEO BACKGROUND
+       The video sits behind the entire page, permanently — it does
+       not scroll, does not move, and never restarts/re-triggers.
+       All copy across every section keeps its current wording;
+       only colour changes: --c-ink/--c-muted/--c-border/--c-hover-bg
+       are redefined here to light/transparent variants so the same
+       classes used site-wide (t-label, headings, dividers, hover
+       tints) automatically read correctly over the video instead of
+       over the old off-white background.
+       ══════════════════════════════════════════════════════════ */
+
+    body {
+      --c-ink:       rgba(255, 255, 255, 0.94);
+      --c-muted:     rgba(255, 255, 255, 0.62);
+      --c-border:    rgba(255, 255, 255, 0.18);
+      --c-hover-bg:  rgba(255, 255, 255, 0.06);
+      background: transparent;
+    }
+
+    .bg-video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;   /* behind all page content, always */
+    }
+
+    /* ── hero (video is now page-level, this is just the copy) ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: var(--nav-h);
+      position: relative;
+    }
+
+    .hero__inner {
+      padding-bottom: 64px;
+    }
+
+    .hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero__eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--c-gold);
+    }
+
+    .hero__headline {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 8.5vw, 132px);
+      font-weight: 500;
+      line-height: 0.93;
+      letter-spacing: -0.025em;
+      max-width: 900px;
+      margin-bottom: 52px;
+      color: var(--c-ink);
+    }
+
+    .hero__headline em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--c-muted);
+    }
+
+    .hero__bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .hero__body {
+      max-width: 360px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--c-muted);
+    }
+
+    .hero__cta {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--c-ink);
+      white-space: nowrap;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--c-gold);
+      transition: color 0.2s;
+    }
+
+    .hero__cta:hover { color: var(--c-muted); }
+
+    /* ── nav — always the light variant now, page bg is always video ── */
+    .nav .nav__link {
+      color: rgba(255, 255, 255, 0.75);
+    }
+    .nav .nav__link:hover,
+    .nav .nav__link.active {
+      color: #FFFFFF;
+    }
+    .nav .nav__link::after {
+      background: #FFFFFF;
+    }
+    .nav .nav__link--cta {
+      color: #FFFFFF;
+    }
+    .nav .nav__btn,
+    .nav .nav__link--cta::after {
+      background: var(--c-gold);
+    }
+
+    /* ── nav logo: foil-shimmer hover — a band of gold/white light
+       sweeps across the wordmark, like light catching a foil stamp ── */
+    .nav .nav__logo {
+      position: relative;
+      background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0.75) 0%,
+        rgba(255, 255, 255, 0.75) 42%,
+        #ffffff 48%,
+        var(--c-gold) 52%,
+        rgba(255, 255, 255, 0.75) 58%,
+        rgba(255, 255, 255, 0.75) 100%
+      );
+      background-size: 280% 100%;
+      background-position: 130% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      transition:
+        background-position 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        letter-spacing 0.5s ease;
+    }
+    .nav .nav__logo:hover {
+      background-position: -80% 0;
+      letter-spacing: 0.12em;
+      opacity: 1;
+    }
+    .nav .nav__logo-dot {
+      -webkit-text-fill-color: var(--c-gold);
+      color: var(--c-gold);
+    }
+
+    @media (max-width: 900px) {
+      .hero__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+    }
+
+    /* ── selected work ── */
+    .work-section {
+      padding: var(--sp-120) 0;
+    }
+
+    .work-section__header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0 var(--page-pad);
+      margin-bottom: var(--sp-32);
+    }
+
+    .work-section__all {
+      font-size: 12px;
+      color: var(--c-muted);
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .work-section__all::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--c-ink);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .work-section__all:hover {
+      color: var(--c-ink);
+    }
+
+    .work-section__all:hover::after {
+      transform: scaleX(1);
+    }
+
+    .work-section__list {
+      padding: 0 var(--page-pad);
+    }
+
+    /* capability strip */
+    .cap-wrap {
+      padding: 0 var(--page-pad);
+    }
+
+    .cap-strip-label {
+      padding: var(--sp-32) 0 var(--sp-24);
+    }
+
+    /* cta bar */
+    .cta-wrap {
+      padding: var(--sp-80) var(--page-pad);
+    }
+
+    @media (max-width: 900px) {
+      .work-section__header,
+      .work-section__list,
+      .cap-wrap,
+      .cta-wrap {
+        padding-left: var(--page-pad-mob);
+        padding-right: var(--page-pad-mob);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER — restyled: tagline + link columns on top, a massive
+       "PRATIK·CREATION" wordmark sliced off at the bottom edge.
+       ══════════════════════════════════════════════════════════ */
+
+    .footer {
+      padding: var(--sp-64) 0 0;
+      border-top: 1px solid var(--c-border);
+      overflow: hidden;
+    }
+
+    .footer__top {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap: var(--sp-48);
+      padding: 0 var(--page-pad) var(--sp-64);
+    }
+
+    .footer__intro {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-24);
+    }
+
+    .footer__dot-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px dashed var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer__dot-icon::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--c-gold);
+    }
+
+    .footer__tagline-big {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 1.8vw, 26px);
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--c-ink);
+      max-width: 320px;
+    }
+
+    .footer__col-title {
+      margin-bottom: var(--sp-16);
+    }
+
+    .footer__giant-outer {
+      position: relative;
+    }
+
+    .footer__giant-wrap {
+      position: relative;
+      height: clamp(70px, 10vw, 175px);
+      overflow: hidden;
+      border-top: 1px solid var(--c-border);
+    }
+
+    .footer__giant {
+      position: absolute;
+      top: 0;
+      left: var(--page-pad);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(90px, 15vw, 250px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.28);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .footer__badge {
+      position: absolute;
+      top: 14px;
+      right: var(--page-pad);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--c-muted);
+      z-index: 2;
+    }
+
+    @media (max-width: 900px) {
+      .footer__top {
+        grid-template-columns: 1fr 1fr;
+        row-gap: var(--sp-32);
+        padding-left: var(--page-pad-mob);
+        padding-right: var(--page-pad-mob);
+      }
+      .footer__intro { grid-column: 1 / -1; }
+      .footer__giant { left: var(--page-pad-mob); font-size: clamp(60px, 20vw, 120px); }
+      .footer__giant-wrap { height: clamp(45px, 13vw, 85px); }
+      .footer__badge { width: 34px; height: 34px; top: 10px; right: var(--page-pad-mob); }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       LOGO INTRO — big PRATIK / tag / CREATION opening screen.
+       Scroll-driven: the text shrinks and moves to land exactly on
+       the real nav logo's position, then crossfades into it. The
+       tag exits upward and fades before the text finishes landing.
+       Nav itself starts invisible and fades in as the text lands.
+       ══════════════════════════════════════════════════════════ */
+
+    .logo-intro {
+      position: relative;
+      height: 130vh;
+    }
+
+    .logo-intro__fixed {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .logo-intro__stack {
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: block;
+      text-align: left;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+
+    .logo-intro__line {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(56px, 14vw, 210px);
+      line-height: 0.82;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      margin: 0;
+      pointer-events: auto;
+
+      /* foil-shimmer hover — same treatment as the landed nav logo */
+      background-image: linear-gradient(
+        100deg,
+        #F7F4EF 0%,
+        #F7F4EF 42%,
+        #ffffff 48%,
+        var(--c-gold) 52%,
+        #F7F4EF 58%,
+        #F7F4EF 100%
+      );
+      background-size: 260% 100%;
+      background-position: 130% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      transition:
+        background-position 1s cubic-bezier(0.16, 1, 0.3, 1),
+        letter-spacing 0.6s ease;
+    }
+
+    .logo-intro__line:hover {
+      background-position: -60% 0;
+      letter-spacing: 0.015em;
+    }
+
+    .logo-intro__tag {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 58%;
+      transform: translate(-28%, -50%);
+      height: min(480px, 58vh);
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 24px 50px rgba(0,0,0,0.65));
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+
+    /* nav starts invisible — the intro logo stands in for it until it lands */
+    .nav {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* video base layer starts hidden and paused — revealed once the
+       intro finishes landing, so nothing plays behind the intro screen */
+    body { background: #0a0a0a; }
+    .bg-video { opacity: 0; transition: none; }
+  </style>
+</head>
+<body>
+
+  <!-- fixed video background — locked in place, sits behind the entire
+       page at all times, never scrolls, never restarts. Stays paused and
+       hidden until the logo intro finishes landing. -->
+  <video
+    class="bg-video"
+    id="bgVideo"
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source src="images/video/hero.webm" type="video/webm">
+    <source src="images/video/hero.mp4"  type="video/mp4">
+  </video>
+
+  <!-- page transition overlay -->
+  <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
+
+  <!-- custom cursor -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
+    <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
+  </div>
+
+  <!-- hover image panel (desktop only) -->
+  <div class="project-hover-image" aria-hidden="true">
+    <img src="" alt="" loading="lazy">
+    <div class="placeholder"></div>
+  </div>
+
+  <!-- ── LOGO INTRO ── -->
+  <section class="logo-intro" id="logoIntro" aria-label="Pratik Creation">
+    <div class="logo-intro__fixed">
+      <div class="logo-intro__stack" id="introStack">
+        <span class="logo-intro__line">PRATIK</span>
+        <img class="logo-intro__tag" id="introTag" src="images/intro-tag.png" alt="Pratik Creation hang tag">
+        <span class="logo-intro__line">CREATION</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NAV ── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav__logo">
+      PRATIK<span class="nav__logo-dot">·</span>CREATION
+    </a>
+    <ul class="nav__links" role="list">
+      <li><a href="work.html"    class="nav__link">Work</a></li>
+      <li><a href="about.html"   class="nav__link">About</a></li>
+      <li><a href="process.html" class="nav__link">Process</a></li>
+      <li><a href="samples.html" class="nav__link nav__link--cta">Samples</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- mobile nav overlay -->
+  <div class="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="nav-overlay__close" aria-label="Close menu">✕</button>
+    <a href="work.html"    class="nav-overlay__link">Work</a>
+    <a href="about.html"   class="nav-overlay__link">About</a>
+    <a href="process.html" class="nav-overlay__link">Process</a>
+    <a href="samples.html" class="nav-overlay__link">Samples</a>
+    <span class="nav-overlay__email">hello@pratikcreation.com</span>
+  </div>
+
+
+  <!-- ── HERO ── -->
+  <section class="hero" aria-label="Introduction">
+    <div class="hero__inner container">
+
+      <p class="t-label hero__eyebrow reveal">
+        Premium Packaging · Mumbai · Est. 2007
+      </p>
+
+      <h1 class="hero__headline reveal reveal-d1">
+        We make<br>
+        packaging brands<br>
+        <em>remember.</em>
+      </h1>
+
+      <div class="hero__bottom reveal reveal-d2">
+        <p class="hero__body">
+          Fashion and fragrance packaging for brands that care about the detail.
+          Rigid boxes, woven labels, hang tags — all finished in-house.
+          Delivered to your door.
+        </p>
+        <a href="samples.html" class="hero__cta">
+          Request a sample kit →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span class="marquee__item">Rigid Boxes</span>
+      <span class="marquee__item">Woven Labels</span>
+      <span class="marquee__item">Hang Tags</span>
+      <span class="marquee__item">Premium Paper Bags</span>
+      <span class="marquee__item">Foil Stamping</span>
+      <span class="marquee__item">Embossing</span>
+      <span class="marquee__item">Debossing</span>
+      <span class="marquee__item">UV Coating</span>
+      <span class="marquee__item">Soft-Touch Matte</span>
+      <span class="marquee__item">Perfume Boxes</span>
+      <span class="marquee__item">Shirt Boxes</span>
+      <span class="marquee__item">In-House Manufacturing</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee__item">Rigid Boxes</span>
+      <span class="marquee__item">Woven Labels</span>
+      <span class="marquee__item">Hang Tags</span>
+      <span class="marquee__item">Premium Paper Bags</span>
+      <span class="marquee__item">Foil Stamping</span>
+      <span class="marquee__item">Embossing</span>
+      <span class="marquee__item">Debossing</span>
+      <span class="marquee__item">UV Coating</span>
+      <span class="marquee__item">Soft-Touch Matte</span>
+      <span class="marquee__item">Perfume Boxes</span>
+      <span class="marquee__item">Shirt Boxes</span>
+      <span class="marquee__item">In-House Manufacturing</span>
+    </div>
+  </div>
+
+
+  <!-- ── SELECTED WORK ── -->
+  <section class="work-section" aria-label="Selected work">
+
+    <div class="work-section__header">
+      <span class="t-label reveal">Selected Work</span>
+      <a href="work.html" class="work-section__all reveal">View all projects</a>
+    </div>
+
+    <div class="work-section__list">
+
+      <!--
+        data-image  → path to the hover image (swap in real photos)
+        data-color  → fallback background colour if image missing
+        data-label  → text shown in fallback placeholder
+        data-market → used by filter on work.html
+      -->
+
+      <a class="project-row reveal"
+         href="work-suzao.html"
+         data-image="images/projects/suzao/card-front.png"
+         data-color="#F5F0E8"
+         data-label="Studio Suzao"
+         data-market="china">
+        <span class="project-row__num">01</span>
+        <span class="project-row__name">Studio Suzao — Business Cards, Brand Identity Print</span>
+        <span class="project-row__tags">
+          <span class="project-row__tag">Business Cards</span>
+          <span class="project-row__tag">Soft-Touch</span>
+          <span class="project-row__tag">Spot UV</span>
+        </span>
+        <span class="project-row__meta">China · 2024</span>
+      </a>
+
+      <a class="project-row reveal reveal-d1"
+         href="work-matiere.html"
+         data-image="images/projects/matiere/hero.png"
+         data-color="#B5AD9E"
+         data-label="MATIÈRE"
+         data-market="uk">
+        <span class="project-row__num">02</span>
+        <span class="project-row__name">MATIÈRE — No. 07 Vétiver, Fragrance Packaging</span>
+        <span class="project-row__tags">
+          <span class="project-row__tag">Perfume Box</span>
+          <span class="project-row__tag">Blind Deboss</span>
+          <span class="project-row__tag">Gold Foil</span>
+        </span>
+        <span class="project-row__meta">UK · 2024</span>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ── CAPABILITY STRIP ── -->
+  <div class="cap-wrap">
+    <p class="t-label cap-strip-label reveal">In-house finishing</p>
+    <div class="cap-strip reveal">
+      <div class="cap-item">
+        <span class="cap-item__num">01</span>
+        <div class="cap-item__name">Foil Stamping</div>
+        <p class="cap-item__desc">Gold · Silver · Rose Gold</p>
+      </div>
+      <div class="cap-item">
+        <span class="cap-item__num">02</span>
+        <div class="cap-item__name">Embossing</div>
+        <p class="cap-item__desc">Raised — any depth</p>
+      </div>
+      <div class="cap-item">
+        <span class="cap-item__num">03</span>
+        <div class="cap-item__name">Debossing</div>
+        <p class="cap-item__desc">Pressed impression</p>
+      </div>
+      <div class="cap-item">
+        <span class="cap-item__num">04</span>
+        <div class="cap-item__name">UV Coating</div>
+        <p class="cap-item__desc">Spot UV · Full UV</p>
+      </div>
+      <div class="cap-item">
+        <span class="cap-item__num">05</span>
+        <div class="cap-item__name">Soft Touch</div>
+        <p class="cap-item__desc">Velvet matte laminate</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── ONE-LINE CTA ── -->
+  <div class="cta-wrap">
+    <div class="cta-bar reveal">
+      <p class="cta-bar__text">Ready to work together?</p>
+      <a href="samples.html" class="cta-bar__link">
+        Request a sample kit →
+      </a>
+    </div>
+  </div>
+
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__intro">
+        <span class="footer__dot-icon" aria-hidden="true"></span>
+        <p class="footer__tagline-big">
+          Pratik Creation is the packaging partner you've been searching for.
+        </p>
+      </div>
+      <div class="footer__col">
+        <span class="t-label footer__col-title">Work</span>
+        <div class="footer__links">
+          <a href="work.html"         class="footer__link">All projects</a>
+          <a href="work-suzao.html"   class="footer__link">Studio Suzao</a>
+          <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <span class="t-label footer__col-title">Studio</span>
+        <div class="footer__links">
+          <a href="about.html"   class="footer__link">About</a>
+          <a href="process.html" class="footer__link">Process</a>
+          <a href="samples.html" class="footer__link">Request samples</a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <span class="t-label footer__col-title">Contact</span>
+        <div class="footer__links">
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">
+            hello@pratikcreation.com
+          </a>
+          <span class="footer__link" style="cursor:default">Mumbai, India</span>
+          <span class="footer__link" style="cursor:default">Est. 2007</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__giant-outer">
+      <div class="footer__giant-wrap">
+        <span class="footer__giant">PRATIK·CREATION</span>
+      </div>
+      <span class="footer__badge">© <span class="footer-year"></span></span>
+    </div>
+  </footer>
+
+
+  <!-- GSAP + ScrollTrigger — drives the logo-intro shrink-to-nav animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/logo-intro.js"></script>
+  <script src="js/footer-video-fade.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

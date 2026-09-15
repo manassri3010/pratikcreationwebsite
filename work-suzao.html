@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Suzao — Pratik Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    .proj { padding-top: var(--nav-h); }
+
+    /* ── 1. TEXT INTRO ── */
+    .proj-intro {
+      padding: var(--sp-80) var(--page-pad) var(--sp-64);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-intro__eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted);
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: var(--sp-32);
+    }
+    .proj-intro__title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5.5vw, 82px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 0.96;
+      max-width: 820px;
+      margin-bottom: var(--sp-64);
+    }
+    /* metadata strip */
+    .proj-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--c-border);
+      padding-top: var(--sp-32);
+    }
+    .proj-meta__item {
+      padding-right: var(--sp-32);
+      border-right: 1px solid var(--c-border);
+      margin-right: var(--sp-32);
+    }
+    .proj-meta__item:last-child { border-right: none; }
+    .proj-meta__label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-8);
+    }
+    .proj-meta__val {
+      font-size: 13px;
+      color: var(--c-ink);
+      line-height: 1.5;
+    }
+
+    /* ── 2. WINDOWED IMAGE CONTAINERS ── */
+
+    /* standard windowed — warm bg, image padded in */
+    .proj-window {
+      background: var(--c-bg);
+      padding: var(--sp-80) var(--page-pad);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-window img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* windowed — dark background (for white card on black) */
+    .proj-window--dark {
+      background: #111;
+      padding: var(--sp-80) var(--page-pad);
+      border-bottom: 1px solid #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proj-window--dark img {
+      max-width: 700px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* windowed — brand orange (card back) */
+    .proj-window--orange {
+      background: #E34510;
+      padding: var(--sp-80) var(--page-pad);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proj-window--orange img {
+      max-width: 820px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* large windowed — bigger, closer to full bleed, for the poster/repeat */
+    .proj-window--large {
+      background: #F0EBE1;
+      padding: var(--sp-48) 5vw;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-window--large img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── 3. NARRATIVE / BODY TEXT ── */
+    .proj-narrative {
+      padding: var(--sp-80) var(--page-pad);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-80);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .proj-narrative__heading {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .proj-narrative__body p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--c-muted);
+      margin-bottom: var(--sp-20);
+    }
+    .proj-narrative__body p:last-child { margin-bottom: 0; }
+
+    /* ── next project ── */
+    .next-project {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-32) var(--page-pad);
+      border-top: 1px solid var(--c-border);
+      text-decoration: none;
+      color: var(--c-ink);
+      transition: background 0.2s;
+      gap: var(--sp-32);
+    }
+    .next-project:hover { background: var(--c-hover-bg); }
+    .next-project__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted);
+      margin-bottom: var(--sp-8);
+    }
+    .next-project__name {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.8vw, 34px);
+      font-weight: 500;
+      letter-spacing: -0.015em;
+    }
+    .next-project__img {
+      width: 180px;
+      height: 120px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #B5AD9E;
+    }
+    .next-project__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 900px) {
+      .proj-intro { padding: var(--sp-48) var(--page-pad-mob) var(--sp-48); }
+      .proj-meta { grid-template-columns: 1fr 1fr; gap: var(--sp-24); }
+      .proj-meta__item { border-right: none; margin-right: 0; padding-right: 0; border-bottom: 1px solid var(--c-border); padding-bottom: var(--sp-16); }
+      .proj-meta__item:last-child { border-bottom: none; }
+      .proj-window,
+      .proj-window--large { padding: var(--sp-32) var(--page-pad-mob); }
+      .proj-window--orange,
+      .proj-window--dark { padding: var(--sp-48) var(--page-pad-mob); }
+      .proj-narrative { grid-template-columns: 1fr; gap: var(--sp-32); padding: var(--sp-48) var(--page-pad-mob); }
+      .next-project { padding: var(--sp-24) var(--page-pad-mob); }
+      .next-project__img { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
+    <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation">
+    <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
+    <ul class="nav__links" role="list">
+      <li><a href="work.html"    class="nav__link active">Work</a></li>
+      <li><a href="about.html"   class="nav__link">About</a></li>
+      <li><a href="process.html" class="nav__link">Process</a></li>
+      <li><a href="samples.html" class="nav__link nav__link--cta">Samples</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-overlay">
+    <button class="nav-overlay__close" aria-label="Close menu">✕</button>
+    <a href="work.html"    class="nav-overlay__link">Work</a>
+    <a href="about.html"   class="nav-overlay__link">About</a>
+    <a href="process.html" class="nav-overlay__link">Process</a>
+    <a href="samples.html" class="nav-overlay__link">Samples</a>
+    <span class="nav-overlay__email">hello@pratikcreation.com</span>
+  </div>
+
+  <main class="proj">
+
+    <!-- ── 1. TEXT INTRO — comes first, no image ── -->
+    <div class="proj-intro">
+      <span class="proj-intro__eyebrow reveal">Studio Suzao · 苏枣 studio · Shanghai, China · 2024</span>
+      <h1 class="proj-intro__title reveal reveal-d1">
+        Brand identity print<br>for a Shanghai studio.
+      </h1>
+      <div class="proj-meta reveal reveal-d2">
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Client</span>
+          <span class="proj-meta__val">Studio Suzao<br>苏枣 studio</span>
+        </div>
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Products</span>
+          <span class="proj-meta__val">Business cards<br>Brand identity print<br>Stationery suite</span>
+        </div>
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Finishes</span>
+          <span class="proj-meta__val">600gsm uncoated<br>Soft-touch matte<br>Spot UV</span>
+        </div>
+        <div class="proj-meta__item">
+          <span class="proj-meta__label">Market · Year</span>
+          <span class="proj-meta__val">Shanghai, China<br>2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. HERO — branding poster, windowed ── -->
+    <div class="proj-window reveal">
+      <img
+        src="images/projects/suzao/hero.png"
+        alt="Studio Suzao brand identity — branding poster"
+        loading="eager"
+      >
+    </div>
+
+    <!-- ── 3. CARD BACK — full orange background, centered ── -->
+    <div class="proj-window--orange reveal">
+      <img
+        src="images/projects/suzao/card-back.png"
+        alt="Studio Suzao business card — back, orange"
+        loading="lazy"
+      >
+    </div>
+
+    <!-- ── 4. CARD FRONT — dark background, centered ── -->
+    <div class="proj-window--dark reveal">
+      <img
+        src="images/projects/suzao/card-front.png"
+        alt="Studio Suzao business card — front"
+        loading="lazy"
+      >
+    </div>
+
+    <!-- ── 4. NARRATIVE — the project story ── -->
+    <div class="proj-narrative">
+      <div>
+        <h2 class="proj-narrative__heading reveal">
+          Slow craft.<br>Fine work.<br>On every surface.
+        </h2>
+        <a href="samples.html" class="link" style="display:inline-block;margin-top:var(--sp-48);font-size:13px;font-weight:500;" >
+          Interested in something similar? →
+        </a>
+      </div>
+      <div class="proj-narrative__body reveal reveal-d1">
+        <p>
+          Studio Suzao is a limited edition clothing studio in Shanghai's Xuhui
+          district, built on a philosophy of handcrafted garments. Their Chinese
+          tagline — 以布为语，以针为笔 — translates as "fabric as words, needles
+          as pen." The brief was simple: the print had to hold the same
+          seriousness as the clothes.
+        </p>
+        <p>
+          We produced a two-sided business card suite on 600gsm uncoated stock.
+          Front face: white ground, a half-field orange block, the brand mark set
+          in bold alongside stacked Chinese characters. Reverse: solid orange,
+          contact details centred, no decoration. Finished in soft-touch matte
+          laminate across both faces.
+        </p>
+        <p>
+          The orange is unapologetic. The typography is considered. At this weight
+          of card, everything either earns its presence or it doesn't.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- NEXT PROJECT -->
+  <a class="next-project" href="work-matiere.html">
+    <div>
+      <p class="next-project__label">Next project</p>
+      <p class="next-project__name">MATIÈRE — No. 07 Vétiver →</p>
+    </div>
+    <div class="next-project__img">
+      <img src="images/projects/matiere/hero.png" alt="MATIÈRE" loading="lazy">
+    </div>
+  </a>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <a href="index.html" class="footer__logo">PRATIK·CREATION</a>
+        <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
+      </div>
+      <div>
+        <span class="footer__col-title">Work</span>
+        <div class="footer__links">
+          <a href="work.html"         class="footer__link">All projects</a>
+          <a href="work-suzao.html"   class="footer__link">Studio Suzao</a>
+          <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer__col-title">Studio</span>
+        <div class="footer__links">
+          <a href="about.html"   class="footer__link">About</a>
+          <a href="process.html" class="footer__link">Process</a>
+          <a href="samples.html" class="footer__link">Request samples</a>
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
+      <p class="footer__est">Est. 2007</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── Cursor-tracking parallax + gloss on project images ── */
+    if (window.innerWidth > 900) {
+
+      /* target every image container on this page */
+      const containers = document.querySelectorAll(
+        '.proj-window, .proj-window--orange, .proj-window--dark'
+      );
+
+      containers.forEach(container => {
+        const img = container.querySelector('img');
+        if (!img) return;
+
+        /* ensure position:relative so overlay sits inside */
+        container.style.position = 'relative';
+
+        /* inject moving gloss overlay */
+        const shine = document.createElement('div');
+        shine.style.cssText =
+          'position:absolute;inset:0;pointer-events:none;z-index:3;' +
+          'opacity:0;transition:opacity 0.35s ease;';
+        container.appendChild(shine);
+
+        /* give the image an overflow so it can translate inside container */
+        img.style.transition = 'transform 0.15s ease';
+        img.style.transform  = 'scale(1.04) translate(0px,0px)';
+        img.style.willChange = 'transform';
+
+        let raf;
+
+        container.addEventListener('mouseenter', () => {
+          shine.style.opacity = '1';
+        });
+
+        container.addEventListener('mousemove', e => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const rect = container.getBoundingClientRect();
+            /* -0.5 … +0.5 normalised */
+            const nx = (e.clientX - rect.left)  / rect.width  - 0.5;
+            const ny = (e.clientY - rect.top)   / rect.height - 0.5;
+
+            /* subtle parallax: image drifts opposite the cursor */
+            const tx = nx * -14;
+            const ty = ny * -14;
+            img.style.transition = 'transform 0.1s ease';
+            img.style.transform  = `scale(1.06) translate(${tx}px, ${ty}px)`;
+
+            /* moving light source */
+            const gx = ((e.clientX - rect.left)  / rect.width)  * 100;
+            const gy = ((e.clientY - rect.top)   / rect.height) * 100;
+            shine.style.background =
+              `radial-gradient(circle at ${gx}% ${gy}%,
+                 rgba(255,255,255,0.18) 0%,
+                 rgba(255,255,255,0.05) 28%,
+                 transparent 55%)`;
+          });
+        });
+
+        container.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(raf);
+          img.style.transition = 'transform 0.7s cubic-bezier(0.23,1,0.32,1)';
+          img.style.transform  = 'scale(1.04) translate(0px,0px)';
+          shine.style.opacity  = '0';
+        });
+      });
+    }
+  </script>
+</body>
+</html>

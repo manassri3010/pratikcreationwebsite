@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Our work — Premium packaging projects for fashion and fragrance brands across the UK, UAE, and India.">
+  <title>Work — Pratik Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    .work-page { padding-top: var(--nav-h); }
+
+    .work-header {
+      padding: var(--sp-64) var(--page-pad) var(--sp-32);
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .work-header__top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--sp-24);
+    }
+
+    .work-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 0.95;
+    }
+
+    .work-header__count {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--c-muted);
+    }
+
+    .work-list {
+      padding: 0 var(--page-pad);
+    }
+
+    /* empty state */
+    .empty-state {
+      display: none;
+      padding: var(--sp-48) 0;
+      font-size: 14px;
+      color: var(--c-muted);
+    }
+
+    @media (max-width: 900px) {
+      .work-header { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-list   { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
+    <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
+  </div>
+
+  <div class="project-hover-image" aria-hidden="true">
+    <img src="" alt="" loading="lazy">
+    <div class="placeholder"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation">
+    <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
+    <ul class="nav__links" role="list">
+      <li><a href="work.html"    class="nav__link active">Work</a></li>
+      <li><a href="about.html"   class="nav__link">About</a></li>
+      <li><a href="process.html" class="nav__link">Process</a></li>
+      <li><a href="samples.html" class="nav__link nav__link--cta">Samples</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay">
+    <button class="nav-overlay__close" aria-label="Close menu">✕</button>
+    <a href="work.html"    class="nav-overlay__link">Work</a>
+    <a href="about.html"   class="nav-overlay__link">About</a>
+    <a href="process.html" class="nav-overlay__link">Process</a>
+    <a href="samples.html" class="nav-overlay__link">Samples</a>
+    <span class="nav-overlay__email">hello@pratikcreation.com</span>
+  </div>
+
+  <main class="work-page">
+
+    <div class="work-header">
+      <div class="work-header__top">
+        <h1 class="work-header__title reveal">Work</h1>
+        <span class="work-count work-header__count reveal">— 2 projects</span>
+      </div>
+      <!-- filters -->
+      <div class="filters reveal reveal-d1">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="uk">UK</button>
+        <button class="filter-btn" data-filter="china">China</button>
+        <button class="filter-btn" data-filter="uae">UAE</button>
+        <button class="filter-btn" data-filter="india">India</button>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 var(--page-pad) 0;margin-top:0;padding-bottom:0">
+    </div>
+
+    <div class="work-list">
+
+      <a class="project-row"
+         href="work-suzao.html"
+         data-image="images/projects/suzao/card-front.png"
+         data-color="#F5F0E8"
+         data-label="Studio Suzao"
+         data-market="china">
+        <span class="project-row__num">01</span>
+        <span class="project-row__name">Studio Suzao — Business Cards, Brand Identity Print</span>
+        <span class="project-row__tags">
+          <span class="project-row__tag">Business Cards</span>
+          <span class="project-row__tag">Brand Print</span>
+          <span class="project-row__tag">Soft-Touch</span>
+          <span class="project-row__tag">Spot UV</span>
+        </span>
+        <span class="project-row__meta">China · 2024</span>
+      </a>
+
+      <a class="project-row"
+         href="work-matiere.html"
+         data-image="images/projects/matiere/hero.png"
+         data-color="#B5AD9E"
+         data-label="MATIÈRE"
+         data-market="uk">
+        <span class="project-row__num">02</span>
+        <span class="project-row__name">MATIÈRE — No. 07 Vétiver, Fragrance Packaging</span>
+        <span class="project-row__tags">
+          <span class="project-row__tag">Perfume Box</span>
+          <span class="project-row__tag">Blind Deboss</span>
+          <span class="project-row__tag">Gold Foil</span>
+          <span class="project-row__tag">Soft-Touch</span>
+        </span>
+        <span class="project-row__meta">UK · 2024</span>
+      </a>
+
+      <!--
+        ADD NEW PROJECTS HERE as the portfolio grows.
+        Copy the <a class="project-row"> block above,
+        update the number, name, tags, market, and image path.
+      -->
+
+    </div>
+
+    <!-- shows when a filter returns 0 results -->
+    <div class="empty-state" style="padding-left:var(--page-pad)">
+      No projects in this market yet. <a href="#" class="link" onclick="document.querySelector('[data-filter=all]').click();return false;">See all work →</a>
+    </div>
+
+    <!-- CTA -->
+    <div style="padding: var(--sp-120) var(--page-pad)">
+      <div class="cta-bar reveal">
+        <p class="cta-bar__text">Like what you see?</p>
+        <a href="samples.html" class="cta-bar__link">Request a sample kit →</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <a href="index.html" class="footer__logo">PRATIK·CREATION</a>
+        <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
+      </div>
+      <div>
+        <span class="footer__col-title">Work</span>
+        <div class="footer__links">
+          <a href="work.html"         class="footer__link">All projects</a>
+          <a href="work-suzao.html"   class="footer__link">Studio Suzao</a>
+          <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer__col-title">Studio</span>
+        <div class="footer__links">
+          <a href="about.html"   class="footer__link">About</a>
+          <a href="process.html" class="footer__link">Process</a>
+          <a href="samples.html" class="footer__link">Request samples</a>
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
+      <p class="footer__est">Est. 2007</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

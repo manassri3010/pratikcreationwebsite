@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About Pratik Creation — 17 years of premium packaging manufacturing in Mumbai. How it started, how it grew, and where it's going.">
+  <title>About — Pratik Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    .about-page { padding-top: var(--nav-h); }
+
+    /* ── header ── */
+    .about-header {
+      padding: var(--sp-80) var(--page-pad);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-80);
+      align-items: end;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .about-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7vw, 96px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 0.93;
+    }
+    .about-header__copy {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--c-muted);
+    }
+    .about-header__copy p + p { margin-top: var(--sp-16); }
+
+    /* ── factory image placeholder ── */
+    .about-factory {
+      width: 100%;
+      height: 65vh;
+      min-height: 420px;
+      overflow: hidden;
+      background: #D8D3CA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: rgba(13,13,13,0.3);
+      text-transform: uppercase;
+    }
+
+    /* ── animated stats ── */
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .about-stat {
+      padding: var(--sp-48) var(--page-pad);
+      border-right: 1px solid var(--c-border);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+    .about-stat:hover { background: var(--c-hover-bg); }
+    .about-stat:last-child { border-right: none; }
+    .about-stat__num {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: var(--sp-8);
+      color: var(--c-ink);
+    }
+    .about-stat__label {
+      font-size: 12px;
+      color: var(--c-muted);
+      line-height: 1.5;
+    }
+
+    /* ── origin story ── */
+    .about-story {
+      padding: var(--sp-120) var(--page-pad);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .about-story__label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-64);
+    }
+    .about-story__chapters {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .about-chapter {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: var(--sp-64);
+      padding: var(--sp-48) 0;
+      border-top: 1px solid var(--c-border);
+      align-items: start;
+    }
+    .about-chapter:last-child { border-bottom: 1px solid var(--c-border); }
+    .about-chapter__year {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--c-ink);
+      padding-top: 4px;
+    }
+    .about-chapter__content {}
+    .about-chapter__heading {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--sp-16);
+      line-height: 1.15;
+    }
+    .about-chapter__body {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--c-muted);
+      max-width: 560px;
+    }
+
+    /* ── pull quote ── */
+    .about-quote {
+      padding: var(--sp-80) var(--page-pad);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-80);
+    }
+    .about-quote__mark {
+      font-family: var(--font-display);
+      font-size: 120px;
+      line-height: 0.8;
+      color: var(--c-border);
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .about-quote__text {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 38px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--c-ink);
+    }
+    .about-quote__attribution {
+      font-size: 12px;
+      color: var(--c-muted);
+      margin-top: var(--sp-24);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── principles strip ── */
+    .about-principles {
+      border-bottom: 1px solid var(--c-border);
+    }
+    .about-principles__label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      display: block;
+      padding: var(--sp-32) var(--page-pad) var(--sp-32);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .about-principles__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .about-principle {
+      padding: var(--sp-48) var(--page-pad);
+      border-right: 1px solid var(--c-border);
+      transition: background 0.25s;
+    }
+    .about-principle:last-child { border-right: none; }
+    .about-principle:hover { background: var(--c-hover-bg); }
+    .about-principle__num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-24);
+    }
+    .about-principle__title {
+      font-family: var(--font-display);
+      font-size: clamp(17px, 1.8vw, 22px);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: var(--sp-16);
+    }
+    .about-principle__body {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--c-muted);
+    }
+
+    /* ── markets ── */
+    .about-markets {
+      padding: var(--sp-80) var(--page-pad);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .about-markets__label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      display: block;
+      margin-bottom: var(--sp-48);
+    }
+    .about-markets__row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .about-market {
+      padding: var(--sp-32);
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      transition: background 0.25s;
+    }
+    .about-market:hover { background: var(--c-hover-bg); }
+    .about-market__flag { font-size: 28px; margin-bottom: var(--sp-16); display: block; }
+    .about-market__name {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.2vw, 28px);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--sp-8);
+    }
+    .about-market__status {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-muted);
+      margin-bottom: var(--sp-16);
+      display: block;
+    }
+    .about-market__desc {
+      font-size: 13px;
+      color: var(--c-muted);
+      line-height: 1.65;
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 900px) {
+      .about-header {
+        grid-template-columns: 1fr;
+        padding: var(--sp-48) var(--page-pad-mob);
+        gap: var(--sp-32);
+      }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .about-stat  { padding: var(--sp-32) var(--page-pad-mob); }
+      .about-story { padding: var(--sp-80) var(--page-pad-mob); }
+      .about-chapter { grid-template-columns: 80px 1fr; gap: var(--sp-24); }
+      .about-chapter__year { font-size: 28px; }
+      .about-quote { flex-direction: column; gap: var(--sp-16); padding: var(--sp-48) var(--page-pad-mob); }
+      .about-quote__mark { font-size: 60px; }
+      .about-principles__grid { grid-template-columns: 1fr; }
+      .about-principle { border-right: none; border-bottom: 1px solid var(--c-border); padding: var(--sp-32) var(--page-pad-mob); }
+      .about-principle:last-child { border-bottom: none; }
+      .about-markets { padding: var(--sp-48) var(--page-pad-mob); }
+      .about-markets__row { grid-template-columns: 1fr; }
+      .about-market { border-right: 1px solid var(--c-border); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
+    <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
+  </div>
+
+  <nav class="nav" role="navigation">
+    <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
+    <ul class="nav__links" role="list">
+      <li><a href="work.html"    class="nav__link">Work</a></li>
+      <li><a href="about.html"   class="nav__link active">About</a></li>
+      <li><a href="process.html" class="nav__link">Process</a></li>
+      <li><a href="samples.html" class="nav__link nav__link--cta">Samples</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-overlay">
+    <button class="nav-overlay__close" aria-label="Close menu">✕</button>
+    <a href="work.html"    class="nav-overlay__link">Work</a>
+    <a href="about.html"   class="nav-overlay__link">About</a>
+    <a href="process.html" class="nav-overlay__link">Process</a>
+    <a href="samples.html" class="nav-overlay__link">Samples</a>
+    <span class="nav-overlay__email">hello@pratikcreation.com</span>
+  </div>
+
+  <main class="about-page">
+
+    <!-- ── HEADER ── -->
+    <div class="about-header">
+      <h1 class="about-header__title reveal">
+        Seventeen<br>years of craft.
+      </h1>
+      <div class="about-header__copy reveal reveal-d1">
+        <p>
+          Pratik Creation was founded in Mumbai in 2007 — a small operation with
+          a single conviction: that garment packaging in India didn't have to
+          look the way it did. Cheap, inconsistent, an afterthought.
+        </p>
+        <p>
+          Seventeen years later, we manufacture premium packaging for fashion
+          and fragrance brands across the UK, UAE, and India. Every finish
+          — foil, emboss, UV — completed in-house, in Mumbai, to the same
+          standard we held ourselves to on day one.
+        </p>
+        <p>
+          What changed is the scale. What didn't is the insistence on quality.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── FACTORY IMAGE ── -->
+    <div class="about-factory reveal">
+      <img
+        src="images/about/factory.png"
+        alt="Pratik Creation — order fulfilment and dispatch facility"
+        style="width:100%;height:100%;object-fit:cover;display:block"
+        loading="lazy"
+      >
+    </div>
+
+    <!-- ── STATS with animated counters ── -->
+    <div class="about-stats" id="statsSection">
+      <div class="about-stat">
+        <div class="about-stat__num" data-count="17">0</div>
+        <div class="about-stat__label">Years<br>manufacturing</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat__num" data-count="9">0</div>
+        <div class="about-stat__label">In-house<br>machines</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat__num" data-count="12">0</div>
+        <div class="about-stat__label">Finishing<br>processes</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat__num" data-count="20" data-suffix="+">0</div>
+        <div class="about-stat__label">Global<br>clients served</div>
+      </div>
+    </div>
+
+    <!-- ── ORIGIN STORY ── -->
+    <div class="about-story">
+      <span class="about-story__label reveal">How it started</span>
+      <div class="about-story__chapters">
+
+        <div class="about-chapter reveal">
+          <div class="about-chapter__year">2007</div>
+          <div class="about-chapter__content">
+            <div class="about-chapter__heading">A gap in the market. And a decision to fill it.</div>
+            <p class="about-chapter__body">
+              When Pratik Creation opened in Mumbai, most garment packaging came
+              from one of two places: volume domestic suppliers who prioritised
+              throughput over quality, or expensive international manufacturers
+              out of reach for mid-size brands. There was nothing credible in
+              between. We started as that something in between — a small factory
+              that cared about the finish, the material, and what the box felt
+              like in someone's hands.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-chapter reveal">
+          <div class="about-chapter__year">2012</div>
+          <div class="about-chapter__content">
+            <div class="about-chapter__heading">Building the capability, not the client list.</div>
+            <p class="about-chapter__body">
+              For the first decade, we didn't focus on growing the number of clients.
+              We focused on growing what we could do. Each year brought a new machine,
+              a new finish, a new process brought in-house. Foil stamping. Embossing.
+              UV coating. Soft-touch laminate. By 2015 we had every major packaging
+              finish under one roof — something almost no manufacturer at our scale
+              could match. The clients followed the capability.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-chapter reveal">
+          <div class="about-chapter__year">2019</div>
+          <div class="about-chapter__content">
+            <div class="about-chapter__heading">Our clients started going global. So did we.</div>
+            <p class="about-chapter__body">
+              Then came a shift. The Indian brands we'd built with started
+              exporting — to the UK, to the Middle East, to Europe. Their
+              packaging now needed to meet a different standard. The standard
+              Western buyers and luxury fragrance houses expect. We realised
+              that what we'd built in Mumbai — quality, consistency, in-house
+              finishing — was exactly what international brands needed and
+              couldn't easily source. We stopped being a local supplier.
+              We became a global manufacturer.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-chapter reveal">
+          <div class="about-chapter__year">Now</div>
+          <div class="about-chapter__content">
+            <div class="about-chapter__heading">Mumbai manufacturing. Global clients.</div>
+            <p class="about-chapter__body">
+              Today, Pratik Creation serves fashion and fragrance brands across
+              the UK, UAE, China, and India. The factory is in Mumbai — the same
+              building, the same hands, the same obsession with finish quality.
+              The difference is dedicated international client management
+              across every market we serve. Same-day responses. Transparent
+              lead times. Production photo updates at every stage.
+              Sample kits dispatched fast — wherever you are.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── PULL QUOTE ── -->
+    <div class="about-quote reveal">
+      <div class="about-quote__mark" aria-hidden="true">"</div>
+      <div>
+        <p class="about-quote__text">
+          The detail in your packaging is the first conversation
+          your brand has with your customer. We make sure
+          it says the right thing.
+        </p>
+        <p class="about-quote__attribution">Pratik Creation · Est. Mumbai, 2007</p>
+      </div>
+    </div>
+
+    <!-- ── PRINCIPLES ── -->
+    <div class="about-principles">
+      <span class="about-principles__label reveal">How we work</span>
+      <div class="about-principles__grid">
+
+        <div class="about-principle reveal">
+          <span class="about-principle__num">01</span>
+          <div class="about-principle__title">
+            Nothing leaves without your approval.
+          </div>
+          <p class="about-principle__body">
+            Every order starts with a physical pre-production sample.
+            You sign off on it in writing before a single machine runs
+            the full batch. Dimensions, colour, finish — confirmed before
+            we begin. No surprises when the box arrives.
+          </p>
+        </div>
+
+        <div class="about-principle reveal reveal-d1">
+          <span class="about-principle__num">02</span>
+          <div class="about-principle__title">
+            Finishing stays in the building.
+          </div>
+          <p class="about-principle__body">
+            Foil stamping, embossing, UV coating, soft-touch laminate —
+            we do all of it ourselves. Not because we have to. Because
+            quality control disappears the moment a job leaves your
+            factory. Ours doesn't leave.
+          </p>
+        </div>
+
+        <div class="about-principle reveal reveal-d2">
+          <span class="about-principle__num">03</span>
+          <div class="about-principle__title">
+            We work to your timeline.
+          </div>
+          <p class="about-principle__body">
+            Dedicated client management across every market we serve —
+            same-day responses, transparent lead times, and production
+            photo updates at every stage. You're never left wondering
+            where your order is.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── MARKETS ── -->
+    <div class="about-markets">
+      <span class="about-markets__label reveal">Where we work</span>
+      <div class="about-markets__row">
+
+        <div class="about-market reveal">
+          <span class="about-market__flag">🇬🇧</span>
+          <div class="about-market__name">United Kingdom</div>
+          <span class="about-market__status">Since 2025</span>
+          <p class="about-market__desc">
+            Fashion brands, streetwear labels, fragrance houses.
+            Dedicated client contact, same-day response, rapid sample dispatch.
+          </p>
+        </div>
+
+        <div class="about-market reveal reveal-d1">
+          <span class="about-market__flag">🇦🇪</span>
+          <div class="about-market__name">UAE</div>
+          <span class="about-market__status">Since 2025</span>
+          <p class="about-market__desc">
+            Luxury fragrance, oud brands, premium gifting.
+            The finishing standard Dubai demands — at the price only
+            Mumbai can deliver.
+          </p>
+        </div>
+
+        <div class="about-market reveal reveal-d2">
+          <span class="about-market__flag">🇨🇳</span>
+          <div class="about-market__name">China</div>
+          <span class="about-market__status">Since 2024</span>
+          <p class="about-market__desc">
+            Fashion studios, clothing labels, brand identity print.
+            Premium Indian manufacturing for Chinese brands going global.
+          </p>
+        </div>
+
+        <div class="about-market reveal reveal-d3">
+          <span class="about-market__flag">🇮🇳</span>
+          <div class="about-market__name">India</div>
+          <span class="about-market__status">Since 2007</span>
+          <p class="about-market__desc">
+            Our home market. Fashion exporters, garment brands,
+            packaging-conscious businesses — the foundation
+            everything else is built on.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── CTA ── -->
+    <div style="padding: 0 var(--page-pad) var(--sp-80)">
+      <div class="cta-bar reveal">
+        <p class="cta-bar__text">Want to see the work?</p>
+        <a href="work.html" class="cta-bar__link">View all projects →</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <a href="index.html" class="footer__logo">PRATIK·CREATION</a>
+        <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
+      </div>
+      <div>
+        <span class="footer__col-title">Work</span>
+        <div class="footer__links">
+          <a href="work.html"         class="footer__link">All projects</a>
+          <a href="work-suzao.html"   class="footer__link">Studio Suzao</a>
+          <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer__col-title">Studio</span>
+        <div class="footer__links">
+          <a href="about.html"   class="footer__link">About</a>
+          <a href="process.html" class="footer__link">Process</a>
+          <a href="samples.html" class="footer__link">Request samples</a>
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
+      <p class="footer__est">Est. 2007</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── Animated stat counters ── */
+    function animateCount(el, target, duration) {
+      const start = performance.now();
+      const suffix = el.dataset.suffix || '';
+      const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        /* ease-out cubic */
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = target + suffix;
+      };
+      requestAnimationFrame(update);
+    }
+
+    const statsSection = document.getElementById('statsSection');
+    if (statsSection) {
+      const statsObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('[data-count]').forEach((el, i) => {
+              const target = parseInt(el.dataset.count, 10);
+              setTimeout(() => animateCount(el, target, 1400), i * 120);
+            });
+            statsObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      statsObs.observe(statsSection);
+    }
+  </script>
+</body>
+</html>
