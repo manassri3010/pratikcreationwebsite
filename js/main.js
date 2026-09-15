@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('a[href]').forEach(link => {
       const href = link.getAttribute('href');
+      // .work-hero__item titles select a project in place rather than navigating —
+      // handled entirely by work-hero.js
+      if (link.classList.contains('work-hero__item')) return;
       if (!href.startsWith('#') && !href.startsWith('mailto') && !href.startsWith('http')) {
         link.addEventListener('click', e => {
           e.preventDefault();
