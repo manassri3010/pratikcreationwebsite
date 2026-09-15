@@ -29,31 +29,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ── image-stage crossfade ─────────────────────────────────── */
-  const stage       = document.querySelector('.work-hero__image-stage');
-  const layers      = stage ? stage.querySelectorAll('.work-hero__image-stage-layer') : [];
-  const placeholder = stage ? stage.querySelector('.work-hero__image-placeholder') : null;
-  let activeIndex = 0;
+  /* ── cursor-following image reveal ─────────────────────────── */
+  const cursorImg   = document.querySelector('.work-cursor-image');
+  const ciLayers     = cursorImg ? cursorImg.querySelectorAll('.work-cursor-image__layer') : [];
+  const ciPlaceholder = cursorImg ? cursorImg.querySelector('.work-cursor-image__placeholder') : null;
+  let ciActiveIndex = 0;
 
   function crossfadeTo(src, color, label) {
-    if (!stage) return;
-    const nextIndex = 1 - activeIndex;
-    const nextLayer = layers[nextIndex];
-    const curLayer  = layers[activeIndex];
+    if (!cursorImg) return;
+    const nextIndex = 1 - ciActiveIndex;
+    const nextLayer = ciLayers[nextIndex];
+    const curLayer  = ciLayers[ciActiveIndex];
 
     nextLayer.onload = () => {
       nextLayer.classList.add('visible');
       curLayer.classList.remove('visible');
-      if (placeholder) placeholder.style.display = 'none';
-      activeIndex = nextIndex;
+      if (ciPlaceholder) ciPlaceholder.style.display = 'none';
+      ciActiveIndex = nextIndex;
     };
     nextLayer.onerror = () => {
       nextLayer.classList.remove('visible');
       curLayer.classList.remove('visible');
-      stage.style.background = color || 'var(--c-hover-bg)';
-      if (placeholder) { placeholder.textContent = label || ''; placeholder.style.display = 'flex'; }
+      if (ciPlaceholder) { ciPlaceholder.textContent = label || ''; ciPlaceholder.style.display = 'flex'; }
     };
     nextLayer.src = src;
+  }
+
+  // position the panel near the cursor, offset so it doesn't sit under it
+  const CI_OFFSET_X = 28;
+  const CI_OFFSET_Y = -260;
+
+  function moveCursorImage(e) {
+    if (!cursorImg) return;
+    let x = e.clientX + CI_OFFSET_X;
+    let y = e.clientY + CI_OFFSET_Y;
+    x = Math.min(Math.max(x, 16), window.innerWidth - 376);
+    y = Math.max(y, 16);
+    cursorImg.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  if (cursorImg && window.innerWidth > 1100) {
+    items.forEach(item => {
+      item.addEventListener('mouseenter', e => {
+        cursorImg.classList.add('visible');
+        moveCursorImage(e);
+      });
+      item.addEventListener('mousemove', moveCursorImage);
+      item.addEventListener('mouseleave', () => cursorImg.classList.remove('visible'));
+    });
   }
 
 
