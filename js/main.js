@@ -138,21 +138,52 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ── 8. SAMPLE FORM ────────────────────────────────────────── */
+  /* ── 8. SAMPLE FORM — posts to Web3Forms so requests actually reach
+     an inbox instead of vanishing; falls back to a real page POST
+     (via the form's own action/method) if JS fails to run at all. ── */
   const sampleForm = document.querySelector('.sample-form');
   if (sampleForm) {
-    sampleForm.addEventListener('submit', e => {
+    const btn         = sampleForm.querySelector('.sample-form__submit');
+    const btnDefault  = btn.textContent;
+    const errorEl     = sampleForm.querySelector('.sample-form__error');
+
+    sampleForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const btn = sampleForm.querySelector('.sample-form__submit');
-      btn.textContent = 'Request received ✓';
-      btn.style.background = '#1C2B1E';
-      btn.style.borderColor = '#1C2B1E';
+
+      if (!sampleForm.checkValidity()) {
+        sampleForm.reportValidity();
+        return;
+      }
+
+      if (errorEl) errorEl.hidden = true;
+      btn.textContent = 'Sending…';
       btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Send me the sample kit →';
-        btn.style.background = ''; btn.style.borderColor = '';
-        btn.disabled = false; sampleForm.reset();
-      }, 4000);
+
+      try {
+        const res = await fetch(sampleForm.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(sampleForm)
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message || 'Submission failed');
+
+        btn.textContent = 'Request received ✓';
+        btn.style.background = '#1C2B1E';
+        btn.style.borderColor = '#1C2B1E';
+        setTimeout(() => {
+          btn.textContent = btnDefault;
+          btn.style.background = ''; btn.style.borderColor = '';
+          btn.disabled = false; sampleForm.reset();
+        }, 4000);
+      } catch (err) {
+        btn.textContent = btnDefault;
+        btn.disabled = false;
+        if (errorEl) {
+          errorEl.textContent = 'Something went wrong sending that — please email hello@pratikcreation.com instead.';
+          errorEl.hidden = false;
+        }
+      }
     });
   }
 

@@ -191,6 +191,14 @@
       line-height: 1.6;
     }
 
+    .sample-form__error {
+      font-size: 12px;
+      color: #B3261E;
+      text-align: center;
+      margin-top: var(--sp-16);
+      line-height: 1.6;
+    }
+
     @media (max-width: 900px) {
       .samples-header { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
       .samples-body   { grid-template-columns: 1fr; }
@@ -314,7 +322,14 @@
           Tell us where<br>to send it.
         </h2>
 
-        <form class="sample-form" novalidate>
+        <form class="sample-form" action="https://api.web3forms.com/submit" method="POST">
+
+          <!-- Get a free access key at https://web3forms.com (enter hello@pratikcreation.com,
+               confirm the email they send, then paste the key below) before this form goes live. -->
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+          <input type="hidden" name="subject" value="New sample kit request — Pratik Creation website">
+          <input type="hidden" name="from_name" value="Pratik Creation website">
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
 
           <div class="form-group reveal">
             <label class="form-label" for="name">Your name</label>
@@ -348,6 +363,8 @@
           <p class="sample-form__note reveal">
             We'll confirm your address within 24 hours before dispatching.
           </p>
+
+          <p class="sample-form__error" role="alert" hidden></p>
 
         </form>
       </div>
