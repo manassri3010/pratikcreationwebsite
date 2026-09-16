@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('a[href]').forEach(link => {
       const href = link.getAttribute('href');
-      // .work-hero__item titles select a project in place rather than navigating —
-      // handled entirely by work-hero.js
-      if (link.classList.contains('work-hero__item')) return;
       if (!href.startsWith('#') && !href.startsWith('mailto') && !href.startsWith('http')) {
         link.addEventListener('click', e => {
           e.preventDefault();
@@ -138,29 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
       { threshold: 0.12 }
     );
     revealEls.forEach(el => obs.observe(el));
-  }
-
-
-  /* ── 7. WORK PAGE FILTER ───────────────────────────────────── */
-  const filterBtns   = document.querySelectorAll('.filter-btn');
-  const projectItems = document.querySelectorAll('.work-hero__item[data-market]');
-  const projectCount = document.querySelector('.work-count');
-
-  if (filterBtns.length) {
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-filter');
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        let visible = 0;
-        projectItems.forEach(row => {
-          const show = filter === 'all' || row.getAttribute('data-market') === filter;
-          row.style.display = show ? 'flex' : 'none';
-          if (show) visible++;
-        });
-        if (projectCount) projectCount.textContent = `— ${visible} project${visible !== 1 ? 's' : ''}`;
-      });
-    });
   }
 
 

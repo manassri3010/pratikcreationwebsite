@@ -15,16 +15,16 @@
 
     /* giant fixed "WORK" wordmark — permanent background layer, never scrolls.
        Solid black on load, like a real page title; JS lightens it to a
-       quiet grey (still present, never gone) once the showcase scrolls in. */
+       quiet grey (still present, never gone) once the gallery scrolls in. */
     .work-giant {
       position: fixed;
       inset: 0;
       display: flex;
       align-items: center;
-      justify-content: center;
+      padding-left: var(--page-pad);
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: clamp(160px, 26vw, 520px);
+      font-size: clamp(160px, 24vw, 480px);
       line-height: 1;
       letter-spacing: -0.03em;
       color: var(--c-ink);
@@ -35,30 +35,10 @@
       opacity: 1;
     }
 
-    .work-header {
-      position: relative;
-      z-index: 1;
-      padding: var(--sp-64) var(--page-pad) var(--sp-32);
-      border-bottom: 1px solid var(--c-border);
-    }
-
-    .work-header__top {
-      display: flex;
-      align-items: baseline;
-      justify-content: flex-end;
-      margin-bottom: var(--sp-24);
-    }
-
-    .work-header__count {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--c-muted);
-    }
-
     /* bold plain "+" cross accent motif */
     .work-cross {
       font-family: var(--font-display);
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 700;
       line-height: 1;
       color: var(--work-orange);
@@ -74,298 +54,177 @@
       pointer-events: none;
     }
 
-    /* ── work-hero: title list, image reveal follows the cursor ───────── */
+    /* ── Zone 1: hero — brand list (left) + fixed head-image panel (right) ── */
     .work-hero {
       position: relative;
       z-index: 1;
-      padding: 0 var(--page-pad);
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.3fr);
+      align-items: center;
+      gap: var(--sp-48);
+      padding: var(--sp-64) var(--page-pad) var(--sp-64);
+      min-height: calc(100vh - var(--nav-h));
     }
 
     .work-hero__list {
       display: flex;
       flex-direction: column;
+      transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
+    }
+
+    .work-hero__list.is-dimmed {
+      transform: translateX(-28px);
+      opacity: 0.32;
     }
 
     .work-hero__item {
-      position: relative;
       display: flex;
       align-items: baseline;
-      gap: var(--sp-24);
-      padding: var(--sp-32) 0 var(--sp-32) 40px;
+      gap: var(--sp-16);
+      padding: var(--sp-16) 0;
+      background: none;
+      border: none;
       border-bottom: 1px solid var(--c-border);
-      text-decoration: none;
+      text-align: left;
       color: var(--c-ink);
       cursor: none;
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(24px);
     }
 
     .work-hero__item:first-child {
       border-top: 1px solid var(--c-border);
     }
 
-    .work-hero__item-desc {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--c-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
     .work-hero__item-num {
       font-family: var(--font-mono);
       font-size: 12px;
       color: var(--c-muted);
-      min-width: 28px;
+      min-width: 24px;
       flex-shrink: 0;
     }
 
     .work-hero__item-title {
       font-family: var(--font-display);
-      font-size: clamp(30px, 5vw, 60px);
+      font-size: clamp(26px, 3.6vw, 46px);
       font-weight: 700;
       letter-spacing: -0.02em;
-      line-height: 1;
-      flex: 1;
+      line-height: 1.1;
       transition: color 0.3s var(--ease), transform 0.3s var(--ease-out);
-    }
-
-    .work-hero__item-meta {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--c-muted);
-      flex-shrink: 0;
     }
 
     .work-hero__item:hover .work-hero__item-title,
     .work-hero__item:focus-visible .work-hero__item-title,
     .work-hero__item.is-active .work-hero__item-title {
       color: var(--c-gold);
-      transform: translateX(10px);
+      transform: translateX(8px);
     }
 
-    /* image reveal that follows the cursor while hovering a title —
-       not docked anywhere, tracks the mouse in real time */
-    .work-cursor-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 360px;
-      height: 240px;
-      pointer-events: none;
-      z-index: 55;
-      opacity: 0;
-      overflow: hidden;
-      border-radius: 2px;
-      box-shadow: 0 20px 48px rgba(13, 13, 13, 0.18);
-      transition: opacity 0.2s var(--ease);
-      will-change: transform;
-    }
-
-    .work-cursor-image.visible {
-      opacity: 1;
-    }
-
-    .work-cursor-image__layer {
-      position: absolute;
-      inset: 0;
+    .work-hero__panel {
+      position: relative;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.35s var(--ease);
+      aspect-ratio: 3 / 4;
+      max-height: 66vh;
+      justify-self: center;
     }
 
-    .work-cursor-image__layer.visible {
+    .work-hero__panel-layer {
+      position: absolute;
+      inset: var(--sp-32);
+      width: calc(100% - var(--sp-64));
+      height: calc(100% - var(--sp-64));
+      object-fit: contain;
+      opacity: 0;
+      filter: drop-shadow(0 28px 44px rgba(13, 13, 13, 0.16));
+      transition: opacity 0.5s var(--ease);
+    }
+
+    .work-hero__panel-layer.visible {
       opacity: 1;
     }
 
-    .work-cursor-image__placeholder {
+    .work-hero__panel-fallback {
       position: absolute;
-      inset: 0;
+      inset: var(--sp-32);
       display: none;
       align-items: center;
       justify-content: center;
-      background: var(--c-hover-bg);
-      font-family: var(--font-body);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(13, 13, 13, 0.3);
+      border-radius: 2px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -0.01em;
+      color: var(--c-ink);
+      text-align: center;
+      padding: var(--sp-24);
     }
 
     @media (max-width: 1100px) {
-      .work-cursor-image { display: none; }
+      .work-hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: var(--sp-32);
+      }
+      .work-hero__panel { max-height: 50vh; }
     }
 
-    /* empty state */
-    .empty-state {
-      display: none;
-      padding: var(--sp-48) 0;
-      font-size: 14px;
-      color: var(--c-muted);
+    /* ── Zone 2: unified scroll gallery, all brands mixed, no filtering ── */
+    .work-gallery-wrap {
       position: relative;
       z-index: 1;
+      padding: var(--sp-32) var(--page-pad) var(--sp-64);
     }
 
-    /* ── work-showcase: scroll-revealed product images for the
-       selected project, layered over the giant wordmark ─────── */
-    .work-showcase {
-      position: relative;
-      z-index: 1;
-      padding: var(--sp-120) var(--page-pad) var(--sp-64);
-    }
-
-    .work-showcase__label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--c-muted);
-      margin-bottom: var(--sp-48);
-    }
-
-    .work-showcase__set {
-      display: none;
-      position: relative;
-      grid-template-columns: repeat(12, 1fr);
-      gap: var(--sp-24) var(--sp-32);
-    }
-
-    .work-showcase__set.is-active {
+    .work-gallery {
       display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--sp-24);
     }
 
-    /* hand-placed masonry — asymmetric, sized per real image, not a generic grid */
-    .work-showcase__set[data-project="suzao"] .work-showcase__item:nth-child(1) { grid-column: 1 / 8;  grid-row: 1; }
-    .work-showcase__set[data-project="suzao"] .work-showcase__item:nth-child(2) { grid-column: 8 / 13; grid-row: 1 / 3; align-self: end; }
-    .work-showcase__set[data-project="suzao"] .work-showcase__item:nth-child(3) { grid-column: 2 / 8;  grid-row: 2; margin-top: var(--sp-32); }
-
-    .work-showcase__set[data-project="matiere"] .work-showcase__item:nth-child(1) { grid-column: 1 / 7; }
-
-    .work-showcase__item {
-      display: block;
-      text-decoration: none;
-      color: var(--c-ink);
-      cursor: none;
-      opacity: 0;
-      transform: translateY(60px);
-    }
-
-    .work-showcase__item img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
+    .work-gallery__item {
+      position: relative;
+      aspect-ratio: 4 / 5;
       border-radius: 2px;
-      filter: grayscale(0);
-      transition: filter 0.4s var(--ease);
+      overflow: hidden;
+      background: var(--c-hover-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-24);
+      opacity: 0;
+      transform: translateY(32px);
     }
 
-    .work-showcase__item-spec {
-      display: block;
-      margin-top: var(--sp-16);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--c-muted);
-      transition: color 0.3s var(--ease);
+    .work-gallery__item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 20px rgba(13, 13, 13, 0.12));
     }
 
-    /* orange duotone hover — full color transform on the photo itself */
-    .work-showcase__item:hover img {
-      filter: grayscale(1) sepia(1) saturate(6) hue-rotate(-16deg) brightness(0.92) contrast(1.05);
+    .work-gallery__item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--work-orange);
+      opacity: 0;
+      transition: opacity 0.2s var(--ease);
+      pointer-events: none;
     }
 
-    .work-showcase__item:hover .work-showcase__item-spec {
-      color: var(--work-orange);
+    .work-gallery__item:hover::after {
+      opacity: 0.4;
     }
 
     @media (max-width: 700px) {
-      .work-showcase__set {
-        grid-template-columns: 1fr;
-        gap: var(--sp-48);
-      }
-      .work-showcase__set .work-showcase__item {
-        grid-column: 1 !important;
-        grid-row: auto !important;
-        align-self: auto !important;
-        margin-top: 0 !important;
-      }
-    }
-
-    /* persistent CTA — always points at whichever project is currently selected */
-    .work-visit-btn {
-      position: fixed;
-      left: var(--sp-24);
-      bottom: var(--sp-24);
-      z-index: 60;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      background: var(--c-bg);
-      border: 1px solid var(--c-border);
-      border-radius: 40px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--c-ink);
-      text-decoration: none;
-      cursor: none;
-      box-shadow: 0 4px 16px rgba(13, 13, 13, 0.08);
-      transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
-    }
-
-    .work-visit-btn:hover {
-      background: var(--c-ink);
-      color: var(--c-bg);
-      border-color: var(--c-ink);
-    }
-
-    /* cross-shaped custom cursor state, shown over showcase products */
-    .cursor__cross {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translate(-50%, -50%) scale(0.4);
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--work-orange);
-      opacity: 0;
-      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
-    }
-
-    .cursor.cross .cursor__dot,
-    .cursor.cross .cursor__ring {
-      opacity: 0;
-    }
-
-    .cursor.cross .cursor__cross {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
+      .work-gallery { grid-template-columns: repeat(2, 1fr); gap: var(--sp-16); }
+      .work-gallery__item::after { display: none; } /* no hover state on touch */
     }
 
     @media (max-width: 900px) {
-      .work-header { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
-      .work-hero   { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
-      .work-hero__item { padding-left: 28px; }
-      .work-hero__item-desc { display: none; }
-      .work-giant { font-size: clamp(90px, 34vw, 220px); opacity: 0.5; }
-      .work-showcase { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-hero  { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-gallery-wrap { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-giant { font-size: clamp(90px, 30vw, 220px); opacity: 0.5; padding-left: var(--page-pad-mob); }
       .work-cross-pair { display: none; }
     }
   </style>
@@ -377,7 +236,6 @@
   <div class="cursor" aria-hidden="true">
     <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
     <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
-    <div class="cursor__cross" style="position:fixed;top:0;left:0">+</div>
   </div>
 
   <!-- NAV -->
@@ -407,103 +265,59 @@
 
     <h1 class="work-giant">WORK</h1>
 
-    <div class="work-header">
-      <div class="work-header__top">
-        <span class="work-count work-header__count reveal">— 2 projects</span>
-      </div>
-      <!-- filters -->
-      <div class="filters reveal reveal-d1">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="uk">UK</button>
-        <button class="filter-btn" data-filter="china">China</button>
-        <button class="filter-btn" data-filter="uae">UAE</button>
-        <button class="filter-btn" data-filter="india">India</button>
-      </div>
+    <div class="work-cross-pair" style="right: var(--page-pad); top: calc(var(--nav-h) + var(--sp-32));" aria-hidden="true">
+      <span class="work-cross">+</span>
+      <span class="work-cross">+</span>
     </div>
 
-    <div class="work-hero">
+    <section class="work-hero">
 
-      <div class="work-cross-pair" style="right: var(--page-pad); bottom: -56px;" aria-hidden="true">
-        <span class="work-cross">+</span>
-        <span class="work-cross">+</span>
-      </div>
-
-
-      <div class="work-hero__list">
-
-        <a class="work-hero__item"
-           href="work-suzao.html"
-           data-image="images/projects/suzao/card-front.png"
-           data-color="#F5F0E8"
-           data-label="Studio Suzao"
-           data-market="china"
-           data-project="suzao">
-          <span class="work-hero__item-desc" aria-hidden="true">Brand &amp; print</span>
-          <span class="work-hero__item-num">01</span>
-          <span class="work-hero__item-title">Studio Suzao</span>
-          <span class="work-hero__item-meta">China · 2024</span>
-        </a>
-
-        <a class="work-hero__item"
-           href="work-matiere.html"
-           data-image="images/projects/matiere/hero.png"
-           data-color="#B5AD9E"
-           data-label="MATIÈRE"
-           data-market="uk"
-           data-project="matiere">
-          <span class="work-hero__item-desc" aria-hidden="true">Perfume box</span>
-          <span class="work-hero__item-num">02</span>
-          <span class="work-hero__item-title">MATIÈRE</span>
-          <span class="work-hero__item-meta">UK · 2024</span>
-        </a>
+      <div class="work-hero__list" id="workHeroList">
 
         <!--
-          ADD NEW PROJECTS HERE as the portfolio grows.
-          Copy the <a class="work-hero__item"> block above,
-          update the number, desc, title, market, and image path.
+          Real product photography note: only Studio Suzao and MATIÈRE have
+          real head images right now (images/projects/suzao, /matiere).
+          IN LOOK and R. fall back to a solid-color + name placeholder
+          (see .work-hero__panel-fallback below) until real cutout PNGs
+          are supplied — do not let that placeholder silently become final.
         -->
 
+        <button class="work-hero__item" data-project="suzao" data-image="images/projects/suzao/hero.png" data-color="#F5F0E8" data-label="Studio Suzao">
+          <span class="work-hero__item-num">01</span>
+          <span class="work-hero__item-title">Studio Suzao</span>
+        </button>
+
+        <button class="work-hero__item" data-project="matiere" data-image="images/projects/matiere/hero.png" data-color="#B5AD9E" data-label="MATIÈRE">
+          <span class="work-hero__item-num">02</span>
+          <span class="work-hero__item-title">MATIÈRE</span>
+        </button>
+
+        <button class="work-hero__item" data-project="inlook" data-image="" data-color="#3B4A3E" data-label="IN LOOK">
+          <span class="work-hero__item-num">03</span>
+          <span class="work-hero__item-title">IN LOOK</span>
+        </button>
+
+        <button class="work-hero__item" data-project="r" data-image="" data-color="#EDE3D3" data-label="R.">
+          <span class="work-hero__item-num">04</span>
+          <span class="work-hero__item-title">R.</span>
+        </button>
+
       </div>
 
-    </div>
-
-    <!-- image reveal that follows the cursor while hovering a title -->
-    <div class="work-cursor-image" aria-hidden="true">
-      <img class="work-cursor-image__layer" src="" alt="" loading="lazy">
-      <img class="work-cursor-image__layer" src="" alt="" loading="lazy">
-      <div class="work-cursor-image__placeholder"></div>
-    </div>
-
-    <!-- shows when a filter returns 0 results -->
-    <div class="empty-state" style="padding-left:var(--page-pad)">
-      No projects in this market yet. <a href="#" class="link" onclick="document.querySelector('[data-filter=all]').click();return false;">See all work →</a>
-    </div>
-
-    <!-- product showcase: reveals on scroll, tracks whichever title was last hovered above -->
-    <div class="work-showcase">
-      <p class="work-showcase__label">— <span class="work-showcase__label-name">Studio Suzao</span>, full set</p>
-
-      <div class="work-showcase__set is-active" data-project="suzao">
-        <a class="work-showcase__item" href="work-suzao.html">
-          <img src="images/projects/suzao/hero.png" alt="Studio Suzao — full card set" loading="lazy">
-          <span class="work-showcase__item-spec">01 — Business Cards, Brand Print</span>
-        </a>
-        <a class="work-showcase__item" href="work-suzao.html">
-          <img src="images/projects/suzao/card-front.png" alt="Studio Suzao — card front" loading="lazy">
-          <span class="work-showcase__item-spec">02 — Soft-Touch, Spot UV</span>
-        </a>
-        <a class="work-showcase__item" href="work-suzao.html">
-          <img src="images/projects/suzao/card-back.png" alt="Studio Suzao — card back" loading="lazy">
-          <span class="work-showcase__item-spec">03 — Foil Stamp Detail</span>
-        </a>
+      <div class="work-hero__panel" aria-hidden="true">
+        <img class="work-hero__panel-layer" src="" alt="" loading="lazy">
+        <img class="work-hero__panel-layer" src="" alt="" loading="lazy">
+        <div class="work-hero__panel-fallback"></div>
       </div>
 
-      <div class="work-showcase__set" data-project="matiere">
-        <a class="work-showcase__item" href="work-matiere.html">
-          <img src="images/projects/matiere/hero.png" alt="MATIÈRE — No. 07 Vétiver" loading="lazy">
-          <span class="work-showcase__item-spec">01 — Perfume Box, Blind Deboss, Gold Foil</span>
-        </a>
-      </div>
+    </section>
+
+    <!-- Zone 2: unified scroll gallery — all brands mixed, no per-brand filtering.
+         Placeholder set below repeats the two real head images we have
+         (Suzao + MATIÈRE) until individual product photos and the IN LOOK /
+         R. head images are supplied — swap GALLERY_IMAGES in work-hero.js. -->
+    <div class="work-gallery-wrap">
+      <div class="work-gallery" id="workGallery"></div>
     </div>
 
     <!-- CTA -->
@@ -515,9 +329,6 @@
     </div>
 
   </main>
-
-  <!-- persistent CTA, always points at the currently selected project -->
-  <a class="work-visit-btn" id="workVisitBtn" href="work-suzao.html">↗ Visit case study</a>
 
   <!-- FOOTER -->
   <footer class="footer">

@@ -1,8 +1,9 @@
 /* ============================================================
    PRATIK CREATION — work-hero.js
-   Work page: staggered title-list reveal, hover/select-driven
-   image crossfade + product showcase, scroll-triggered reveal,
-   and the giant wordmark's bold-to-light scroll transition.
+   Work page: Zone 1 hero (brand list + fixed head-image panel)
+   and Zone 2 (scroll-revealed unified product gallery), plus the
+   giant wordmark's bold-to-light scroll transition and the list's
+   scroll-triggered shift/dim into the background.
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,151 +30,141 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ── cursor-following image reveal ─────────────────────────── */
-  const cursorImg   = document.querySelector('.work-cursor-image');
-  const ciLayers     = cursorImg ? cursorImg.querySelectorAll('.work-cursor-image__layer') : [];
-  const ciPlaceholder = cursorImg ? cursorImg.querySelector('.work-cursor-image__placeholder') : null;
-  let ciActiveIndex = 0;
+  /* ── head-image panel crossfade (falls back to a color + name
+     swatch when a brand has no real photo yet) ──────────────── */
+  const panel     = document.querySelector('.work-hero__panel');
+  const layers    = panel ? panel.querySelectorAll('.work-hero__panel-layer') : [];
+  const fallback  = panel ? panel.querySelector('.work-hero__panel-fallback') : null;
+  let panelActiveIndex = 0;
 
-  function crossfadeTo(src, color, label) {
-    if (!cursorImg) return;
-    const nextIndex = 1 - ciActiveIndex;
-    const nextLayer = ciLayers[nextIndex];
-    const curLayer  = ciLayers[ciActiveIndex];
+  function showPanel(src, color, label) {
+    if (!panel) return;
+
+    if (!src) {
+      layers.forEach(l => l.classList.remove('visible'));
+      if (fallback) {
+        fallback.style.display = 'flex';
+        fallback.style.background = color || 'var(--c-hover-bg)';
+        fallback.textContent = label || '';
+      }
+      return;
+    }
+
+    const nextIndex = 1 - panelActiveIndex;
+    const nextLayer = layers[nextIndex];
+    const curLayer  = layers[panelActiveIndex];
 
     nextLayer.onload = () => {
+      if (fallback) fallback.style.display = 'none';
       nextLayer.classList.add('visible');
       curLayer.classList.remove('visible');
-      if (ciPlaceholder) ciPlaceholder.style.display = 'none';
-      ciActiveIndex = nextIndex;
+      panelActiveIndex = nextIndex;
     };
     nextLayer.onerror = () => {
       nextLayer.classList.remove('visible');
       curLayer.classList.remove('visible');
-      if (ciPlaceholder) { ciPlaceholder.textContent = label || ''; ciPlaceholder.style.display = 'flex'; }
+      if (fallback) {
+        fallback.style.display = 'flex';
+        fallback.style.background = color || 'var(--c-hover-bg)';
+        fallback.textContent = label || '';
+      }
     };
     nextLayer.src = src;
   }
 
-  // position the panel near the cursor, offset so it doesn't sit under it
-  const CI_OFFSET_X = 28;
-  const CI_OFFSET_Y = -260;
 
-  function moveCursorImage(e) {
-    if (!cursorImg) return;
-    let x = e.clientX + CI_OFFSET_X;
-    let y = e.clientY + CI_OFFSET_Y;
-    x = Math.min(Math.max(x, 16), window.innerWidth - 376);
-    y = Math.max(y, 16);
-    cursorImg.style.transform = `translate(${x}px, ${y}px)`;
-  }
-
-  if (cursorImg && window.innerWidth > 1100) {
-    items.forEach(item => {
-      item.addEventListener('mouseenter', e => {
-        cursorImg.classList.add('visible');
-        moveCursorImage(e);
-      });
-      item.addEventListener('mousemove', moveCursorImage);
-      item.addEventListener('mouseleave', () => cursorImg.classList.remove('visible'));
-    });
-  }
-
-
-  /* ── product showcase set switching ────────────────────────── */
-  const showcaseSets  = document.querySelectorAll('.work-showcase__set');
-  const showcaseLabel = document.querySelector('.work-showcase__label-name');
-
-  function setActiveShowcase(project, label) {
-    let changed = false;
-    showcaseSets.forEach(set => {
-      const isMatch = set.getAttribute('data-project') === project;
-      if (isMatch && !set.classList.contains('is-active')) changed = true;
-      set.classList.toggle('is-active', isMatch);
-    });
-    if (showcaseLabel && label) showcaseLabel.textContent = label;
-    if (changed && typeof ScrollTrigger !== 'undefined') {
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-    }
-  }
-
-
-  /* ── select a title: swap hero image, switch showcase set,
-     mark it persistently active, point the visit button at it ── */
-  const visitBtn = document.getElementById('workVisitBtn');
-
+  /* ── select a brand: swap head image, mark it active ───────── */
   function selectItem(item) {
     items.forEach(i => i.classList.toggle('is-active', i === item));
-    crossfadeTo(item.getAttribute('data-image'), item.getAttribute('data-color'), item.getAttribute('data-label'));
-    setActiveShowcase(item.getAttribute('data-project'), item.getAttribute('data-label'));
-    const href = item.getAttribute('href');
-    if (visitBtn && href) visitBtn.setAttribute('href', href);
+    showPanel(item.getAttribute('data-image'), item.getAttribute('data-color'), item.getAttribute('data-label'));
   }
 
   items.forEach(item => {
     item.addEventListener('mouseenter', () => selectItem(item));
-
-    // plain click/tap selects in place; modifier-click or middle-click
-    // still opens the case study normally (native browser behavior)
-    item.addEventListener('click', e => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
-      e.preventDefault();
-      selectItem(item);
-    });
+    item.addEventListener('click', () => selectItem(item));
   });
 
-  /* select the first project by default */
+  /* Zone 1 default: first brand shown with no interaction required
+     (also covers touch devices, which have no hover) */
   if (items[0]) selectItem(items[0]);
 
 
-  /* ── cross-shaped cursor over showcase products ────────────── */
-  const cursor = document.querySelector('.cursor');
-  if (cursor && window.innerWidth > 900) {
-    document.querySelectorAll('.work-showcase__item').forEach(item => {
-      item.addEventListener('mouseenter', () => cursor.classList.add('cross'));
-      item.addEventListener('mouseleave', () => cursor.classList.remove('cross'));
+  /* ── Zone 2: unified scroll gallery — flat list, all brands mixed,
+     no per-brand filtering. Placeholder set repeats the two real
+     head images we have until individual product photography and
+     the IN LOOK / R. images are supplied. ─────────────────────── */
+  const GALLERY_IMAGES = [
+    { src: 'images/projects/suzao/hero.png',       alt: 'Studio Suzao — full card set' },
+    { src: 'images/projects/suzao/card-front.png', alt: 'Studio Suzao — card front' },
+    { src: 'images/projects/matiere/hero.png',     alt: 'MATIÈRE — No. 07 Vétiver' },
+    { src: 'images/projects/suzao/card-back.png',  alt: 'Studio Suzao — card back' },
+    { src: 'images/projects/matiere/hero.png',     alt: 'MATIÈRE — No. 07 Vétiver' },
+    { src: 'images/projects/suzao/hero.png',       alt: 'Studio Suzao — full card set' }
+  ];
+
+  const gallery = document.getElementById('workGallery');
+  if (gallery) {
+    GALLERY_IMAGES.forEach(({ src, alt }) => {
+      const item = document.createElement('div');
+      item.className = 'work-gallery__item';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = alt;
+      img.loading = 'lazy';
+      item.appendChild(img);
+      gallery.appendChild(item);
     });
   }
 
 
-  /* ── scroll-triggered reveal for showcase images + giant wordmark fade ── */
-  const showcaseItems = document.querySelectorAll('.work-showcase__item');
-  const giant          = document.querySelector('.work-giant');
-  const showcase       = document.querySelector('.work-showcase');
+  /* ── scroll-triggered reveal for gallery items, giant wordmark
+     lighten, and brand list shift/dim into the background ─────── */
+  const galleryItems = document.querySelectorAll('.work-gallery__item');
+  const giant         = document.querySelector('.work-giant');
+  const galleryWrap    = document.querySelector('.work-gallery-wrap');
+  const heroList       = document.getElementById('workHeroList');
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    showcaseItems.forEach(item => {
+    galleryItems.forEach(item => {
       gsap.to(item, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 88%',
+          start: 'top 90%',
           toggleActions: 'play none none reverse'
         }
       });
     });
 
-    // bold/near-solid by default, lightens (but stays clearly legible)
-    // once the product showcase scrolls into view
-    if (giant && showcase) {
+    if (giant && galleryWrap) {
       gsap.to(giant, {
         opacity: 0.14,
         ease: 'none',
         scrollTrigger: {
-          trigger: showcase,
+          trigger: galleryWrap,
           start: 'top bottom',
           end: 'top 60%',
           scrub: 0.3
         }
       });
     }
+
+    if (heroList && galleryWrap) {
+      ScrollTrigger.create({
+        trigger: galleryWrap,
+        start: 'top 75%',
+        toggleActions: 'play none none reverse',
+        onEnter: () => heroList.classList.add('is-dimmed'),
+        onLeaveBack: () => heroList.classList.remove('is-dimmed')
+      });
+    }
   } else {
-    showcaseItems.forEach(item => {
+    galleryItems.forEach(item => {
       item.style.opacity = '1';
       item.style.transform = 'none';
     });
