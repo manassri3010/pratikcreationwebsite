@@ -18,13 +18,16 @@
        quiet grey (still present, never gone) once the gallery scrolls in. */
     .work-giant {
       position: fixed;
-      inset: 0;
+      top: var(--nav-h);
+      left: 0;
+      right: 0;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       padding-left: var(--page-pad);
+      padding-top: var(--sp-16);
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: clamp(160px, 24vw, 480px);
+      font-size: clamp(110px, 15vw, 260px);
       line-height: 1;
       letter-spacing: -0.03em;
       color: var(--c-ink);
@@ -221,9 +224,9 @@
     }
 
     @media (max-width: 900px) {
-      .work-hero  { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
+      .work-hero  { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); padding-top: var(--sp-120); }
       .work-gallery-wrap { padding-left: var(--page-pad-mob); padding-right: var(--page-pad-mob); }
-      .work-giant { font-size: clamp(90px, 30vw, 220px); opacity: 0.5; padding-left: var(--page-pad-mob); }
+      .work-giant { font-size: clamp(56px, 13vw, 96px); opacity: 0.5; padding-left: var(--page-pad-mob); padding-top: var(--sp-16); }
       .work-cross-pair { display: none; }
     }
   </style>
