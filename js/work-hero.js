@@ -144,12 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ── scroll-triggered reveal for gallery items, giant wordmark
-     lighten, and brand list shift/dim into the background ─────── */
+  /* ── scroll-triggered reveal for gallery items and giant wordmark
+     lighten. The brand list is sticky (see CSS) and stays fully
+     visible the whole time, so it gets no scroll-driven effect. ─── */
   const galleryItems = document.querySelectorAll('.work-gallery__entry');
   const giant         = document.querySelector('.work-giant');
   const galleryWrap    = document.querySelector('.work-gallery-wrap');
-  const heroList       = document.getElementById('workHeroList');
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -178,16 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
           end: 'top 60%',
           scrub: 0.3
         }
-      });
-    }
-
-    if (heroList && galleryWrap) {
-      ScrollTrigger.create({
-        trigger: galleryWrap,
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-        onEnter: () => heroList.classList.add('is-dimmed'),
-        onLeaveBack: () => heroList.classList.remove('is-dimmed')
       });
     }
 
