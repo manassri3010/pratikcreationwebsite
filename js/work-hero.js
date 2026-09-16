@@ -90,25 +90,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ── Zone 2: unified scroll gallery — flat list, all brands mixed,
-     no per-brand filtering. ─────────────────────────────────────── */
+     no per-brand filtering. Each entry carries a short caption (title +
+     one supporting line) and is laid out on a dense bento grid so cell
+     sizes vary instead of sitting in a uniform row/column grid. ────── */
   const GALLERY_IMAGES = [
-    { src: 'images/projects/suzao/hero.png',        alt: 'Studio Suzao — full card set' },
-    { src: 'images/projects/matiere/hero.png',       alt: 'MATIÈRE — No. 07 Vétiver' },
-    { src: 'images/projects/inlook/hero.png',        alt: 'IN LOOK — hang tag' },
-    { src: 'images/projects/r/wine-bag-cream.png',   alt: 'R. — wine bag, cream' },
-    { src: 'images/projects/suzao/card-front.png',   alt: 'Studio Suzao — card front' },
-    { src: 'images/projects/matiere/matiere.jpeg',   alt: 'MATIÈRE — full fragrance set' },
-    { src: 'images/projects/inlook/multi.png',       alt: 'IN LOOK — tag colorways' },
-    { src: 'images/projects/r/wine-bag-black.png',   alt: 'R. — wine bag, black' },
-    { src: 'images/projects/suzao/card-back.png',    alt: 'Studio Suzao — card back' },
-    { src: 'images/projects/suzao/tag.png',          alt: 'Studio Suzao — hang tag' },
-    { src: 'images/projects/inlook/teami.png',       alt: 'IN LOOK — Teami collection tag' },
-    { src: 'images/projects/r/lifestyle.jpeg',       alt: 'R. — bottle and bag' }
+    { src: 'images/projects/suzao/hero.png',        alt: 'Studio Suzao — full card set',    title: 'Studio Suzao — Card Set',        sub: 'Spot UV, soft-touch finish' },
+    { src: 'images/projects/matiere/hero.png',       alt: 'MATIÈRE — No. 07 Vétiver',        title: 'MATIÈRE — No. 07 Vétiver',       sub: 'Blind deboss, gold foil' },
+    { src: 'images/projects/inlook/hero.png',        alt: 'IN LOOK — hang tag',              title: 'IN LOOK — Hangtag',              sub: 'Foil print, waxed cord' },
+    { src: 'images/projects/r/wine-bag-cream.png',   alt: 'R. — wine bag, cream',            title: 'R. — Wine Bag, Cream',           sub: 'Die-cut handle, foil print' },
+    { src: 'images/projects/suzao/card-front.png',   alt: 'Studio Suzao — card front',       title: 'Studio Suzao — Card Front',      sub: 'Brand identity print' },
+    { src: 'images/projects/matiere/matiere.jpeg',   alt: 'MATIÈRE — full fragrance set',    title: 'MATIÈRE — Fragrance Set',        sub: 'Matte box, tonal palette' },
+    { src: 'images/projects/inlook/multi.png',       alt: 'IN LOOK — tag colorways',         title: 'IN LOOK — Tag Colorways',        sub: 'Three-way foil variant' },
+    { src: 'images/projects/r/wine-bag-black.png',   alt: 'R. — wine bag, black',            title: 'R. — Wine Bag, Black',           sub: 'Gold foil on matte black' },
+    { src: 'images/projects/suzao/card-back.png',    alt: 'Studio Suzao — card back',        title: 'Studio Suzao — Card Back',       sub: 'Brand identity print' },
+    { src: 'images/projects/suzao/tag.png',          alt: 'Studio Suzao — hang tag',         title: 'Studio Suzao — Hangtag',         sub: 'Foil-stamped, die-cut' },
+    { src: 'images/projects/inlook/teami.png',       alt: 'IN LOOK — Teami collection tag',  title: 'IN LOOK — Teami Collection',     sub: 'Textured stock, die-cut window' },
+    { src: 'images/projects/r/lifestyle.jpeg',       alt: 'R. — bottle and bag',             title: 'R. — Bottle & Bag',              sub: 'Full packaging system' }
   ];
+
+  // repeating size pattern -> the asymmetric/bento rhythm (see CSS .size-*).
+  // Column spans sum to 4 within each group of 3 so rows fill cleanly:
+  // lg+sm+tall=4, sm+lg+sm=4, tall+md+sm=4, lg+tall+sm=4.
+  const GALLERY_SIZE_PATTERN = ['lg', 'sm', 'tall', 'sm', 'lg', 'sm', 'tall', 'md', 'sm', 'lg', 'tall', 'sm'];
 
   const gallery = document.getElementById('workGallery');
   if (gallery) {
-    GALLERY_IMAGES.forEach(({ src, alt }) => {
+    GALLERY_IMAGES.forEach(({ src, alt, title, sub }, i) => {
+      const entry = document.createElement('div');
+      entry.className = `work-gallery__entry size-${GALLERY_SIZE_PATTERN[i % GALLERY_SIZE_PATTERN.length]}`;
+
       const item = document.createElement('div');
       item.className = 'work-gallery__item';
       const img = document.createElement('img');
@@ -116,14 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
       img.alt = alt;
       img.loading = 'lazy';
       item.appendChild(img);
-      gallery.appendChild(item);
+
+      const caption = document.createElement('div');
+      caption.className = 'work-gallery__caption';
+      caption.innerHTML = `
+        <span class="work-gallery__caption-num">${String(i + 1).padStart(2, '0')}</span>
+        <span>
+          <p class="work-gallery__caption-title">${title}</p>
+          <p class="work-gallery__caption-sub">${sub}</p>
+        </span>
+      `;
+
+      entry.appendChild(item);
+      entry.appendChild(caption);
+      gallery.appendChild(entry);
     });
   }
 
 
   /* ── scroll-triggered reveal for gallery items, giant wordmark
      lighten, and brand list shift/dim into the background ─────── */
-  const galleryItems = document.querySelectorAll('.work-gallery__item');
+  const galleryItems = document.querySelectorAll('.work-gallery__entry');
   const giant         = document.querySelector('.work-giant');
   const galleryWrap    = document.querySelector('.work-gallery-wrap');
   const heroList       = document.getElementById('workHeroList');
