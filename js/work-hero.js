@@ -90,16 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ── Zone 2: unified scroll gallery — flat list, all brands mixed,
-     no per-brand filtering. Placeholder set repeats the two real
-     head images we have until individual product photography and
-     the IN LOOK / R. images are supplied. ─────────────────────── */
+     no per-brand filtering. ─────────────────────────────────────── */
   const GALLERY_IMAGES = [
-    { src: 'images/projects/suzao/hero.png',       alt: 'Studio Suzao — full card set' },
-    { src: 'images/projects/suzao/card-front.png', alt: 'Studio Suzao — card front' },
-    { src: 'images/projects/matiere/hero.png',     alt: 'MATIÈRE — No. 07 Vétiver' },
-    { src: 'images/projects/suzao/card-back.png',  alt: 'Studio Suzao — card back' },
-    { src: 'images/projects/matiere/hero.png',     alt: 'MATIÈRE — No. 07 Vétiver' },
-    { src: 'images/projects/suzao/hero.png',       alt: 'Studio Suzao — full card set' }
+    { src: 'images/projects/suzao/hero.png',        alt: 'Studio Suzao — full card set' },
+    { src: 'images/projects/matiere/hero.png',       alt: 'MATIÈRE — No. 07 Vétiver' },
+    { src: 'images/projects/inlook/hero.png',        alt: 'IN LOOK — hang tag' },
+    { src: 'images/projects/r/wine-bag-cream.png',   alt: 'R. — wine bag, cream' },
+    { src: 'images/projects/suzao/card-front.png',   alt: 'Studio Suzao — card front' },
+    { src: 'images/projects/matiere/matiere.jpeg',   alt: 'MATIÈRE — full fragrance set' },
+    { src: 'images/projects/inlook/multi.png',       alt: 'IN LOOK — tag colorways' },
+    { src: 'images/projects/r/wine-bag-black.png',   alt: 'R. — wine bag, black' },
+    { src: 'images/projects/suzao/card-back.png',    alt: 'Studio Suzao — card back' },
+    { src: 'images/projects/suzao/tag.png',          alt: 'Studio Suzao — hang tag' },
+    { src: 'images/projects/inlook/teami.png',       alt: 'IN LOOK — Teami collection tag' },
+    { src: 'images/projects/r/lifestyle.jpeg',       alt: 'R. — bottle and bag' }
   ];
 
   const gallery = document.getElementById('workGallery');
