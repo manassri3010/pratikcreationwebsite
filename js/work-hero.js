@@ -157,11 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroList && galleryWrap) {
       ScrollTrigger.create({
         trigger: galleryWrap,
-        start: 'top 75%',
+        start: 'top 85%',
         toggleActions: 'play none none reverse',
         onEnter: () => heroList.classList.add('is-dimmed'),
         onLeaveBack: () => heroList.classList.remove('is-dimmed')
       });
+    }
+
+    // web fonts (Syne) load async and can reflow the giant wordmark/list
+    // after ScrollTrigger has already cached its trigger positions —
+    // refresh once they're actually in so those positions stay accurate
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
     }
   } else {
     galleryItems.forEach(item => {
