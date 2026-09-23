@@ -1,9 +1,10 @@
 /* ============================================================
-   PRATIK CREATION — work-hero.js
-   Work page: Zone 1 hero (brand list + fixed head-image panel)
-   and Zone 2 (scroll-revealed unified product gallery), plus the
-   giant wordmark's bold-to-light scroll transition and the list's
-   scroll-triggered shift/dim into the background.
+   PRATIK CREATION — concepts-hero.js
+   Concepts page: same Zone 1 hero (brand list + fixed head-image
+   panel) and Zone 2 (scroll-revealed unified gallery) mechanics as
+   work-hero.js, re-pointed at the concept-render dataset. Selectors
+   are unchanged from work-hero.js so shared.css / concepts.html's
+   own inline styles (copied from work.html) keep applying as-is.
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ── head-image panel crossfade (falls back to a color + name
-     swatch when a brand has no real photo yet) ──────────────── */
+     swatch if a concept image fails to load) ────────────────── */
   const panel     = document.querySelector('.work-hero__panel');
   const layers    = panel ? panel.querySelectorAll('.work-hero__panel-layer') : [];
   const fallback  = panel ? panel.querySelector('.work-hero__panel-fallback') : null;
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ── select a brand: swap head image, mark it active ───────── */
+  /* ── select a concept: swap head image, mark it active ─────── */
   function selectItem(item) {
     items.forEach(i => i.classList.toggle('is-active', i === item));
     showPanel(item.getAttribute('data-image'), item.getAttribute('data-color'), item.getAttribute('data-label'));
@@ -84,33 +85,36 @@ document.addEventListener('DOMContentLoaded', () => {
     item.addEventListener('click', () => selectItem(item));
   });
 
-  /* Zone 1 default: first brand shown with no interaction required
+  /* Zone 1 default: first concept shown with no interaction required
      (also covers touch devices, which have no hover) */
   if (items[0]) selectItem(items[0]);
 
 
-  /* ── Zone 2: unified scroll gallery — flat list, all brands mixed,
-     no per-brand filtering. Each entry carries a short caption (title +
-     one supporting line) and is laid out on a dense bento grid so cell
-     sizes vary instead of sitting in a uniform row/column grid. ────── */
+  /* ── Zone 2: unified scroll gallery — flat list, all 13 concept
+     renders, no per-brand filtering. Each entry carries a short
+     caption (title + one supporting line) and an always-visible
+     "Concept" tag overlaid on the image itself (not hover-only, so
+     it reads on touch devices too), laid out on the same dense
+     bento grid as work.html. ─────────────────────────────────── */
   const GALLERY_IMAGES = [
-    { src: 'images/projects/suzao/hero.png',        alt: 'Studio Suzao — full card set',    title: 'Studio Suzao — Card Set',        sub: 'Spot UV, soft-touch finish' },
-    { src: 'images/projects/matiere/hero.png',       alt: 'MATIÈRE — No. 07 Vétiver',        title: 'MATIÈRE — No. 07 Vétiver',       sub: 'Blind deboss, gold foil' },
-    { src: 'images/projects/inlook/hero.png',        alt: 'IN LOOK — hang tag',              title: 'IN LOOK — Hangtag',              sub: 'Foil print, waxed cord' },
-    { src: 'images/projects/r/wine-bag-cream.png',   alt: 'R. — wine bag, cream',            title: 'R. — Wine Bag, Cream',           sub: 'Die-cut handle, foil print' },
-    { src: 'images/projects/suzao/card-front.png',   alt: 'Studio Suzao — card front',       title: 'Studio Suzao — Card Front',      sub: 'Brand identity print' },
-    { src: 'images/projects/matiere/matiere.jpeg',   alt: 'MATIÈRE — full fragrance set',    title: 'MATIÈRE — Fragrance Set',        sub: 'Matte box, tonal palette' },
-    { src: 'images/projects/inlook/multi.png',       alt: 'IN LOOK — tag colorways',         title: 'IN LOOK — Tag Colorways',        sub: 'Three-way foil variant' },
-    { src: 'images/projects/r/wine-bag-black.png',   alt: 'R. — wine bag, black',            title: 'R. — Wine Bag, Black',           sub: 'Gold foil on matte black' },
-    { src: 'images/projects/suzao/card-back.png',    alt: 'Studio Suzao — card back',        title: 'Studio Suzao — Card Back',       sub: 'Brand identity print' },
-    { src: 'images/projects/suzao/tag.png',          alt: 'Studio Suzao — hang tag',         title: 'Studio Suzao — Hangtag',         sub: 'Foil-stamped, die-cut' },
-    { src: 'images/projects/inlook/teami.png',       alt: 'IN LOOK — Teami collection tag',  title: 'IN LOOK — Teami Collection',     sub: 'Textured stock, die-cut window' },
-    { src: 'images/projects/r/lifestyle.jpeg',       alt: 'R. — bottle and bag',             title: 'R. — Bottle & Bag',              sub: 'Full packaging system' }
+    { src: 'images/concepts/good-hour.png',    alt: 'Good Hour — coffee cup carrier',        title: 'Good Hour — Coffee Carrier',   sub: 'Die-cut cardboard, bold type' },
+    { src: 'images/concepts/loafer.png',       alt: 'Loafer — bakery box, two colorways',    title: 'Loafer — Bakery Box',          sub: 'Two-tone kraft, fresh-daily branding' },
+    { src: 'images/concepts/good-measure.jpg', alt: 'Good Measure — sock bands, three colorways', title: 'Good Measure — Sock Bands', sub: 'Ribbed cotton, tonal colorways' },
+    { src: 'images/concepts/amara.jpg',        alt: 'Amara — sparkling yerba mate can carrier', title: 'Amara — Can Carrier',        sub: 'Sparkling yerba mate, 6-pack' },
+    { src: 'images/concepts/daybreak.jpg',     alt: 'Daybreak — cold brew shipper boxes',    title: 'Daybreak — Shipper Box',       sub: 'Cold brew subscription mailer' },
+    { src: 'images/concepts/pace.jpg',         alt: 'Pace — mailer box die-line',            title: 'Pace — Mailer Die-Line',       sub: 'Two-tone kraft, bold interior print' },
+    { src: 'images/concepts/ember.jpg',        alt: 'Ember — stacked clamshell takeout boxes', title: 'Ember — Clamshell Box',      sub: 'Stacked service-line packaging' },
+    { src: 'images/concepts/eave.jpg',         alt: 'Eave — layered hang tag pair',          title: 'Eave — Hangtag Pair',          sub: 'Layered stock, translucent overlay' },
+    { src: 'images/concepts/meridian.jpg',     alt: 'Meridian — glossy gift bag',            title: 'Meridian — Gift Bag',          sub: 'Gloss finish, minimal wordmark' },
+    { src: 'images/concepts/nume.jpg',         alt: 'Nume — cream shopping bags with ribbon handles', title: 'Nume — Shopping Bag', sub: 'Ribbon handle, boutique-weight stock' },
+    { src: 'images/concepts/glow.jpg',         alt: '[glow] — business card, front and back', title: '[glow] — Business Card',     sub: 'Spot color, front and back' },
+    { src: 'images/concepts/drift.jpg',        alt: 'Drift — hand-lettered business cards',  title: 'Drift — Business Card',        sub: 'Hand-lettered, layered stock' },
+    { src: 'images/concepts/slab.jpg',         alt: 'Slab — matte black gable box',          title: 'Slab — Gable Box',             sub: 'Matte black, single-color print' }
   ];
 
   // repeating size pattern -> the asymmetric/bento rhythm (see CSS .size-*).
-  // Column spans sum to 4 within each group of 3 so rows fill cleanly:
-  // lg+sm+tall=4, sm+lg+sm=4, tall+md+sm=4, lg+tall+sm=4.
+  // Kept identical to work-hero.js: it cycles by index, so 13 items just
+  // wrap back to 'lg' for the 13th — acceptable per spec.
   const GALLERY_SIZE_PATTERN = ['lg', 'sm', 'tall', 'sm', 'lg', 'sm', 'tall', 'md', 'sm', 'lg', 'tall', 'sm'];
 
   const gallery = document.getElementById('workGallery');
@@ -121,6 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const item = document.createElement('div');
       item.className = 'work-gallery__item';
+
+      const tag = document.createElement('span');
+      tag.className = 'work-gallery__item-tag';
+      tag.textContent = 'Concept';
+      item.appendChild(tag);
+
       const img = document.createElement('img');
       img.src = src;
       img.alt = alt;
@@ -171,6 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (giant && galleryWrap) {
+      // explicit starting state: full dark on load, regardless of any
+      // scroll position the browser restores on refresh — only fades
+      // toward the background grey once the user actually scrolls down
+      // into the gallery.
+      gsap.set(giant, { opacity: 1 });
       gsap.to(giant, {
         opacity: 0.14,
         ease: 'none',

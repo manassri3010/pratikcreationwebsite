@@ -1051,7 +1051,90 @@ body {
 }
 
 
-/* ── 20. RESPONSIVE ─────────────────────────────────────────── */
+/* ── 20. LIGHTBOX ───────────────────────────────────────────── */
+/* click-to-enlarge for gallery product photography — shared by
+   work.html and concepts.html (see js/lightbox.js) */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-48) var(--page-pad);
+  background: rgba(13, 13, 13, 0.92);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox__figure {
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-16);
+}
+
+.lightbox__img {
+  max-width: min(100%, 900px);
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 2px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+  transform: scale(0.96);
+  transition: transform 0.3s var(--ease);
+}
+
+.lightbox.open .lightbox__img {
+  transform: scale(1);
+}
+
+.lightbox__caption {
+  text-align: center;
+}
+
+.lightbox__caption-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-bg);
+}
+
+.lightbox__caption-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(247, 244, 239, 0.55);
+  margin-top: 2px;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 28px;
+  right: var(--page-pad);
+  font-size: 24px;
+  color: var(--c-bg);
+  opacity: 0.6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: opacity 0.2s;
+}
+
+.lightbox__close:hover {
+  opacity: 1;
+}
+
+
+/* ── 21. RESPONSIVE ─────────────────────────────────────────── */
 
 @media (max-width: 1100px) {
   .project-hover-image {
@@ -1098,4 +1181,7 @@ body {
   .project-row__meta { min-width: auto; text-align: left; }
 
   .filters { flex-wrap: wrap; gap: var(--sp-16); }
+
+  .lightbox { padding: var(--sp-32) var(--page-pad-mob); }
+  .lightbox__close { right: var(--page-pad-mob); top: 20px; }
 }

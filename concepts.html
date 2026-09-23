@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Our work — Premium packaging projects for fashion and fragrance brands across the UK, UAE, and India.">
-  <title>Work — Pratik Creation</title>
-  <link rel="canonical" href="https://pratikcreation.co.in/work">
+  <meta name="description" content="Concepts — AI-generated packaging concept renders by Pratik Creation, exploring design directions for hypothetical brands.">
+  <title>Concepts — Pratik Creation</title>
+  <link rel="canonical" href="https://pratikcreation.co.in/concepts">
   <link rel="icon" type="image/svg+xml" href="images/brand/favicon.svg">
   <link rel="icon" type="image/x-icon" href="images/brand/favicon.ico">
   <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://pratikcreation.co.in/work">
-  <meta property="og:title" content="Work — Pratik Creation">
-  <meta property="og:description" content="Our work — Premium packaging projects for fashion and fragrance brands across the UK, UAE, and India.">
-  <meta property="og:image" content="https://pratikcreation.co.in/images/projects/suzao/hero.png">
+  <meta property="og:url" content="https://pratikcreation.co.in/concepts">
+  <meta property="og:title" content="Concepts — Pratik Creation">
+  <meta property="og:description" content="Concepts — AI-generated packaging concept renders by Pratik Creation, exploring design directions for hypothetical brands.">
+  <meta property="og:image" content="https://pratikcreation.co.in/images/concepts/good-hour.png">
   <meta property="og:site_name" content="Pratik Creation">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Work — Pratik Creation">
-  <meta name="twitter:description" content="Our work — Premium packaging projects for fashion and fragrance brands across the UK, UAE, and India.">
-  <meta name="twitter:image" content="https://pratikcreation.co.in/images/projects/suzao/hero.png">
+  <meta name="twitter:title" content="Concepts — Pratik Creation">
+  <meta name="twitter:description" content="Concepts — AI-generated packaging concept renders by Pratik Creation, exploring design directions for hypothetical brands.">
+  <meta name="twitter:image" content="https://pratikcreation.co.in/images/concepts/good-hour.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
@@ -27,9 +27,8 @@
     :root { --work-orange: #D2531F; }
     .work-page { padding-top: var(--nav-h); position: relative; }
 
-    /* giant fixed "WORK" wordmark — permanent background layer, never scrolls.
-       Solid black on load, like a real page title; JS lightens it to a
-       quiet grey (still present, never gone) once the gallery scrolls in. */
+    /* giant fixed "CONCEPTS" wordmark — permanent background layer, never
+       scrolls. Same mechanic as work.html's .work-giant. */
     .work-giant {
       position: fixed;
       top: var(--nav-h);
@@ -71,6 +70,31 @@
       pointer-events: none;
     }
 
+    /* ── concept disclosure — the one addition work.html doesn't need.
+       Moved to the end of the page (after the CTA, before the footer)
+       and styled as a quiet footnote rather than a boxed banner, so it
+       reads as fine print, not a warning. Still plain flow text, always
+       visible, no hover/tooltip dependency. ─────────────────────────── */
+    .concepts-footnote {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      padding: var(--sp-32) var(--page-pad) var(--sp-80);
+    }
+
+    .concepts-footnote p {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--c-muted);
+    }
+
+    .concepts-footnote p strong {
+      color: var(--c-ink);
+      font-weight: 500;
+    }
+
     /* ── shared scroll zone: the brand list stays locked/visible in its
        own column via position:sticky for as long as the hero image +
        gallery column beside it is being scrolled through, then scrolls
@@ -88,8 +112,7 @@
       min-width: 0;
     }
 
-    /* ── Zone 1: hero — huge head-image cutout, bleeding up behind the
-       WORK title above it ──────────────────────────────────────────── */
+    /* ── Zone 1: hero — huge head-image cutout ─────────────────────── */
     .work-hero {
       position: relative;
       display: flex;
@@ -130,7 +153,7 @@
 
     .work-hero__item-title {
       font-family: var(--font-display);
-      font-size: clamp(26px, 3.6vw, 46px);
+      font-size: clamp(22px, 3vw, 38px);
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
@@ -183,6 +206,25 @@
       padding: var(--sp-24);
     }
 
+    /* small always-visible "Concept" tag — overlaid on the hero panel
+       image itself, not a hover state, so it reads on touch too. */
+    .work-hero__panel-tag {
+      position: absolute;
+      top: var(--sp-16);
+      left: var(--sp-16);
+      z-index: 3;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-bg);
+      background: rgba(13, 13, 13, 0.78);
+      padding: 6px 14px;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
     @media (max-width: 1100px) {
       .work-scroll-zone {
         display: block;
@@ -200,9 +242,7 @@
       .work-hero__panel { height: 55vh; max-width: none; }
     }
 
-    /* ── Zone 2: unified scroll gallery, all brands mixed, no filtering.
-       Bento/editorial layout — varied cell sizes on a dense grid rather
-       than a uniform row/column grid, each with a small caption. ────── */
+    /* ── Zone 2: unified scroll gallery ──────────────────────────────── */
     .work-gallery-wrap {
       position: relative;
       z-index: 1;
@@ -226,11 +266,6 @@
       transform: translateY(32px);
     }
 
-    /* repeating size pattern gives the asymmetric/bento rhythm — spans
-       are chosen to sum to the 4-column width in sequence so rows fill
-       cleanly. (grid-auto-rows is an 8px sizing unit, not a real gapped
-       row — row-gap stays 0 above so spans size accurately;
-       margin-bottom on the entry supplies the vertical breathing room.) */
     .work-gallery__entry.size-sm  { grid-column: span 1; grid-row: span 36; }
     .work-gallery__entry.size-md  { grid-column: span 2; grid-row: span 44; }
     .work-gallery__entry.size-lg  { grid-column: span 2; grid-row: span 54; }
@@ -271,8 +306,25 @@
       opacity: 0.4;
     }
 
-    /* quiet editorial caption — small, doesn't compete with the wordmark
-       or the product photo. Reuses the site's existing mono/body scale. */
+    /* always-visible "Concept" tag on every gallery image — not a hover
+       state, so it's seen without interaction (incl. touch devices). */
+    .work-gallery__item-tag {
+      position: absolute;
+      top: var(--sp-12);
+      left: var(--sp-12);
+      z-index: 2;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-bg);
+      background: rgba(13, 13, 13, 0.72);
+      padding: 4px 10px;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
     .work-gallery__caption {
       display: flex;
       gap: var(--sp-12);
@@ -334,8 +386,8 @@
   <nav class="nav" role="navigation">
     <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
     <ul class="nav__links" role="list">
-      <li><a href="work.html"      class="nav__link active">Work</a></li>
-      <li><a href="concepts.html"  class="nav__link">Concepts</a></li>
+      <li><a href="work.html"      class="nav__link">Work</a></li>
+      <li><a href="concepts.html"  class="nav__link active">Concepts</a></li>
       <li><a href="about.html"     class="nav__link">About</a></li>
       <li><a href="process.html"   class="nav__link">Process</a></li>
       <li><a href="samples.html"   class="nav__link nav__link--cta">Samples</a></li>
@@ -357,7 +409,7 @@
 
   <main class="work-page">
 
-    <h1 class="work-giant">WORK</h1>
+    <h1 class="work-giant">CONCEPTS</h1>
 
     <div class="work-cross-pair" style="right: var(--page-pad); top: calc(var(--nav-h) + var(--sp-32));" aria-hidden="true">
       <span class="work-cross">+</span>
@@ -371,24 +423,69 @@
            through, then scrolls away once that column ends. -->
       <div class="work-hero__list" id="workHeroList">
 
-        <button class="work-hero__item" data-project="suzao" data-image="images/projects/suzao/tag.png" data-color="#F5F0E8" data-label="Studio Suzao">
+        <button class="work-hero__item" data-project="good-hour" data-image="images/concepts/good-hour.png" data-color="#D6A243" data-label="Good Hour">
           <span class="work-hero__item-num">01</span>
-          <span class="work-hero__item-title">Studio Suzao</span>
+          <span class="work-hero__item-title">Good Hour</span>
         </button>
 
-        <button class="work-hero__item" data-project="matiere" data-image="images/projects/matiere/matiere.jpeg" data-color="#B5AD9E" data-label="MATIÈRE">
+        <button class="work-hero__item" data-project="loafer" data-image="images/concepts/loafer.png" data-color="#B5502E" data-label="Loafer">
           <span class="work-hero__item-num">02</span>
-          <span class="work-hero__item-title">MATIÈRE</span>
+          <span class="work-hero__item-title">Loafer</span>
         </button>
 
-        <button class="work-hero__item" data-project="inlook" data-image="images/projects/inlook/hero.png" data-color="#3B4A3E" data-label="IN LOOK">
+        <button class="work-hero__item" data-project="good-measure" data-image="images/concepts/good-measure.jpg" data-color="#141414" data-label="Good Measure">
           <span class="work-hero__item-num">03</span>
-          <span class="work-hero__item-title">IN LOOK</span>
+          <span class="work-hero__item-title">Good Measure</span>
         </button>
 
-        <button class="work-hero__item" data-project="r" data-image="images/projects/r/wine-bag-cream.png" data-color="#EDE3D3" data-label="R.">
+        <button class="work-hero__item" data-project="amara" data-image="images/concepts/amara.jpg" data-color="#9CAF97" data-label="Amara">
           <span class="work-hero__item-num">04</span>
-          <span class="work-hero__item-title">R.</span>
+          <span class="work-hero__item-title">Amara</span>
+        </button>
+
+        <button class="work-hero__item" data-project="daybreak" data-image="images/concepts/daybreak.jpg" data-color="#1F4A38" data-label="Daybreak">
+          <span class="work-hero__item-num">05</span>
+          <span class="work-hero__item-title">Daybreak</span>
+        </button>
+
+        <button class="work-hero__item" data-project="pace" data-image="images/concepts/pace.jpg" data-color="#C9975A" data-label="Pace">
+          <span class="work-hero__item-num">06</span>
+          <span class="work-hero__item-title">Pace</span>
+        </button>
+
+        <button class="work-hero__item" data-project="ember" data-image="images/concepts/ember.jpg" data-color="#C1392B" data-label="Ember">
+          <span class="work-hero__item-num">07</span>
+          <span class="work-hero__item-title">Ember</span>
+        </button>
+
+        <button class="work-hero__item" data-project="eave" data-image="images/concepts/eave.jpg" data-color="#1C3350" data-label="Eave">
+          <span class="work-hero__item-num">08</span>
+          <span class="work-hero__item-title">Eave</span>
+        </button>
+
+        <button class="work-hero__item" data-project="meridian" data-image="images/concepts/meridian.jpg" data-color="#9C4B3B" data-label="Meridian">
+          <span class="work-hero__item-num">09</span>
+          <span class="work-hero__item-title">Meridian</span>
+        </button>
+
+        <button class="work-hero__item" data-project="nume" data-image="images/concepts/nume.jpg" data-color="#EDE6D8" data-label="Nume">
+          <span class="work-hero__item-num">10</span>
+          <span class="work-hero__item-title">Nume</span>
+        </button>
+
+        <button class="work-hero__item" data-project="glow" data-image="images/concepts/glow.jpg" data-color="#E2382C" data-label="[glow]">
+          <span class="work-hero__item-num">11</span>
+          <span class="work-hero__item-title">[glow]</span>
+        </button>
+
+        <button class="work-hero__item" data-project="drift" data-image="images/concepts/drift.jpg" data-color="#6FAFCB" data-label="Drift">
+          <span class="work-hero__item-num">12</span>
+          <span class="work-hero__item-title">Drift</span>
+        </button>
+
+        <button class="work-hero__item" data-project="slab" data-image="images/concepts/slab.jpg" data-color="#1A1A1A" data-label="Slab">
+          <span class="work-hero__item-num">13</span>
+          <span class="work-hero__item-title">Slab</span>
         </button>
 
       </div>
@@ -397,13 +494,14 @@
 
         <section class="work-hero">
           <div class="work-hero__panel" aria-hidden="true">
+            <span class="work-hero__panel-tag">Concept render</span>
             <img class="work-hero__panel-layer" src="" alt="" loading="lazy">
             <img class="work-hero__panel-layer" src="" alt="" loading="lazy">
             <div class="work-hero__panel-fallback"></div>
           </div>
         </section>
 
-        <!-- Zone 2: unified scroll gallery — all brands mixed, no per-brand filtering. -->
+        <!-- Zone 2: unified scroll gallery — all concepts mixed, no per-brand filtering. -->
         <div class="work-gallery-wrap">
           <div class="work-gallery" id="workGallery"></div>
         </div>
@@ -413,11 +511,17 @@
     </div>
 
     <!-- CTA -->
-    <div style="padding: var(--sp-64) var(--page-pad) var(--sp-120); position: relative; z-index: 1;">
+    <div style="padding: var(--sp-64) var(--page-pad) 0; position: relative; z-index: 1;">
       <div class="cta-bar reveal">
         <p class="cta-bar__text">Like what you see?</p>
         <a href="samples.html" class="cta-bar__link">Request a sample kit →</a>
       </div>
+    </div>
+
+    <!-- concept disclosure — quiet footnote at the end of the page,
+         after everything above has already been seen. -->
+    <div class="concepts-footnote">
+      <p><strong>Concept renders, not produced work.</strong> Everything above was generated to explore a design direction for a hypothetical brand — none of it was manufactured or shipped by Pratik Creation.</p>
     </div>
 
   </main>
@@ -457,7 +561,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/work-hero.js"></script>
+  <script src="js/concepts-hero.js"></script>
   <script src="js/lightbox.js"></script>
 </body>
 </html>
