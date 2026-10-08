@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#F7F4EF">
-  <meta name="description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, woven labels, hang tags, paper bags. In-house foil, emboss, UV. Mumbai, India.">
+  <meta name="description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, hang tags, woven labels, paper bags. In-house foil, emboss, deboss, UV. Mumbai, India.">
   <title>Pratik Creation — Premium Packaging Manufacturer</title>
   <link rel="canonical" href="https://pratikcreation.co.in/">
   <link rel="icon" type="image/svg+xml" href="images/brand/favicon.svg">
@@ -13,12 +13,12 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pratikcreation.co.in/">
   <meta property="og:title" content="Pratik Creation — Premium Packaging Manufacturer">
-  <meta property="og:description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, woven labels, hang tags, paper bags. In-house foil, emboss, UV. Mumbai, India.">
+  <meta property="og:description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, hang tags, woven labels, paper bags. In-house foil, emboss, deboss, UV. Mumbai, India.">
   <meta property="og:image" content="https://pratikcreation.co.in/images/hangtag-hero/beat-1-front.jpg">
   <meta property="og:site_name" content="Pratik Creation">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Pratik Creation — Premium Packaging Manufacturer">
-  <meta name="twitter:description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, woven labels, hang tags, paper bags. In-house foil, emboss, UV. Mumbai, India.">
+  <meta name="twitter:description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, hang tags, woven labels, paper bags. In-house foil, emboss, deboss, UV. Mumbai, India.">
   <meta name="twitter:image" content="https://pratikcreation.co.in/images/hangtag-hero/beat-1-front.jpg">
 
   <!-- fonts -->
@@ -32,17 +32,20 @@
   <style>
     /* ── PAGE-SPECIFIC: homepage ── */
 
-    /* ══════════════════════════════════════════════════════════
-       HERO VIDEO BACKGROUND
-       The video is scoped to the hero section only — it scrolls
-       away with the hero like a normal section background, instead
-       of staying pinned behind the whole page. --c-ink/--c-muted/
-       --c-border/--c-hover-bg are redefined on .hero only (to light/
-       transparent variants, so the same classes used site-wide —
-       t-label, headings, dividers, hover tints — read correctly
-       over the video); everything after the hero falls back to the
-       normal site tokens, same as every other page.
-       ══════════════════════════════════════════════════════════ */
+    .home-page { background: var(--bg); }
+
+    /* ══════════════════════ 1. HERO (dark, video bg) ══════════════════════ */
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: var(--nav-h);
+      overflow: hidden;
+      background: #0a0a0a; /* fallback while the video loads */
+    }
 
     .bg-video {
       position: absolute;
@@ -50,167 +53,419 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1;   /* behind the hero's own content only */
+      z-index: 0;
     }
 
-    /* ── hero ── */
-    .hero {
-      --c-ink:       rgba(255, 255, 255, 0.94);
-      --c-muted:     rgba(255, 255, 255, 0.62);
-      --c-border:    rgba(255, 255, 255, 0.18);
-      --c-hover-bg:  rgba(255, 255, 255, 0.06);
-      background: #0a0a0a; /* fallback while the video loads */
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-top: var(--nav-h);
-      position: relative;
-      overflow: hidden;
+    /* dark overlay so text stays readable over the video — 60% per spec's 55–65% range */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.6);
+      z-index: 1;
     }
 
     .hero__inner {
-      padding-bottom: 64px;
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
     }
 
     .hero__eyebrow {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 28px;
+      gap: 10px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-on-dark);
+      margin-bottom: var(--sp-24);
     }
-
     .hero__eyebrow::before {
       content: '';
-      display: block;
-      width: 32px;
+      width: 24px;
       height: 1px;
-      background: var(--c-ember);
+      background: var(--accent-on-dark);
     }
 
     .hero__headline {
       font-family: var(--font-display);
-      font-size: clamp(60px, 8.5vw, 132px);
-      font-weight: 600;
-      line-height: 0.93;
-      letter-spacing: -0.025em;
-      max-width: 900px;
-      margin-bottom: 52px;
-      color: var(--c-ink);
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: var(--sp-24);
     }
-
     .hero__headline em {
       font-style: normal;
-      font-weight: 400;
-      color: var(--c-muted);
+      color: rgba(255, 255, 255, 0.6);
     }
 
-    .hero__bottom {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .hero__body {
-      max-width: 360px;
-      font-size: 14px;
-      line-height: 1.8;
-      color: var(--c-muted);
-    }
-
-    .hero__cta {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: var(--c-ink);
-      white-space: nowrap;
-      padding-bottom: 2px;
-      border-bottom: 1px solid var(--c-ember-on-dark);
-      transition: color 0.2s;
-    }
-
-    .hero__cta:hover { color: var(--c-muted); }
-
-    /* nav is now a permanent solid pill everywhere (see shared.css) —
-       no page-specific "light on dark hero" nav variant needed here
-       any more; the foil-shimmer logo hover is shared.css's own
-       .nav__logo rule now, not a per-page override. */
-
-    @media (max-width: 900px) {
-      .hero__bottom {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 24px;
-      }
-    }
-
-    /* ── selected work ── */
-    .work-section {
-      padding: var(--sp-120) 0;
-    }
-
-    .work-section__header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding: 0 var(--page-pad);
+    .hero__sub {
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.72);
+      max-width: 480px;
       margin-bottom: var(--sp-32);
     }
 
-    .work-section__all {
-      font-size: 12px;
-      color: var(--c-muted);
-      position: relative;
-      transition: color 0.2s;
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-16);
+      margin-bottom: var(--sp-32);
     }
 
-    .work-section__all::after {
+    .hero__actions .btn--secondary {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+    .hero__actions .btn--secondary:hover {
+      background: #fff;
+      border-color: #fff;
+      color: var(--ink);
+    }
+
+    .hero__footnote {
+      margin-top: var(--sp-32);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    @media (max-width: 640px) {
+      .hero__actions .btn { width: auto; }
+      .hero__actions { flex-direction: column; }
+      .hero__actions .btn { width: 100%; }
+    }
+
+
+    /* ══════════════════════ shared section scaffolding ══════════════════════ */
+
+    .home-section {
+      padding: var(--sp-120) var(--page-pad);
+    }
+    .home-section--sm {
+      padding: var(--sp-80) var(--page-pad);
+    }
+    @media (max-width: 900px) {
+      .home-section { padding: var(--sp-80) var(--page-pad-mob); }
+      .home-section--sm { padding: var(--sp-48) var(--page-pad-mob); }
+    }
+
+
+    /* ══════════════════════ 2. TRUST STRIP ══════════════════════ */
+
+    .trust-strip-wrap { max-width: var(--content-max); margin: 0 auto; }
+
+
+    /* ══════════════════════ 3. THREE NUMBERS ══════════════════════ */
+
+    .stats-wrap {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stats-footnote {
+      max-width: var(--content-max);
+      margin: var(--sp-24) auto 0;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+
+    /* ══════════════════════ 4/5. PROBLEM + COMPARE ══════════════════════ */
+
+    .home-section__inner { max-width: var(--content-max); margin: 0 auto; }
+    .home-section__body { margin-top: var(--sp-48); }
+
+    .compare-closing {
+      margin-top: var(--sp-24);
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+
+    /* ══════════════════════ 6. RANGE BENTO ══════════════════════ */
+
+    .range-bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-24);
+    }
+    .range-bento .tile {
+      display: flex;
+      flex-direction: column;
+    }
+    .range-bento__photo {
+      border-radius: calc(var(--radius-tile) - 10px);
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      margin-bottom: var(--sp-20);
+    }
+    .range-bento__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .range-bento__tall   { grid-column: 1; grid-row: 1 / span 2; }
+    .range-bento__mid-1  { grid-column: 2; grid-row: 1; }
+    .range-bento__mid-2  { grid-column: 2; grid-row: 2; }
+    .range-bento__right-1{ grid-column: 3; grid-row: 1; }
+    .range-bento__right-2{ grid-column: 3; grid-row: 2; }
+    .range-bento__wide {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-32);
+    }
+    .range-bento__wide .range-bento__photo {
+      display: none; /* accent tile stays text-led, no photo needed */
+    }
+
+    @media (max-width: 960px) {
+      .range-bento { grid-template-columns: repeat(2, 1fr); }
+      .range-bento__tall { grid-row: 1 / span 2; }
+      .range-bento__mid-1 { grid-column: 2; grid-row: 1; }
+      .range-bento__mid-2 { grid-column: 2; grid-row: 2; }
+      .range-bento__right-1 { grid-column: 1; grid-row: 3; }
+      .range-bento__right-2 { grid-column: 2; grid-row: 3; }
+      .range-bento__wide { grid-column: 1 / -1; grid-row: 4; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 640px) {
+      .range-bento { grid-template-columns: 1fr; }
+      .range-bento__tall, .range-bento__mid-1, .range-bento__mid-2,
+      .range-bento__right-1, .range-bento__right-2, .range-bento__wide {
+        grid-column: 1; grid-row: auto;
+      }
+    }
+
+
+    /* ══════════════════════ 7. PROCESS STEPPER ══════════════════════ */
+
+    .process-reassurance {
+      margin-top: var(--sp-48);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-24);
+      flex-wrap: wrap;
+      padding-top: var(--sp-32);
+      border-top: 1px solid var(--line);
+    }
+    .process-reassurance p { font-size: 14px; color: var(--ink-soft); }
+
+
+    /* ══════════════════════ 8. CRAFT (dark block) ══════════════════════ */
+
+    .craft-block {
+      background: var(--dark);
+      border-radius: var(--radius-tile);
+      padding: var(--sp-80) var(--sp-48);
+      max-width: var(--content-max);
+      margin: 0 auto;
+    }
+    .craft-block .sec-eyebrow { color: var(--accent-on-dark); }
+    .craft-block .sec-eyebrow::before { background: var(--accent-on-dark); }
+    .craft-block .sec-headline { color: #fff; }
+    .craft-block .sec-headline em { color: rgba(247, 244, 239, 0.5); }
+    .craft-block .sec-sub { color: rgba(247, 244, 239, 0.6); }
+
+    .craft-grid {
+      margin-top: var(--sp-48);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-20);
+    }
+    .craft-tile {
+      background: rgba(247, 244, 239, 0.04);
+      border: 1px solid rgba(247, 244, 239, 0.1);
+      border-radius: var(--radius-btn);
+      overflow: hidden;
+    }
+    .craft-tile__photo {
+      aspect-ratio: 1;
+      overflow: hidden;
+    }
+    .craft-tile__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .craft-tile__label {
+      padding: var(--sp-16);
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .craft-block { padding: var(--sp-48) var(--page-pad-mob); }
+      .craft-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+
+    /* ══════════════════════ 9. LEAD TIMES (dark) ══════════════════════ */
+
+    .times-section {
+      background: var(--dark);
+      color: var(--bg);
+    }
+    .times-grid {
+      max-width: var(--content-max);
+      margin: var(--sp-48) auto 0;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: var(--sp-48);
+      align-items: start;
+    }
+    .times-grid .stat-tile { padding: 0; border-left: 1px solid rgba(247,244,239,0.14); padding-left: var(--sp-32); }
+    .times-section .sec-eyebrow { color: var(--accent-on-dark); }
+    .times-section .sec-eyebrow::before { background: var(--accent-on-dark); }
+    .times-section .sec-headline { color: #fff; }
+    .times-section .sec-headline em { color: rgba(247, 244, 239, 0.5); }
+    .times-section .sec-sub { color: rgba(247, 244, 239, 0.6); }
+    .times-caveat {
+      margin-top: var(--sp-24);
+      font-size: 12px;
+      color: rgba(247, 244, 239, 0.4);
+    }
+    @media (max-width: 900px) {
+      .times-grid { grid-template-columns: 1fr; }
+      .times-grid .stat-tile { border-left: none; padding-left: 0; border-top: 1px solid rgba(247,244,239,0.14); padding-top: var(--sp-24); }
+    }
+
+
+    /* ══════════════════════ 10. CONNECTED ══════════════════════ */
+
+    .connected-grid {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-64);
+      align-items: center;
+    }
+    .connected-tiles {
+      display: flex;
+      gap: var(--sp-12);
+      margin: var(--sp-32) 0;
+      flex-wrap: wrap;
+    }
+    .connected-tiles .chip { padding: 10px 18px; font-size: 12px; }
+    .connected-visual {
+      aspect-ratio: 1;
+      border-radius: var(--radius-tile);
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-soft-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .connected-visual__mark {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-soft-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .connected-visual__mark::before,
+    .connected-visual__mark::after {
       content: '';
       position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: var(--c-ink);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.25s ease;
+      border: 1px solid var(--accent-soft-line);
+      border-radius: 50%;
     }
-
-    .work-section__all:hover {
-      color: var(--c-ink);
+    .connected-visual__mark::before { width: 170px; height: 170px; }
+    .connected-visual__mark::after  { width: 220px; height: 220px; }
+    .connected-visual__dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
     }
-
-    .work-section__all:hover::after {
-      transform: scaleX(1);
-    }
-
-    .work-section__list {
-      padding: 0 var(--page-pad);
-    }
-
-    /* capability strip */
-    .cap-wrap {
-      padding: 0 var(--page-pad);
-    }
-
-    .cap-strip-label {
-      padding: var(--sp-32) 0 var(--sp-24);
-    }
-
     @media (max-width: 900px) {
-      .work-section__header,
-      .work-section__list,
-      .cap-wrap {
-        padding-left: var(--page-pad-mob);
-        padding-right: var(--page-pad-mob);
-      }
+      .connected-grid { grid-template-columns: 1fr; }
+      .connected-visual { order: -1; max-width: 320px; margin: 0 auto; }
+    }
+
+
+    /* ══════════════════════ 11. WORK ══════════════════════ */
+
+    .home-work-grid {
+      margin-top: var(--sp-48);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-24);
+    }
+    .work-tile {
+      border-radius: var(--radius-tile);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .work-tile__photo {
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+    }
+    .work-tile__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .work-tile__caption {
+      padding: var(--sp-20) var(--sp-24);
+    }
+    .work-tile__name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+    .work-tile__types {
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    @media (max-width: 640px) {
+      .home-work-grid { grid-template-columns: 1fr; }
+    }
+
+
+    /* ══════════════════════ 12. FAQ ══════════════════════ */
+
+    .faq-grid {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--sp-64);
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .faq-grid { grid-template-columns: 1fr; gap: var(--sp-32); }
+    }
+
+
+    /* ══════════════════════ 13. CLOSING CTA ══════════════════════ */
+
+    .closing-wrap {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
     }
 
   </style>
 </head>
-<body id="page-top">
+<body id="page-top" class="home-page">
 
   <!-- page transition overlay -->
   <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
@@ -221,17 +476,9 @@
     <div class="cursor__ring" style="position:fixed;top:0;left:0"></div>
   </div>
 
-  <!-- hover image panel (desktop only) -->
-  <div class="project-hover-image" aria-hidden="true">
-    <img src="" alt="" loading="lazy">
-    <div class="placeholder"></div>
-  </div>
-
   <!-- ── NAV ── -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
-    <a href="index.html" class="nav__logo">
-      pratik creation
-    </a>
+    <a href="index.html" class="nav__logo">pratik creation</a>
     <ul class="nav__links" role="list">
       <li><a href="work.html"      class="nav__link">Work</a></li>
       <li><a href="concepts.html"  class="nav__link">Concepts</a></li>
@@ -257,168 +504,470 @@
   </div>
 
 
-  <!-- ── HERO ── -->
+  <!-- ══════════════════════ 1. HERO ══════════════════════ -->
   <section class="hero" aria-label="Introduction">
-
-    <!-- video background — scoped to the hero, scrolls away with it
-         like a normal section background. Plays immediately on load. -->
-    <video
-      class="bg-video"
-      id="bgVideo"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      aria-hidden="true"
-    >
+    <video class="bg-video" id="bgVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
       <source src="images/video/hero.webm" type="video/webm">
       <source src="images/video/hero.mp4"  type="video/mp4">
     </video>
+    <div class="hero__overlay" aria-hidden="true"></div>
 
     <div class="hero__inner container">
-
-      <p class="t-label hero__eyebrow reveal">
-        Premium Packaging · Mumbai · Est. 2007
-      </p>
-
+      <p class="hero__eyebrow reveal">Low MOQ. Premium Finish.</p>
       <h1 class="hero__headline reveal reveal-d1">
-        We make<br>
-        packaging brands<br>
-        <em>remember.</em>
+        Packaging is part of the product.<br>
+        <em>We make it feel that way.</em>
       </h1>
+      <p class="hero__sub reveal reveal-d2">
+        Rigid boxes, hang tags, woven labels and paper bags for brands that sweat
+        the details. Approved sample to your door in as little as 19 days by air.
+      </p>
+      <div class="hero__actions reveal reveal-d3">
+        <a href="samples.html" class="btn btn--primary">Request a sample kit →</a>
+        <a href="work.html" class="btn btn--secondary">See our work</a>
+      </div>
+      <div class="chip-row reveal reveal-d4">
+        <span class="chip chip--on-dark">Low MOQ, per design</span>
+        <span class="chip chip--on-dark">Worldwide shipping</span>
+        <span class="chip chip--on-dark">In-house finishing</span>
+      </div>
+      <p class="hero__footnote reveal reveal-d5">
+        For brands who know packaging is part of the product experience.
+      </p>
+    </div>
+  </section>
 
-      <div class="hero__bottom reveal reveal-d2">
-        <p class="hero__body">
-          Fashion and fragrance packaging for brands that care about the detail.
-          Rigid boxes, woven labels, hang tags — all finished in-house.
-          Delivered to your door.
+
+  <!-- ══════════════════════ 2. TRUST STRIP ══════════════════════ -->
+  <section class="home-section--sm" aria-label="Trusted by">
+    <div class="trust-strip-wrap">
+      <div class="logo-strip reveal">
+        <span class="logo-strip__label">In Good Company</span>
+        <div class="logo-strip__row">
+          <span class="logo-strip__name">Cambridge Apparels</span>
+          <span class="logo-strip__name">Teamo</span>
+          <span class="logo-strip__name">Inlook</span>
+          <span class="logo-strip__name">UK Brand <span class="dev-flag">Proof: name + logo</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 3. THREE NUMBERS ══════════════════════ -->
+  <section class="home-section--sm" aria-label="By the numbers">
+    <div class="stats-wrap">
+      <div class="stat-row reveal">
+        <div class="stat-tile">
+          <div class="stat-tile__num" data-count="19">0</div>
+          <p class="stat-tile__caption"><strong style="color:var(--ink)">years</strong> — Making packaging that holds up. Since 2007.</p>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-tile__num" style="font-size:clamp(40px,5vw,72px)">7–20</div>
+          <p class="stat-tile__caption"><strong style="color:var(--ink)">days</strong> — Production, from approved sample. Depends on product.</p>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-tile__num" style="font-size:clamp(40px,5vw,72px)">19–30</div>
+          <p class="stat-tile__caption"><strong style="color:var(--ink)">days</strong> — Door to door by air. Sea freight 41–55 days.</p>
+        </div>
+      </div>
+    </div>
+    <p class="stats-footnote">
+      Lead times run from pre-production sample approval. Expedited production on request.
+    </p>
+  </section>
+
+
+  <!-- ══════════════════════ 4. THE PROBLEM ══════════════════════ -->
+  <section class="home-section" aria-label="The problem">
+    <div class="home-section__inner">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">01 / The First Impression</p>
+        <h2 class="sec-headline">Your customer judges you<br><em>before they touch the product.</em></h2>
+        <p class="sec-sub">
+          Most brands spend months on the product and days on the box.
+          Packaging that looks cheap makes the product feel cheap.
         </p>
-        <a href="samples.html" class="hero__cta">
-          Request a sample kit →
+      </div>
+      <div class="tile-grid tile-grid--3 home-section__body">
+        <div class="tile reveal">
+          <span class="tile__icon-num">01</span>
+          <h3 class="tile__title">Decided last.</h3>
+          <p class="tile__desc">Packaging is usually the final decision. It is the first thing a customer sees.</p>
+        </div>
+        <div class="tile reveal reveal-d1">
+          <span class="tile__icon-num">02</span>
+          <h3 class="tile__title">Too many suppliers.</h3>
+          <p class="tile__desc">One for tags, one for boxes, one for labels. Five contacts, five delays.</p>
+        </div>
+        <div class="tile reveal reveal-d2">
+          <span class="tile__icon-num">03</span>
+          <h3 class="tile__title">Stock-outs.</h3>
+          <p class="tile__desc">Running out of packaging stops sales before stock does.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 5. OLD WAY VS PRATIK WAY ══════════════════════ -->
+  <section class="home-section home-section--sm" aria-label="The difference">
+    <div class="home-section__inner">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">02 / The Difference</p>
+        <h2 class="sec-headline">Same brief.<br><em>A different way forward.</em></h2>
+      </div>
+      <div class="compare-pair home-section__body reveal reveal-d1">
+        <div class="compare-card">
+          <span class="compare-card__label">The usual way</span>
+          <div class="compare-card__steps">
+            <p class="compare-card__step">Designer</p>
+            <p class="compare-card__step">Printer</p>
+            <p class="compare-card__step">Label supplier</p>
+            <p class="compare-card__step">Box maker</p>
+            <p class="compare-card__step">Courier</p>
+          </div>
+          <p class="compare-card__body" style="margin-top:var(--sp-16)">More handoffs. More chasing. More delays.</p>
+        </div>
+        <div class="compare-card compare-card--highlight">
+          <span class="compare-card__label">With Pratik <span class="dev-flag">Confirm: wording</span></span>
+          <div class="compare-card__steps">
+            <p class="compare-card__step">One brief</p>
+            <p class="compare-card__step">One team</p>
+            <p class="compare-card__step">One delivery</p>
+          </div>
+          <p class="compare-card__body" style="margin-top:var(--sp-16)">Boxes, tags, labels and bags made under one roof.</p>
+        </div>
+      </div>
+      <p class="compare-closing">Fewer handoffs means fewer mistakes and a shorter wait.</p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 6. WHAT WE MAKE ══════════════════════ -->
+  <section class="home-section" aria-label="What we make">
+    <div class="home-section__inner">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">03 / The Range</p>
+        <h2 class="sec-headline">Everything your product<br><em>wears.</em></h2>
+      </div>
+
+      <div class="range-bento home-section__body">
+        <a href="work.html" class="tile range-bento__tall reveal">
+          <div class="range-bento__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <h3 class="tile__title">Rigid boxes</h3>
+          <p class="tile__desc">Boxes that feel like a gift.</p>
+          <span class="tile__arrow">View →</span>
+        </a>
+        <a href="work.html" class="tile range-bento__mid-1 reveal reveal-d1">
+          <div class="range-bento__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <h3 class="tile__title">Premium paper bags</h3>
+          <p class="tile__desc">Bags people reuse and carry as advertising.</p>
+          <span class="tile__arrow">View →</span>
+        </a>
+        <a href="work.html" class="tile range-bento__mid-2 reveal reveal-d2">
+          <div class="range-bento__photo">
+            <img src="images/projects/inlook/hero.png" alt="Hang tag with foil-stamped branding, made by Pratik Creation" loading="lazy">
+          </div>
+          <h3 class="tile__title">Hang tags</h3>
+          <p class="tile__desc">Tags that get kept, not cut off.</p>
+          <span class="tile__arrow">View →</span>
+        </a>
+        <a href="work.html" class="tile range-bento__right-1 reveal reveal-d3">
+          <div class="range-bento__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <h3 class="tile__title">Woven labels</h3>
+          <p class="tile__desc">Sewn to last the garment's life.</p>
+          <span class="tile__arrow">View →</span>
+        </a>
+        <a href="work.html" class="tile range-bento__right-2 reveal reveal-d4">
+          <div class="range-bento__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <h3 class="tile__title">Garment accessories</h3>
+          <p class="tile__desc">The details that finish the look.</p>
+          <span class="tile__arrow">View →</span>
+        </a>
+        <a href="work.html" class="tile tile--accent-soft range-bento__wide reveal reveal-d5">
+          <div>
+            <h3 class="tile__title">Full packaging suite</h3>
+            <p class="tile__desc">The whole set, made together, delivered together.</p>
+          </div>
+          <span class="tile__arrow">View →</span>
         </a>
       </div>
-
     </div>
   </section>
 
 
-  <!-- ── MARQUEE ── -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span class="marquee__item">Rigid Boxes</span>
-      <span class="marquee__item">Woven Labels</span>
-      <span class="marquee__item">Hang Tags</span>
-      <span class="marquee__item">Premium Paper Bags</span>
-      <span class="marquee__item">Foil Stamping</span>
-      <span class="marquee__item">Embossing</span>
-      <span class="marquee__item">Debossing</span>
-      <span class="marquee__item">UV Coating</span>
-      <span class="marquee__item">Soft-Touch Matte</span>
-      <span class="marquee__item">Perfume Boxes</span>
-      <span class="marquee__item">Shirt Boxes</span>
-      <span class="marquee__item">In-House Manufacturing</span>
-      <!-- duplicate for seamless loop -->
-      <span class="marquee__item">Rigid Boxes</span>
-      <span class="marquee__item">Woven Labels</span>
-      <span class="marquee__item">Hang Tags</span>
-      <span class="marquee__item">Premium Paper Bags</span>
-      <span class="marquee__item">Foil Stamping</span>
-      <span class="marquee__item">Embossing</span>
-      <span class="marquee__item">Debossing</span>
-      <span class="marquee__item">UV Coating</span>
-      <span class="marquee__item">Soft-Touch Matte</span>
-      <span class="marquee__item">Perfume Boxes</span>
-      <span class="marquee__item">Shirt Boxes</span>
-      <span class="marquee__item">In-House Manufacturing</span>
-    </div>
-  </div>
+  <!-- ══════════════════════ 7. HOW IT WORKS ══════════════════════ -->
+  <section class="home-section home-section--sm" aria-label="How it works">
+    <div class="home-section__inner">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">04 / The Process</p>
+        <h2 class="sec-headline">From first idea<br><em>to your doorstep.</em></h2>
+      </div>
 
+      <div class="stepper home-section__body reveal reveal-d1">
+        <div class="stepper__step">
+          <span class="stepper__node" aria-hidden="true"></span>
+          <span class="stepper__line" aria-hidden="true"></span>
+          <span class="stepper__num">01</span>
+          <h3 class="stepper__title">Brief.</h3>
+          <p class="stepper__desc">Tell us what you are launching. A rough idea is enough.</p>
+        </div>
+        <div class="stepper__step">
+          <span class="stepper__node" aria-hidden="true"></span>
+          <span class="stepper__line" aria-hidden="true"></span>
+          <span class="stepper__num">02</span>
+          <h3 class="stepper__title">Advice.</h3>
+          <p class="stepper__desc">We recommend materials, sizes and finishes that suit your budget.</p>
+        </div>
+        <div class="stepper__step">
+          <span class="stepper__node" aria-hidden="true"></span>
+          <span class="stepper__line" aria-hidden="true"></span>
+          <span class="stepper__num">03</span>
+          <h3 class="stepper__title">Sample.</h3>
+          <p class="stepper__desc">You approve a physical sample before we produce anything.</p>
+        </div>
+        <div class="stepper__step">
+          <span class="stepper__node" aria-hidden="true"></span>
+          <span class="stepper__line" aria-hidden="true"></span>
+          <span class="stepper__num">04</span>
+          <h3 class="stepper__title">Production.</h3>
+          <p class="stepper__desc">We make it, finish it and check it. <span class="dev-flag">Confirm: batch QC</span></p>
+        </div>
+        <div class="stepper__step">
+          <span class="stepper__node" aria-hidden="true"></span>
+          <span class="stepper__num">05</span>
+          <h3 class="stepper__title">Delivery.</h3>
+          <p class="stepper__desc">By air or sea, to your door.</p>
+        </div>
+      </div>
 
-  <!-- ── SELECTED WORK ── -->
-  <section class="work-section" aria-label="Selected work">
-
-    <div class="work-section__header">
-      <span class="t-label reveal">Selected Work</span>
-      <a href="work.html" class="work-section__all reveal">View all projects</a>
-    </div>
-
-    <div class="work-section__list">
-
-      <!--
-        data-image  → path to the hover image (swap in real photos)
-        data-color  → fallback background colour if image missing
-        data-label  → text shown in fallback placeholder
-        data-market → used by filter on work.html
-      -->
-
-      <a class="project-row reveal"
-         href="work-suzao.html"
-         data-image="images/projects/suzao/card-front.png"
-         data-color="#F5F0E8"
-         data-label="Studio Suzao"
-         data-market="china">
-        <span class="project-row__num">01</span>
-        <span class="project-row__name">Studio Suzao — Business Cards, Brand Identity Print</span>
-        <span class="project-row__tags">
-          <span class="project-row__tag">Business Cards</span>
-          <span class="project-row__tag">Soft-Touch</span>
-          <span class="project-row__tag">Spot UV</span>
-        </span>
-        <span class="project-row__meta">China · 2024</span>
-      </a>
-
-      <a class="project-row reveal reveal-d1"
-         href="work-matiere.html"
-         data-image="images/projects/matiere/hero.png"
-         data-color="#B5AD9E"
-         data-label="MATIÈRE"
-         data-market="uk">
-        <span class="project-row__num">02</span>
-        <span class="project-row__name">MATIÈRE — No. 07 Vétiver, Fragrance Packaging</span>
-        <span class="project-row__tags">
-          <span class="project-row__tag">Perfume Box</span>
-          <span class="project-row__tag">Blind Deboss</span>
-          <span class="project-row__tag">Gold Foil</span>
-        </span>
-        <span class="project-row__meta">UK · 2024</span>
-      </a>
-
+      <div class="process-reassurance reveal reveal-d2">
+        <p>You always see it before we make it.</p>
+        <a href="process.html" class="link t-small">See full lead times →</a>
+      </div>
     </div>
   </section>
 
 
-  <!-- ── CAPABILITY STRIP ── -->
-  <div class="cap-wrap">
-    <p class="t-label cap-strip-label reveal">In-house finishing</p>
-    <div class="cap-strip reveal">
-      <div class="cap-item">
-        <span class="cap-item__num">01</span>
-        <div class="cap-item__name">Foil Stamping</div>
-        <p class="cap-item__desc">Gold · Silver · Rose Gold</p>
+  <!-- ══════════════════════ 8. THE CRAFT (dark block) ══════════════════════ -->
+  <section class="home-section" aria-label="The craft">
+    <div class="craft-block reveal">
+      <div class="sec-header">
+        <p class="sec-eyebrow">05 / The Finish</p>
+        <h2 class="sec-headline">Finishes<br><em>you can feel.</em></h2>
+        <p class="sec-sub">Foil, emboss, deboss and UV, all done in-house. No outsourced guesswork.</p>
       </div>
-      <div class="cap-item">
-        <span class="cap-item__num">02</span>
-        <div class="cap-item__name">Embossing</div>
-        <p class="cap-item__desc">Raised — any depth</p>
-      </div>
-      <div class="cap-item">
-        <span class="cap-item__num">03</span>
-        <div class="cap-item__name">Debossing</div>
-        <p class="cap-item__desc">Pressed impression</p>
-      </div>
-      <div class="cap-item">
-        <span class="cap-item__num">04</span>
-        <div class="cap-item__name">UV Coating</div>
-        <p class="cap-item__desc">Spot UV · Full UV</p>
-      </div>
-      <div class="cap-item">
-        <span class="cap-item__num">05</span>
-        <div class="cap-item__name">Soft Touch</div>
-        <p class="cap-item__desc">Velvet matte laminate</p>
+      <div class="craft-grid">
+        <div class="craft-tile">
+          <div class="craft-tile__photo">
+            <img src="images/hangtag-hero/beat-foil.jpg" alt="Close-up of metallic foil stamping on a hang tag" loading="lazy">
+          </div>
+          <p class="craft-tile__label">Foil stamping — Metallic detail that catches the light.</p>
+        </div>
+        <div class="craft-tile">
+          <div class="craft-tile__photo">
+            <img src="images/process/06-emboss.png" alt="Close-up of raised embossed texture on card stock" loading="lazy">
+          </div>
+          <p class="craft-tile__label">Embossing — Raised texture you read with your thumb.</p>
+        </div>
+        <div class="craft-tile">
+          <div class="craft-tile__photo">
+            <img src="images/process/06-emboss.png" alt="Close-up of a pressed, debossed mark on card stock" loading="lazy">
+          </div>
+          <p class="craft-tile__label">Debossing — A pressed-in mark that feels deliberate.</p>
+        </div>
+        <div class="craft-tile">
+          <div class="craft-tile__photo">
+            <div class="photo-placeholder" style="background:rgba(247,244,239,0.06)"><span class="photo-placeholder__label" style="color:rgba(247,244,239,0.4)">Photo coming</span></div>
+          </div>
+          <p class="craft-tile__label">UV finishing — Spot gloss that makes one detail pop.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+
+  <!-- ══════════════════════ 9. LEAD TIMES (dark) ══════════════════════ -->
+  <section class="home-section times-section" aria-label="Lead times">
+    <div class="home-section__inner">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">06 / The Timeline</p>
+        <h2 class="sec-headline">Know your dates<br><em>before you order.</em></h2>
+        <p class="sec-sub">
+          Production times run from pre-production sample approval.
+          Expedited production available on request.
+        </p>
+      </div>
+
+      <div class="times-grid reveal reveal-d1">
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Product</th><th>Production (India)</th><th>Air freight</th><th>Sea freight</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Rigid boxes</td><td>12–16 days</td><td><span class="data-badge data-badge--accent">7–10 days</span></td><td>25–35 days</td></tr>
+              <tr><td>Premium paper bags</td><td>10–14 days</td><td><span class="data-badge data-badge--accent">7–10 days</span></td><td>25–35 days</td></tr>
+              <tr><td>Hang tags</td><td>7–10 days</td><td><span class="data-badge data-badge--accent">7–10 days</span></td><td>25–35 days</td></tr>
+              <tr><td>Woven labels</td><td>10–14 days</td><td><span class="data-badge data-badge--accent">7–10 days</span></td><td>25–35 days</td></tr>
+              <tr><td>Full packaging suite</td><td>16–20 days</td><td><span class="data-badge data-badge--accent">7–10 days</span></td><td>25–35 days</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="stat-tile stat-tile--dark">
+          <div class="stat-tile__num" style="font-size:clamp(40px,4.5vw,64px)">19–30</div>
+          <span class="stat-tile__unit">days</span>
+          <p class="stat-tile__caption">Door to door, by air.</p>
+        </div>
+      </div>
+      <p class="times-caveat">Air freight total door to door: 19–30 days · Sea freight total: 41–55 days</p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 10. CONNECTED ══════════════════════ -->
+  <section class="home-section" aria-label="Pratik Creation Connected">
+    <div class="connected-grid">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">07 / Connected</p>
+        <h2 class="sec-headline">Packaging<br><em>that talks back.</em></h2>
+        <p class="sec-sub">
+          Add an NFC tap to a hang tag, box or card. Your customer lands on
+          your story, your care guide or your next drop.
+        </p>
+        <div class="connected-tiles">
+          <span class="chip">Hang tags</span>
+          <span class="chip">Rigid boxes</span>
+          <span class="chip">Cards</span>
+          <span class="dev-flag">Confirm: which are available now</span>
+        </div>
+        <a href="mailto:hello@pratikcreation.com" class="btn btn--secondary">Ask about Connected →</a>
+      </div>
+      <div class="connected-visual reveal reveal-d1" aria-hidden="true">
+        <div class="connected-visual__mark">
+          <span class="connected-visual__dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 11. WORK ══════════════════════ -->
+  <section class="home-section home-section--sm" aria-label="Selected work">
+    <div class="home-section__inner">
+      <div class="sec-header__row reveal">
+        <div class="sec-header" style="margin-bottom:0">
+          <p class="sec-eyebrow">08 / The Work</p>
+          <h2 class="sec-headline">Made for brands<br><em>in good company.</em></h2>
+        </div>
+        <a href="work.html" class="link t-small sec-header__note" style="text-align:left">Explore all work →</a>
+      </div>
+
+      <div class="home-work-grid">
+        <a href="work.html" class="work-tile reveal">
+          <div class="work-tile__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <div class="work-tile__caption">
+            <p class="work-tile__name">Cambridge Apparels</p>
+            <p class="work-tile__types">Garment packaging <span class="dev-flag">Proof: product types + photo</span></p>
+          </div>
+        </a>
+        <a href="work.html" class="work-tile reveal reveal-d1">
+          <div class="work-tile__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <div class="work-tile__caption">
+            <p class="work-tile__name">Teamo</p>
+            <p class="work-tile__types">Garment packaging <span class="dev-flag">Proof: product types + photo</span></p>
+          </div>
+        </a>
+        <a href="work.html" class="work-tile reveal reveal-d2">
+          <div class="work-tile__photo">
+            <img src="images/projects/inlook/hero.png" alt="Inlook hang tag with foil-stamped branding" loading="lazy">
+          </div>
+          <div class="work-tile__caption">
+            <p class="work-tile__name">Inlook</p>
+            <p class="work-tile__types">Hang tags</p>
+          </div>
+        </a>
+        <a href="work.html" class="work-tile reveal reveal-d3">
+          <div class="work-tile__photo"><div class="photo-placeholder"><span class="photo-placeholder__label">Photo coming</span></div></div>
+          <div class="work-tile__caption">
+            <p class="work-tile__name">UK Brand <span class="dev-flag">Proof: name + logo + photo</span></p>
+            <p class="work-tile__types">Details to follow</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 12. FAQ ══════════════════════ -->
+  <section class="home-section" aria-label="Frequently asked questions">
+    <div class="faq-grid">
+      <div class="sec-header reveal">
+        <p class="sec-eyebrow">A Little More Clarity</p>
+        <h2 class="sec-headline">Good questions.<br><em>Straight answers.</em></h2>
+      </div>
+
+      <div class="reveal reveal-d1">
+        <div class="accordion__item">
+          <button class="accordion__trigger">What is your minimum order?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            Our minimums are low and set per design, so you can launch a collection without committing to warehouse-sized volumes. Tell us what you need and we will confirm.
+          </div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__trigger">How long does delivery to the UK take?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            From approved sample, production takes 7–20 days depending on the product. Air freight adds 7–10 days (19–30 days door to door). Sea freight adds 25–35 days (41–55 days door to door).
+          </div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__trigger">Can I see a sample first?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            Yes. Nothing goes into production until you have approved a physical sample. Start with a sample kit.
+          </div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__trigger">Can you rush an order?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            Expedited production is available on request. Tell us your deadline when you enquire.
+          </div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__trigger">Do you ship worldwide?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            Yes, by air or sea. <span class="dev-flag">Confirm: countries</span>
+          </div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__trigger">Can you match our brand colours?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            <span class="dev-flag">Confirm: Pantone matching process</span> Send us your reference and we will match it as closely as the material allows.
+          </div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__trigger">Can you help with the design?<span class="accordion__chevron"></span></button>
+          <div class="accordion__panel"><div class="accordion__panel-inner">
+            <span class="dev-flag">Confirm: dieline and artwork support</span> Share your brief and we will advise on materials, sizes and finishes.
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 13. CLOSING CTA ══════════════════════ -->
+  <section class="home-section--sm" aria-label="Get in touch">
+    <div class="closing-wrap">
+      <div class="cta-closing reveal">
+        <p class="cta-closing__eyebrow">Your Next Chapter</p>
+        <h2 class="cta-closing__headline">Your brand deserves a better first impression.<br><em>Let's build it.</em></h2>
+        <p class="cta-closing__sub">Tell us what you are launching. We will tell you what it needs.</p>
+        <a href="samples.html" class="btn btn--primary">Request a sample kit →</a>
+        <p class="cta-closing__small">Low MOQ. Real samples. A real conversation.</p>
+      </div>
+    </div>
+  </section>
 
 
   <!-- ── FOOTER ── -->
