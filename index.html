@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F7F4EF">
   <meta name="description" content="Pratik Creation — Premium packaging manufacturer for fashion and fragrance brands. Rigid boxes, woven labels, hang tags, paper bags. In-house foil, emboss, UV. Mumbai, India.">
   <title>Pratik Creation — Premium Packaging Manufacturer</title>
   <link rel="canonical" href="https://pratikcreation.co.in/">
@@ -23,7 +24,7 @@
   <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
 
   <!-- styles -->
   <link rel="stylesheet" href="css/shared.css">
@@ -86,13 +87,13 @@
       display: block;
       width: 32px;
       height: 1px;
-      background: var(--c-gold);
+      background: var(--c-ember);
     }
 
     .hero__headline {
       font-family: var(--font-display);
       font-size: clamp(60px, 8.5vw, 132px);
-      font-weight: 500;
+      font-weight: 600;
       line-height: 0.93;
       letter-spacing: -0.025em;
       max-width: 900px;
@@ -127,7 +128,7 @@
       color: var(--c-ink);
       white-space: nowrap;
       padding-bottom: 2px;
-      border-bottom: 1px solid var(--c-gold);
+      border-bottom: 1px solid var(--c-ember-on-dark);
       transition: color 0.2s;
     }
 
@@ -149,10 +150,10 @@
     }
     .nav .nav__btn,
     .nav .nav__link--cta::after {
-      background: var(--c-gold);
+      background: var(--c-ember);
     }
 
-    /* ── nav logo: foil-shimmer hover — a band of gold/white light
+    /* ── nav logo: foil-shimmer hover — a band of ember/white light
        sweeps across the wordmark, like light catching a foil stamp ── */
     .nav .nav__logo {
       position: relative;
@@ -161,7 +162,7 @@
         rgba(255, 255, 255, 0.75) 0%,
         rgba(255, 255, 255, 0.75) 42%,
         #ffffff 48%,
-        var(--c-gold) 52%,
+        var(--c-ember-on-dark) 52%,
         rgba(255, 255, 255, 0.75) 58%,
         rgba(255, 255, 255, 0.75) 100%
       );
@@ -179,10 +180,6 @@
       background-position: -80% 0;
       letter-spacing: 0.12em;
       opacity: 1;
-    }
-    .nav .nav__logo-dot {
-      -webkit-text-fill-color: var(--c-gold);
-      color: var(--c-gold);
     }
 
     @media (max-width: 900px) {
@@ -301,7 +298,7 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: var(--c-gold);
+      background: var(--c-ember);
     }
 
     .footer__tagline-big {
@@ -409,7 +406,7 @@
       z-index: 1;
       display: block;
       font-family: var(--font-display);
-      font-weight: 500;
+      font-weight: 600;
       font-size: clamp(56px, 14vw, 210px);
       line-height: 0.82;
       letter-spacing: -0.01em;
@@ -423,7 +420,7 @@
         #F7F4EF 0%,
         #F7F4EF 42%,
         #ffffff 48%,
-        var(--c-gold) 52%,
+        var(--c-ember-on-dark) 52%,
         #F7F4EF 58%,
         #F7F4EF 100%
       );
@@ -506,9 +503,9 @@
   <section class="logo-intro" id="logoIntro" aria-label="Pratik Creation">
     <div class="logo-intro__fixed">
       <div class="logo-intro__stack" id="introStack">
-        <span class="logo-intro__line">PRATIK</span>
+        <span class="logo-intro__line">pratik</span>
         <img class="logo-intro__tag" id="introTag" src="images/intro-tag.png" alt="Pratik Creation hang tag">
-        <span class="logo-intro__line">CREATION</span>
+        <span class="logo-intro__line">creation</span>
       </div>
     </div>
   </section>
@@ -516,7 +513,7 @@
   <!-- ── NAV ── -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <a href="index.html" class="nav__logo">
-      PRATIK<span class="nav__logo-dot">·</span>CREATION
+      pratik creation
     </a>
     <ul class="nav__links" role="list">
       <li><a href="work.html"      class="nav__link">Work</a></li>
