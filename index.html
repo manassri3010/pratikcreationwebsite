@@ -368,112 +368,18 @@
       .footer__badge { width: 34px; height: 34px; top: 10px; right: var(--page-pad-mob); }
     }
 
-    /* ══════════════════════════════════════════════════════════
-       LOGO INTRO — big PRATIK / tag / CREATION opening screen.
-       Scroll-driven: the text shrinks and moves to land exactly on
-       the real nav logo's position, then crossfades into it. The
-       tag exits upward and fades before the text finishes landing.
-       Nav itself starts invisible and fades in as the text lands.
-       ══════════════════════════════════════════════════════════ */
-
-    .logo-intro {
-      position: relative;
-      height: 130vh;
-    }
-
-    .logo-intro__fixed {
-      position: fixed;
-      inset: 0;
-      z-index: 150;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .logo-intro__stack {
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: block;
-      text-align: left;
-      transform-origin: 0 0;
-      will-change: transform;
-    }
-
-    .logo-intro__line {
-      position: relative;
-      z-index: 1;
-      display: block;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(56px, 14vw, 210px);
-      line-height: 0.82;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      margin: 0;
-      pointer-events: auto;
-
-      /* foil-shimmer hover — same treatment as the landed nav logo */
-      background-image: linear-gradient(
-        100deg,
-        #F7F4EF 0%,
-        #F7F4EF 42%,
-        #ffffff 48%,
-        var(--c-ember-on-dark) 52%,
-        #F7F4EF 58%,
-        #F7F4EF 100%
-      );
-      background-size: 260% 100%;
-      background-position: 130% 0;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-      transition:
-        background-position 1s cubic-bezier(0.16, 1, 0.3, 1),
-        letter-spacing 0.6s ease;
-    }
-
-    .logo-intro__line:hover {
-      background-position: -60% 0;
-      letter-spacing: 0.015em;
-    }
-
-    .logo-intro__tag {
-      position: absolute;
-      z-index: 2;
-      top: 50%;
-      left: 58%;
-      transform: translate(-28%, -50%);
-      height: min(480px, 58vh);
-      width: auto;
-      display: block;
-      filter: drop-shadow(0 24px 50px rgba(0,0,0,0.65));
-      will-change: transform, opacity;
-      pointer-events: none;
-    }
-
-    /* nav starts invisible — the intro logo stands in for it until it lands */
-    .nav {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* video base layer starts hidden and paused — revealed once the
-       intro finishes landing, so nothing plays behind the intro screen */
-    body { background: #0a0a0a; }
-    .bg-video { opacity: 0; transition: none; }
   </style>
 </head>
 <body>
 
   <!-- fixed video background — locked in place, sits behind the entire
-       page at all times, never scrolls, never restarts. Stays paused and
-       hidden until the logo intro finishes landing. -->
+       page at all times, never scrolls, never restarts. Plays
+       immediately on load; fades out near the footer (see
+       js/footer-video-fade.js). -->
   <video
     class="bg-video"
     id="bgVideo"
+    autoplay
     muted
     loop
     playsinline
@@ -498,17 +404,6 @@
     <img src="" alt="" loading="lazy">
     <div class="placeholder"></div>
   </div>
-
-  <!-- ── LOGO INTRO ── -->
-  <section class="logo-intro" id="logoIntro" aria-label="Pratik Creation">
-    <div class="logo-intro__fixed">
-      <div class="logo-intro__stack" id="introStack">
-        <span class="logo-intro__line">pratik</span>
-        <img class="logo-intro__tag" id="introTag" src="images/intro-tag.png" alt="Pratik Creation hang tag">
-        <span class="logo-intro__line">creation</span>
-      </div>
-    </div>
-  </section>
 
   <!-- ── NAV ── -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
@@ -744,10 +639,10 @@
   </footer>
 
 
-  <!-- GSAP + ScrollTrigger — drives the logo-intro shrink-to-nav animation -->
+  <!-- GSAP + ScrollTrigger — drives the fixed background video fading
+       out near the footer (see js/footer-video-fade.js) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/logo-intro.js"></script>
   <script src="js/footer-video-fade.js"></script>
 
   <script src="js/main.js"></script>
