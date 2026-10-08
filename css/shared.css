@@ -46,16 +46,29 @@ ul, ol {
 /* ── 2. DESIGN TOKENS ───────────────────────────────────────── */
 
 :root {
-  /* colours — 4 only, no exceptions */
-  --c-bg:       #F7F4EF;   /* warm off-white — the background */
-  --c-ink:      #0D0D0D;   /* near-black — all primary text */
-  --c-muted:    #888580;   /* muted — secondary text, labels */
-  --c-gold:     #C8A96E;   /* gold — logo accent, hover lines */
-  --c-border:   rgba(13, 13, 13, 0.12);  /* border colour */
-  --c-hover-bg: #F0EBE3;   /* subtle warm tint on row hover */
+  /* paper and ink (kept) */
+  --c-bg:       #F7F4EF;
+  --c-ink:      #0D0D0D;
+  --c-hover-bg: #F0EBE3;
+  --c-border:   rgba(13, 13, 13, 0.12);
+
+  /* changed: old #888580 failed contrast (3.4:1). New is 5.1:1 on paper */
+  --c-muted:    #6B6862;
+
+  /* flame palette (new) */
+  --c-ember:        #FF4A00;  /* big fills, rules, hover lines, backgrounds of buttons that carry INK text */
+  --c-flame-red:    #FF0000;  /* gradient only */
+  --c-flame-orange: #FF7A00;  /* gradient only */
+  --c-ember-deep:   #C03400;  /* button fills that carry WHITE text (5.6:1) */
+  --c-ember-text:   #C03400;  /* orange used as text or a thin line on PAPER (5.1:1) */
+  --c-ember-on-dark:#FF5A1F;  /* orange used as text or a line on INK or dark photography (6.2:1) */
+
+  --gradient-flame:
+    radial-gradient(circle 460px at 0% 100%, #fff 0%, rgba(255,255,255,.9) 25%, rgba(255,255,255,.35) 55%, rgba(255,255,255,0) 100%),
+    radial-gradient(circle farthest-corner at 100% 0%, #FF0000 0%, #FF2A00 25%, #FF4A00 50%, #FF6A00 80%, #FF7A00 100%);
 
   /* typography */
-  --font-display: 'Syne', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
   --font-body:    'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   --font-mono:    'DM Mono', 'Courier New', monospace;
 
@@ -103,7 +116,7 @@ body {
 
 /* ── 4. TYPOGRAPHY ──────────────────────────────────────────── */
 
-/* display headings — Syne */
+/* display headings — Poppins */
 .t-display {
   font-family: var(--font-display);
   font-weight: 500;
@@ -115,7 +128,7 @@ body {
 .t-hero {
   font-family: var(--font-display);
   font-size: clamp(56px, 8vw, 120px);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 0.93;
   letter-spacing: -0.025em;
 }
@@ -255,22 +268,21 @@ body {
   border-color: var(--c-border);
 }
 
+/* text logo, not an <img> — js/logo-intro.js measures this element's
+   computed font-size to compute the intro-text shrink scale, so it has
+   to stay a real text node for that math to keep working. See brief
+   section 6.2. */
 .nav__logo {
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--c-ink);
   transition: opacity 0.2s;
 }
 
 .nav__logo:hover {
   opacity: 0.6;
-}
-
-/* the dot in "PRATIK · CREATION" */
-.nav__logo-dot {
-  color: var(--c-gold);
 }
 
 .nav__links {
@@ -323,7 +335,7 @@ body {
 }
 
 .nav__link--cta::after {
-  background: var(--c-gold);
+  background: var(--c-ember);
 }
 
 /* hamburger — mobile only */
@@ -562,7 +574,7 @@ body {
 
 .marquee__item::after {
   content: '·';
-  color: var(--c-gold);
+  color: var(--c-ember-on-dark);
   font-size: 18px;
   line-height: 1;
 }
@@ -618,7 +630,7 @@ body {
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--c-gold);
+  background: var(--c-ember);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s var(--ease-out);
@@ -939,7 +951,7 @@ body {
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--c-gold);
+  background: var(--c-ember);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s var(--ease-out);
