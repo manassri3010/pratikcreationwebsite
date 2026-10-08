@@ -68,7 +68,7 @@
     .notfound-links a:hover { color: var(--c-ember-text); border-color: var(--c-ink); }
   </style>
 </head>
-<body>
+<body id="page-top">
 
   <div class="cursor" aria-hidden="true">
     <div class="cursor__dot" style="position:fixed;top:0;left:0"></div>
@@ -112,11 +112,26 @@
 
   <footer class="footer">
     <div class="footer__top">
-      <div>
-        <a href="index.html" class="footer__logo"><img src="images/brand/pratik-creation-wordmark-black.svg" alt="pratik creation" style="height:22px;width:auto;display:block"></a>
+      <div class="footer__brand">
+        <span class="footer__dot" aria-hidden="true"></span>
         <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
       </div>
-      <div>
+      <div class="footer__cta">
+        <h3 class="footer__cta-heading">Ready to work together?</h3>
+        <a href="samples.html" class="footer__cta-btn">Request a sample kit →</a>
+      </div>
+    </div>
+
+    <hr class="footer__divider">
+
+    <div class="footer__cols">
+      <div class="footer__col">
+        <span class="footer__col-title">Links</span>
+        <div class="footer__links">
+          <a href="#page-top" class="footer__link">Back to top</a>
+        </div>
+      </div>
+      <div class="footer__col">
         <span class="footer__col-title">Work</span>
         <div class="footer__links">
           <a href="work.html"         class="footer__link">All projects</a>
@@ -125,16 +140,27 @@
           <a href="work-matiere.html" class="footer__link">MATIÈRE</a>
         </div>
       </div>
-      <div>
+      <div class="footer__col">
         <span class="footer__col-title">Studio</span>
         <div class="footer__links">
           <a href="about.html"   class="footer__link">About</a>
           <a href="process.html" class="footer__link">Process</a>
           <a href="samples.html" class="footer__link">Request samples</a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <span class="footer__col-title">Contact</span>
+        <div class="footer__links">
           <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
+          <span class="footer__link" style="cursor:default">Mumbai, India</span>
         </div>
       </div>
     </div>
+
+    <div class="footer__giant-wrap">
+      <span class="footer__giant">PRATIK·CREATION</span>
+    </div>
+
     <div class="footer__bottom">
       <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
       <p class="footer__est">Est. 2007</p>

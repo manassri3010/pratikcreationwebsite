@@ -248,133 +248,18 @@
       padding: var(--sp-32) 0 var(--sp-24);
     }
 
-    /* cta bar */
-    .cta-wrap {
-      padding: var(--sp-80) var(--page-pad);
-    }
-
     @media (max-width: 900px) {
       .work-section__header,
       .work-section__list,
-      .cap-wrap,
-      .cta-wrap {
+      .cap-wrap {
         padding-left: var(--page-pad-mob);
         padding-right: var(--page-pad-mob);
       }
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       FOOTER — restyled: tagline + link columns on top, a massive
-       "PRATIK·CREATION" wordmark sliced off at the bottom edge.
-       ══════════════════════════════════════════════════════════ */
-
-    .footer {
-      padding: var(--sp-64) 0 0;
-      border-top: 1px solid var(--c-border);
-      overflow: hidden;
-    }
-
-    .footer__top {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr 1fr 1fr;
-      gap: var(--sp-48);
-      padding: 0 var(--page-pad) var(--sp-64);
-    }
-
-    .footer__intro {
-      display: flex;
-      flex-direction: column;
-      gap: var(--sp-24);
-    }
-
-    .footer__dot-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1px dashed var(--c-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .footer__dot-icon::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--c-ember);
-    }
-
-    .footer__tagline-big {
-      font-family: var(--font-display);
-      font-size: clamp(20px, 1.8vw, 26px);
-      font-weight: 500;
-      line-height: 1.35;
-      color: var(--c-ink);
-      max-width: 320px;
-    }
-
-    .footer__col-title {
-      margin-bottom: var(--sp-16);
-    }
-
-    .footer__giant-outer {
-      position: relative;
-    }
-
-    .footer__giant-wrap {
-      position: relative;
-      height: clamp(70px, 10vw, 175px);
-      overflow: hidden;
-      border-top: 1px solid var(--c-border);
-    }
-
-    .footer__giant {
-      position: absolute;
-      top: 0;
-      left: var(--page-pad);
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: clamp(90px, 15vw, 250px);
-      line-height: 1;
-      letter-spacing: -0.01em;
-      color: rgba(13, 13, 13, 0.08);
-      white-space: nowrap;
-      user-select: none;
-    }
-
-    .footer__badge {
-      position: absolute;
-      top: 14px;
-      right: var(--page-pad);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid var(--c-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: var(--c-muted);
-      z-index: 2;
-    }
-
-    @media (max-width: 900px) {
-      .footer__top {
-        grid-template-columns: 1fr 1fr;
-        row-gap: var(--sp-32);
-        padding-left: var(--page-pad-mob);
-        padding-right: var(--page-pad-mob);
-      }
-      .footer__intro { grid-column: 1 / -1; }
-      .footer__giant { left: var(--page-pad-mob); font-size: clamp(60px, 20vw, 120px); }
-      .footer__giant-wrap { height: clamp(45px, 13vw, 85px); }
-      .footer__badge { width: 34px; height: 34px; top: 10px; right: var(--page-pad-mob); }
     }
 
   </style>
 </head>
-<body>
+<body id="page-top">
 
   <!-- page transition overlay -->
   <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
@@ -584,28 +469,30 @@
   </div>
 
 
-  <!-- ── ONE-LINE CTA ── -->
-  <div class="cta-wrap">
-    <div class="cta-bar reveal">
-      <p class="cta-bar__text">Ready to work together?</p>
-      <a href="samples.html" class="cta-bar__link">
-        Request a sample kit →
-      </a>
-    </div>
-  </div>
-
-
   <!-- ── FOOTER ── -->
   <footer class="footer">
     <div class="footer__top">
-      <div class="footer__intro">
-        <span class="footer__dot-icon" aria-hidden="true"></span>
-        <p class="footer__tagline-big">
-          Pratik Creation is the packaging partner you've been searching for.
-        </p>
+      <div class="footer__brand">
+        <span class="footer__dot" aria-hidden="true"></span>
+        <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
+      </div>
+      <div class="footer__cta">
+        <h3 class="footer__cta-heading">Ready to work together?</h3>
+        <a href="samples.html" class="footer__cta-btn">Request a sample kit →</a>
+      </div>
+    </div>
+
+    <hr class="footer__divider">
+
+    <div class="footer__cols">
+      <div class="footer__col">
+        <span class="footer__col-title">Links</span>
+        <div class="footer__links">
+          <a href="#page-top" class="footer__link">Back to top</a>
+        </div>
       </div>
       <div class="footer__col">
-        <span class="t-label footer__col-title">Work</span>
+        <span class="footer__col-title">Work</span>
         <div class="footer__links">
           <a href="work.html"         class="footer__link">All projects</a>
           <a href="concepts.html"     class="footer__link">Concepts</a>
@@ -614,7 +501,7 @@
         </div>
       </div>
       <div class="footer__col">
-        <span class="t-label footer__col-title">Studio</span>
+        <span class="footer__col-title">Studio</span>
         <div class="footer__links">
           <a href="about.html"   class="footer__link">About</a>
           <a href="process.html" class="footer__link">Process</a>
@@ -622,22 +509,21 @@
         </div>
       </div>
       <div class="footer__col">
-        <span class="t-label footer__col-title">Contact</span>
+        <span class="footer__col-title">Contact</span>
         <div class="footer__links">
-          <a href="mailto:hello@pratikcreation.com" class="footer__link">
-            hello@pratikcreation.com
-          </a>
+          <a href="mailto:hello@pratikcreation.com" class="footer__link">hello@pratikcreation.com</a>
           <span class="footer__link" style="cursor:default">Mumbai, India</span>
-          <span class="footer__link" style="cursor:default">Est. 2007</span>
         </div>
       </div>
     </div>
 
-    <div class="footer__giant-outer">
-      <div class="footer__giant-wrap">
-        <span class="footer__giant">PRATIK·CREATION</span>
-      </div>
-      <span class="footer__badge">© <span class="footer-year"></span></span>
+    <div class="footer__giant-wrap">
+      <span class="footer__giant">PRATIK·CREATION</span>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">© <span class="footer-year"></span> Pratik Creation. Mumbai, India · Global delivery.</p>
+      <p class="footer__est">Est. 2007</p>
     </div>
   </footer>
 
