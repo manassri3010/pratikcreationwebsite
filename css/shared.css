@@ -42,6 +42,20 @@ ul, ol {
   list-style: none;
 }
 
+/* the reset above removes the native outline from button/input/
+   textarea/select; replace it with a visible, consistent ring on
+   every interactive element so keyboard focus is never invisible. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--c-ember, #FF4A00);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 
 /* ── 2. DESIGN TOKENS ───────────────────────────────────────── */
 
@@ -87,11 +101,32 @@ ul, ol {
   /* layout */
   --page-pad: 60px;       /* left/right page padding desktop */
   --page-pad-mob: 24px;   /* mobile */
-  --nav-h: 72px;          /* nav height */
+  --nav-h: 116px;         /* clearance below the floating nav pill (top offset + height + breathing room) */
+  --content-max: 1320px;  /* max content width on very wide screens */
 
   /* transitions */
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* ── redesign roles (2026) — aliases onto the palette above, not new
+     colours. Lets new component CSS read by role (bg/ink/accent/...)
+     while staying on the one palette the whole site already uses. ── */
+  --bg:          var(--c-bg);
+  --bg-tile:     #FBF9F5;              /* a touch whiter than --bg, for cards sitting on it */
+  --ink:         var(--c-ink);
+  --ink-soft:    var(--c-muted);       /* already contrast-checked, 5.1:1 on --bg */
+  --line:        var(--c-border);
+  --dark:        var(--c-ink);
+  --accent:      var(--c-ember);
+  --accent-text: var(--c-ember-text);  /* accent on paper, AA-safe */
+  --accent-on-dark: var(--c-ember-on-dark);
+  --accent-soft: rgba(255, 74, 0, 0.08);     /* tint fill for highlight tiles */
+  --accent-soft-line: rgba(255, 74, 0, 0.18);
+
+  /* radius scale */
+  --radius-tile: 24px;
+  --radius-btn:  12px;
+  --radius-pill: 999px;
 }
 
 
@@ -247,75 +282,105 @@ body {
 
 
 /* ── 6. NAV ─────────────────────────────────────────────────── */
+/* floating pill, on every page, from first paint — fixed 24px from the
+   top, wordmark left, links centre, primary button right. Gains a
+   stronger shadow once the page has scrolled 40–60px (.scrolled, set
+   by main.js) — not a shape change, just more emphasis. */
 
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: auto;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 100;
-  width: 100%;
-  height: var(--nav-h);
+  width: min(calc(100% - 48px), 1120px);
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--page-pad);
-  border-bottom: 1px solid transparent;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  transform: translateX(0);
-  transition:
-    top 0.4s var(--ease),
-    left 0.4s var(--ease),
-    width 0.4s var(--ease),
-    height 0.4s var(--ease),
-    padding 0.4s var(--ease),
-    border-radius 0.4s var(--ease),
-    background-color 0.4s var(--ease),
-    box-shadow 0.4s var(--ease),
-    border-color 0.35s var(--ease),
-    transform 0.4s var(--ease);
+  gap: var(--sp-24);
+  padding: 0 10px 0 28px;
+  border-radius: var(--radius-pill);
+  background: var(--c-bg);
+  box-shadow: 0 8px 24px rgba(13, 13, 13, 0.08), 0 1px 4px rgba(13, 13, 13, 0.04);
+  transition: box-shadow 0.3s var(--ease), top 0.3s var(--ease), width 0.3s var(--ease), height 0.3s var(--ease);
 }
 
-/* floating pill — class added by JS (main.js) once scrollY > 60.
-   Edge-to-edge/transparent at the top of the page, like the hero
-   sitting behind it; becomes an inset, rounded, solid-paper bar
-   with a shadow once the user scrolls. */
 .nav.scrolled {
   top: 16px;
-  left: 50%;
-  width: min(calc(100% - 48px), 1040px);
-  transform: translateX(-50%);
-  height: 60px;
-  padding: 0 28px;
-  border-radius: 999px;
-  background: var(--c-bg);
-  box-shadow: 0 12px 32px rgba(13, 13, 13, 0.12), 0 2px 10px rgba(13, 13, 13, 0.05);
-  border-bottom-color: transparent;
+  box-shadow: 0 16px 40px rgba(13, 13, 13, 0.14), 0 2px 10px rgba(13, 13, 13, 0.06);
 }
 
-/* text logo, not an <img> — js/logo-intro.js measures this element's
-   computed font-size to compute the intro-text shrink scale, so it has
-   to stay a real text node for that math to keep working. See brief
-   section 6.2. */
+/* text logo, not an <img> — stays a real text node (not an <img>) in
+   case a future measurement/animation needs its computed font-size. */
 .nav__logo {
+  position: relative;
+  flex-shrink: 0;
   font-family: var(--font-display);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--c-ink);
-  transition: opacity 0.2s;
+  transition: letter-spacing 0.5s ease;
+
+  /* foil-shimmer hover — a band of ember/white light sweeps across the
+     wordmark, like light catching a foil stamp. Always on, everywhere
+     the nav appears, since the nav is now always on its own solid pill
+     background rather than only over the hero video. */
+  background-image: linear-gradient(
+    100deg,
+    var(--c-ink) 0%,
+    var(--c-ink) 42%,
+    #000 48%,
+    var(--c-ember-text) 52%,
+    var(--c-ink) 58%,
+    var(--c-ink) 100%
+  );
+  background-size: 280% 100%;
+  background-position: 130% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition:
+    background-position 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing 0.5s ease;
 }
 
 .nav__logo:hover {
-  opacity: 0.6;
+  background-position: -80% 0;
+  letter-spacing: 0.08em;
 }
 
 .nav__links {
   display: flex;
   align-items: center;
   gap: var(--sp-32);
+}
+
+.nav__btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--radius-pill);
+  background: var(--c-ember);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.nav__btn:hover {
+  background: var(--c-ember-deep);
+}
+
+@media (max-width: 960px) {
+  .nav__btn { display: none; }
 }
 
 .nav__link {
@@ -675,33 +740,35 @@ body {
 
 
 /* ── 10. FOOTER ─────────────────────────────────────────────── */
-/* solid-ink block, same on every page: brand + CTA up top, a link
-   grid, a giant quiet background wordmark, copyright at the base. */
+/* solid-ink block, same on every page: brand line, a flat link row,
+   a giant quiet background wordmark, small print at the base. The
+   page's own closing-CTA tile (see CLOSING CTA below) sits just
+   above this in the page flow — the footer itself carries no CTA. */
 
 .footer {
   background: var(--c-ink);
   color: var(--c-bg);
-  padding: var(--sp-64) var(--page-pad) 0;
+  padding: var(--sp-48) var(--page-pad) 0;
   overflow: hidden;
 }
 
 .footer__top {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: var(--sp-48);
-  padding-bottom: var(--sp-48);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-24);
+  padding-bottom: var(--sp-32);
 }
 
 .footer__brand {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--sp-16);
 }
 
 .footer__dot {
   flex-shrink: 0;
-  margin-top: 6px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -721,40 +788,8 @@ body {
 
 .footer__tagline {
   font-size: 13px;
-  color: rgba(247, 244, 239, 0.55);
-  line-height: 1.65;
-  max-width: 260px;
-}
-
-.footer__cta {
-  text-align: right;
-}
-
-.footer__cta-heading {
-  font-family: var(--font-display);
-  font-size: clamp(22px, 2.8vw, 34px);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  margin-bottom: var(--sp-20);
-}
-
-.footer__cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-8);
-  background: var(--c-bg);
-  color: var(--c-ink);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  padding: 12px 22px;
-  border-radius: 999px;
-  transition: opacity 0.2s;
-}
-
-.footer__cta-btn:hover {
-  opacity: 0.85;
+  color: rgba(247, 244, 239, 0.6);
+  line-height: 1.5;
 }
 
 .footer__divider {
@@ -762,28 +797,11 @@ body {
   border-top: 1px solid rgba(247, 244, 239, 0.14);
 }
 
-.footer__cols {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--sp-48);
-  padding: var(--sp-48) 0;
-}
-
-.footer__col-title {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(247, 244, 239, 0.4);
-  margin-bottom: var(--sp-16);
-  display: block;
-}
-
 .footer__links {
   display: flex;
-  flex-direction: column;
-  gap: var(--sp-12);
+  flex-wrap: wrap;
+  gap: var(--sp-32);
+  padding: var(--sp-32) 0;
 }
 
 .footer__link {
@@ -839,20 +857,11 @@ body {
 }
 
 .footer__bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: var(--sp-24) 0;
   border-top: 1px solid rgba(247, 244, 239, 0.14);
 }
 
 .footer__copy {
-  font-size: 11px;
-  color: rgba(247, 244, 239, 0.45);
-}
-
-.footer__est {
-  font-family: var(--font-mono);
   font-size: 11px;
   color: rgba(247, 244, 239, 0.45);
 }
@@ -885,23 +894,26 @@ body {
 
 
 /* ── 12. BUTTON ─────────────────────────────────────────────── */
+/* primary: accent fill, white text. secondary: transparent, line
+   border. Both 56px tall, 12px radius, arrow glyph on the right. */
 
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-8);
+  height: 56px;
+  padding: 0 28px;
+  border-radius: var(--radius-btn);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  padding: 14px 28px;
+  letter-spacing: 0.02em;
   border: 1px solid var(--c-ink);
   color: var(--c-ink);
   background: transparent;
   cursor: pointer;
-  transition: background 0.25s var(--ease), color 0.25s var(--ease);
-  position: relative;
-  overflow: hidden;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
 }
 
 .btn:hover {
@@ -909,15 +921,701 @@ body {
   color: var(--c-bg);
 }
 
-/* filled variant */
+/* primary — accent fill, white text */
+.btn--primary,
 .btn--filled {
+  background: var(--c-ember);
+  border-color: var(--c-ember);
+  color: #fff;
+}
+
+.btn--primary:hover,
+.btn--filled:hover {
+  background: var(--c-ember-deep);
+  border-color: var(--c-ember-deep);
+  color: #fff;
+}
+
+/* secondary — transparent, line border (alias of the base .btn look,
+   named explicitly so markup can be unambiguous about intent) */
+.btn--secondary {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--c-ink);
+}
+
+.btn--secondary:hover {
   background: var(--c-ink);
+  border-color: var(--c-ink);
   color: var(--c-bg);
 }
 
-.btn--filled:hover {
-  background: #2a2a2a;
+@media (max-width: 640px) {
+  .btn { width: 100%; }
+}
+
+
+/* ── 12a. CLOSING CTA ───────────────────────────────────────── */
+/* one large centred rounded container, used at the end of a page's
+   content, just above the footer. */
+
+.cta-closing {
+  background: var(--c-ink);
   color: var(--c-bg);
+  border-radius: var(--radius-tile);
+  padding: var(--sp-80) var(--sp-32);
+  text-align: center;
+  max-width: var(--content-max);
+}
+
+.cta-closing__eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ember-on-dark);
+  margin-bottom: var(--sp-24);
+}
+
+.cta-closing__headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 640px;
+  margin: 0 auto var(--sp-16);
+}
+
+.cta-closing__headline em {
+  font-style: normal;
+  color: rgba(247, 244, 239, 0.55);
+}
+
+.cta-closing__sub {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(247, 244, 239, 0.6);
+  max-width: 440px;
+  margin: 0 auto var(--sp-32);
+}
+
+.cta-closing__small {
+  margin-top: var(--sp-24);
+  font-size: 12px;
+  color: rgba(247, 244, 239, 0.45);
+}
+
+@media (max-width: 640px) {
+  .cta-closing { padding: var(--sp-48) var(--page-pad-mob); }
+}
+
+
+/* ── 12b. SECTION HEADER ────────────────────────────────────── */
+/* eyebrow, two-line headline (line 2 in --ink-soft), one-line sub,
+   optional button — opens every major section site-wide. */
+
+.sec-header {
+  max-width: 720px;
+}
+
+.sec-header__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-32);
+}
+
+.sec-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: var(--sp-24);
+}
+
+.sec-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.sec-headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.2vw, 56px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: var(--sp-16);
+}
+
+.sec-headline em {
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
+.sec-sub {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 480px;
+}
+
+.sec-header__note {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-align: right;
+  max-width: 220px;
+}
+
+@media (max-width: 640px) {
+  .sec-header__row { flex-direction: column; align-items: flex-start; gap: var(--sp-16); }
+  .sec-header__note { text-align: left; }
+}
+
+
+/* ── 12c. TILE ──────────────────────────────────────────────── */
+/* default, accent-soft (tinted), dark (near-black), stat variants. */
+
+.tile {
+  background: var(--bg-tile);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-tile);
+  padding: var(--sp-32);
+  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(13, 13, 13, 0.22);
+}
+
+.tile--accent-soft {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft-line);
+}
+
+.tile--dark {
+  background: var(--dark);
+  border-color: rgba(247, 244, 239, 0.12);
+  color: var(--bg);
+}
+
+.tile--dark .tile__title { color: var(--bg); }
+.tile--dark .tile__desc  { color: rgba(247, 244, 239, 0.6); }
+.tile--dark:hover        { border-color: rgba(247, 244, 239, 0.3); }
+
+.tile__icon-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  display: block;
+  margin-bottom: var(--sp-20);
+}
+
+.tile__title {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.8vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--sp-8);
+}
+
+.tile__desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.tile__arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--sp-16);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.tile--dark .tile__arrow { color: var(--bg); }
+
+.tile-grid {
+  display: grid;
+  gap: var(--sp-24);
+}
+.tile-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.tile-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.tile-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 960px) {
+  .tile-grid--3, .tile-grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .tile-grid--2, .tile-grid--3, .tile-grid--4 { grid-template-columns: 1fr; }
+}
+
+
+/* ── 12d. STAT TILE ─────────────────────────────────────────── */
+
+.stat-tile {
+  padding: var(--sp-48) var(--sp-32);
+}
+
+.stat-tile__num {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 7vw, 120px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.stat-tile--dark .stat-tile__num { color: var(--bg); }
+
+.stat-tile__unit {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent-text);
+  margin-left: 6px;
+}
+
+.stat-tile--dark .stat-tile__unit { color: var(--accent-on-dark); }
+
+.stat-tile__caption {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-top: var(--sp-12);
+  max-width: 220px;
+}
+
+.stat-tile--dark .stat-tile__caption { color: rgba(247, 244, 239, 0.55); }
+
+.stat-tile__footnote {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-soft);
+  vertical-align: super;
+}
+
+/* row of stat tiles with hairline dividers between them */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.stat-row .stat-tile { border-right: 1px solid var(--line); }
+.stat-row .stat-tile:last-child { border-right: none; }
+
+@media (max-width: 640px) {
+  .stat-row { grid-template-columns: 1fr; }
+  .stat-row .stat-tile { border-right: none; border-bottom: 1px solid var(--line); }
+  .stat-row .stat-tile:last-child { border-bottom: none; }
+}
+
+
+/* ── 12e. CHIP ROW ──────────────────────────────────────────── */
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-12);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--ink-soft);
+}
+
+.chip::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* light variant, for chips sitting on a dark/hero background */
+.chip--on-dark {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+
+/* ── 12f. COMPARISON CARD PAIR ──────────────────────────────── */
+
+.compare-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-24);
+}
+
+.compare-card {
+  background: var(--bg-tile);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-tile);
+  padding: var(--sp-32);
+}
+
+.compare-card--highlight {
+  background: var(--dark);
+  color: var(--bg);
+  border-color: var(--dark);
+}
+
+.compare-card__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: block;
+  margin-bottom: var(--sp-24);
+}
+
+.compare-card--highlight .compare-card__label { color: rgba(247, 244, 239, 0.5); }
+
+.compare-card__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-12);
+}
+
+.compare-card__step {
+  font-size: 14px;
+  line-height: 1.5;
+  padding-bottom: var(--sp-12);
+  border-bottom: 1px solid var(--line);
+}
+
+.compare-card--highlight .compare-card__step { border-color: rgba(247, 244, 239, 0.14); }
+.compare-card__step:last-child { border-bottom: none; padding-bottom: 0; }
+
+.compare-card__body {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+}
+
+.compare-card--highlight .compare-card__body { color: rgba(247, 244, 239, 0.72); }
+
+@media (max-width: 640px) {
+  .compare-pair { grid-template-columns: 1fr; }
+}
+
+
+/* ── 12g. PROCESS STEPPER ───────────────────────────────────── */
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-8);
+}
+
+.stepper__step {
+  flex: 1;
+  position: relative;
+  padding-top: var(--sp-32);
+}
+
+.stepper__node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.stepper__line {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  right: calc(-1 * var(--sp-8));
+  height: 1px;
+  background: var(--line);
+}
+
+.stepper__step:last-child .stepper__line { display: none; }
+
+.stepper__num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-soft);
+  display: block;
+  margin-bottom: var(--sp-12);
+}
+
+.stepper__title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--sp-8);
+}
+
+.stepper__desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 220px;
+}
+
+@media (max-width: 640px) {
+  .stepper { flex-direction: column; gap: var(--sp-32); }
+  .stepper__line { display: none; }
+  .stepper__desc { max-width: none; }
+}
+
+
+/* ── 12h. DATA TABLE (dark) ─────────────────────────────────── */
+/* the lead-times table design — dark section, mono figures, accent
+   on the fast column. Generalised so any page can reuse it. */
+
+.data-table-wrap { width: 100%; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.4);
+  padding: var(--sp-16) var(--sp-16) var(--sp-16) 0;
+  text-align: left;
+  border-bottom: 1px solid rgba(247, 244, 239, 0.12);
+}
+
+.data-table td {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--bg);
+  padding: var(--sp-20) var(--sp-16) var(--sp-20) 0;
+  border-bottom: 1px solid rgba(247, 244, 239, 0.08);
+  vertical-align: middle;
+}
+
+.data-table td:first-child {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.data-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(247, 244, 239, 0.08);
+  color: rgba(247, 244, 239, 0.7);
+}
+
+.data-badge--accent {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+@media (max-width: 640px) {
+  .data-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .data-table th:first-child,
+  .data-table td:first-child { position: sticky; left: 0; background: var(--dark); }
+}
+
+
+/* ── 12i. ACCORDION ─────────────────────────────────────────── */
+/* toggled by main.js: click adds/removes .open on .accordion__item
+   and sets the panel's max-height to its measured scrollHeight. */
+
+.accordion__item {
+  border-bottom: 1px solid var(--line);
+}
+.accordion__item:first-child { border-top: 1px solid var(--line); }
+
+.accordion__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-24);
+  padding: var(--sp-24) 0;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.accordion__chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  transition: transform 0.3s var(--ease);
+}
+
+.accordion__chevron::before,
+.accordion__chevron::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 1px;
+  background: var(--ink);
+}
+.accordion__chevron::before { transform: translate(-80%, -50%) rotate(45deg); }
+.accordion__chevron::after  { transform: translate(-20%, -50%) rotate(-45deg); }
+
+.accordion__item.open .accordion__chevron { transform: rotate(180deg); }
+
+.accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s var(--ease-out);
+}
+
+.accordion__panel-inner {
+  padding-bottom: var(--sp-24);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  max-width: 560px;
+}
+
+
+/* ── 12j. LOGO STRIP ────────────────────────────────────────── */
+
+.logo-strip {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-tile);
+  padding: var(--sp-48) var(--sp-32);
+}
+
+.logo-strip__label {
+  display: block;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: var(--sp-32);
+}
+
+.logo-strip__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--sp-48);
+}
+
+.logo-strip__item {
+  filter: grayscale(1);
+  opacity: 0.55;
+  max-height: 28px;
+  transition: opacity 0.2s;
+}
+.logo-strip__item:hover { opacity: 0.9; }
+
+/* text fallback when a logo image is missing */
+.logo-strip__name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: -0.01em;
+}
+
+
+/* ── 12k. DOT-GRID TEXTURE ──────────────────────────────────── */
+/* faint background texture for light sections — 1px dots, 24px
+   spacing, low opacity. Optional: add .bg-dots to a section. */
+
+.bg-dots {
+  background-image: radial-gradient(rgba(13, 13, 13, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+
+/* ── 12l. DEV FLAGS / PHOTO PLACEHOLDER ─────────────────────── */
+/* [PROOF] / [CONFIRM] markers and image placeholders. The flag text
+   is hidden by default (fails safe on the live domain) and only
+   shown once main.js confirms this isn't the production hostname —
+   see js/main.js "DEV FLAGS". The grey placeholder tile itself is
+   fine to ship either way; only the literal label text is dev-only. */
+
+.dev-flag {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #B3261E;
+  padding: 3px 8px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+html.show-dev-flags .dev-flag {
+  display: inline-flex;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  background: #E3DED5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+}
+
+.photo-placeholder__label {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(13, 13, 13, 0.35);
+}
+
+html.show-dev-flags .photo-placeholder__label {
+  display: block;
 }
 
 
@@ -1001,6 +1699,35 @@ body {
 .reveal-d3 { transition-delay: 0.24s; }
 .reveal-d4 { transition-delay: 0.32s; }
 .reveal-d5 { transition-delay: 0.40s; }
+
+/* respect the OS-level motion preference: content still appears
+   (via main.js's IntersectionObserver, which still adds .in), it
+   just doesn't animate in — and the marquee/shimmer/count-up stop
+   moving too. See also main.js, which skips the count-up tween
+   entirely under this same preference. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee__track {
+    animation: none;
+  }
+  .nav__logo {
+    transition: none;
+  }
+  .nav__logo:hover {
+    background-position: 130% 0;
+  }
+  .accordion__panel,
+  .accordion__chevron,
+  .tile,
+  .footer__link::after,
+  .nav {
+    transition: none;
+  }
+}
 
 
 /* ── 16. FULL-WIDTH IMAGE ───────────────────────────────────── */
@@ -1222,7 +1949,7 @@ body {
 @media (max-width: 900px) {
   :root {
     --page-pad: var(--page-pad-mob);
-    --nav-h: 60px;
+    --nav-h: 92px;
   }
 
   body {
@@ -1234,11 +1961,15 @@ body {
   .nav__links { display: none; }
   .nav__hamburger { display: flex; }
 
-  .nav.scrolled {
+  .nav {
     top: 12px;
     width: calc(100% - 32px);
     height: 54px;
-    padding: 0 20px;
+    padding: 0 8px 0 20px;
+  }
+
+  .nav.scrolled {
+    top: 12px;
   }
 
   .section { padding-top: var(--sp-80); padding-bottom: var(--sp-80); }
@@ -1247,10 +1978,7 @@ body {
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .sidebar-layout { grid-template-columns: 1fr; gap: var(--sp-32); }
 
-  .footer__top { grid-template-columns: 1fr; gap: var(--sp-32); }
-  .footer__cta { text-align: left; }
-  .footer__cols { grid-template-columns: 1fr 1fr; gap: var(--sp-32); }
-  .footer__bottom { flex-direction: column; gap: var(--sp-12); align-items: flex-start; }
+  .footer__links { gap: var(--sp-20); }
 
   .cap-strip { flex-direction: column; }
   .cap-item { border-right: none; border-bottom: 1px solid var(--c-border); }

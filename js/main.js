@@ -138,7 +138,91 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* ── 8. SAMPLE FORM — posts to Web3Forms so requests actually reach
+  /* ── 7. STAT COUNT-UP ──────────────────────────────────────── */
+  /* any element with data-count="<integer>" (optional data-suffix)
+     counts up once, the first time it scrolls into view. Skipped
+     entirely under prefers-reduced-motion — the final number is
+     shown immediately instead. */
+  const countEls = document.querySelectorAll('[data-count]');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animateCount(el, duration = 1400) {
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+
+    if (prefersReducedMotion || Number.isNaN(target)) {
+      el.textContent = (Number.isNaN(target) ? el.dataset.count : target) + suffix;
+      return;
+    }
+
+    const start = performance.now();
+    const tick = now => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target + suffix;
+    };
+    requestAnimationFrame(tick);
+  }
+
+  if (countEls.length) {
+    const countObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const group = entry.target.querySelectorAll('[data-count]');
+        const els = group.length ? group : [entry.target];
+        els.forEach((el, i) => setTimeout(() => animateCount(el), i * 120));
+        countObs.unobserve(entry.target);
+      });
+    }, { threshold: 0.5 });
+
+    // observe shared ancestors once (so counters in the same row/strip
+    // stagger together) rather than each element individually
+    const countGroups = new Set();
+    countEls.forEach(el => countGroups.add(el.closest('[data-count-group]') || el.parentElement.parentElement || el));
+    countGroups.forEach(group => countObs.observe(group));
+  }
+
+
+  /* ── 8. ACCORDION ──────────────────────────────────────────── */
+  document.querySelectorAll('.accordion__trigger').forEach(trigger => {
+    const item  = trigger.closest('.accordion__item');
+    const panel = item.querySelector('.accordion__panel');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    trigger.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+
+      // close any open sibling in the same accordion (single-open UX)
+      const parent = item.parentElement;
+      parent.querySelectorAll('.accordion__item.open').forEach(sibling => {
+        if (sibling !== item) {
+          sibling.classList.remove('open');
+          sibling.querySelector('.accordion__panel').style.maxHeight = '';
+          sibling.querySelector('.accordion__trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      item.classList.toggle('open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.style.maxHeight = isOpen ? '' : panel.scrollHeight + 'px';
+    });
+  });
+
+
+  /* ── 9. DEV FLAGS ──────────────────────────────────────────── */
+  /* [PROOF]/[CONFIRM] markers and "Photo coming" labels are hidden by
+     default (see shared.css) and only switched on when this isn't the
+     live production domain — fails safe toward "hidden" everywhere
+     except known dev/preview hosts. */
+  const LIVE_HOSTS = ['pratikcreation.co.in', 'www.pratikcreation.co.in'];
+  if (!LIVE_HOSTS.includes(window.location.hostname)) {
+    document.documentElement.classList.add('show-dev-flags');
+  }
+
+
+  /* ── 10. SAMPLE FORM — posts to Web3Forms so requests actually reach
      an inbox instead of vanishing; falls back to a real page POST
      (via the form's own action/method) if JS fails to run at all. ── */
   const sampleForm = document.querySelector('.sample-form');
@@ -186,10 +270,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-
-  /* ── 9. FOOTER YEAR ────────────────────────────────────────── */
-  const yearEl = document.querySelector('.footer-year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 });
