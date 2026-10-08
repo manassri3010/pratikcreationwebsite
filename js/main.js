@@ -230,6 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn         = sampleForm.querySelector('.sample-form__submit');
     const btnDefault  = btn.textContent;
     const errorEl     = sampleForm.querySelector('.sample-form__error');
+    const successEl   = sampleForm.querySelector('.sample-form__success');
+    const noteEl      = sampleForm.querySelector('.sample-form__note');
 
     sampleForm.addEventListener('submit', async e => {
       e.preventDefault();
@@ -255,11 +257,15 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.textContent = 'Request received ✓';
         btn.style.background = '#1C2B1E';
         btn.style.borderColor = '#1C2B1E';
+        if (noteEl) noteEl.hidden = true;
+        if (successEl) successEl.hidden = false;
         setTimeout(() => {
           btn.textContent = btnDefault;
           btn.style.background = ''; btn.style.borderColor = '';
           btn.disabled = false; sampleForm.reset();
-        }, 4000);
+          if (successEl) successEl.hidden = true;
+          if (noteEl) noteEl.hidden = false;
+        }, 5000);
       } catch (err) {
         btn.textContent = btnDefault;
         btn.disabled = false;
