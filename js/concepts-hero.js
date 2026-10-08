@@ -97,19 +97,19 @@ document.addEventListener('DOMContentLoaded', () => {
      it reads on touch devices too), laid out on the same dense
      bento grid as work.html. ─────────────────────────────────── */
   const GALLERY_IMAGES = [
-    { src: 'images/concepts/good-hour.png',    alt: 'Good Hour — coffee cup carrier',        title: 'Good Hour — Coffee Carrier',   sub: 'Die-cut cardboard, bold type' },
-    { src: 'images/concepts/loafer.png',       alt: 'Loafer — bakery box, two colorways',    title: 'Loafer — Bakery Box',          sub: 'Two-tone kraft, fresh-daily branding' },
-    { src: 'images/concepts/good-measure.jpg', alt: 'Good Measure — sock bands, three colorways', title: 'Good Measure — Sock Bands', sub: 'Ribbed cotton, tonal colorways' },
-    { src: 'images/concepts/amara.jpg',        alt: 'Amara — sparkling yerba mate can carrier', title: 'Amara — Can Carrier',        sub: 'Sparkling yerba mate, 6-pack' },
-    { src: 'images/concepts/daybreak.jpg',     alt: 'Daybreak — cold brew shipper boxes',    title: 'Daybreak — Shipper Box',       sub: 'Cold brew subscription mailer' },
-    { src: 'images/concepts/pace.jpg',         alt: 'Pace — mailer box die-line',            title: 'Pace — Mailer Die-Line',       sub: 'Two-tone kraft, bold interior print' },
-    { src: 'images/concepts/ember.jpg',        alt: 'Ember — stacked clamshell takeout boxes', title: 'Ember — Clamshell Box',      sub: 'Stacked service-line packaging' },
-    { src: 'images/concepts/eave.jpg',         alt: 'Eave — layered hang tag pair',          title: 'Eave — Hangtag Pair',          sub: 'Layered stock, translucent overlay' },
-    { src: 'images/concepts/meridian.jpg',     alt: 'Meridian — glossy gift bag',            title: 'Meridian — Gift Bag',          sub: 'Gloss finish, minimal wordmark' },
-    { src: 'images/concepts/nume.jpg',         alt: 'Nume — cream shopping bags with ribbon handles', title: 'Nume — Shopping Bag', sub: 'Ribbon handle, boutique-weight stock' },
-    { src: 'images/concepts/glow.jpg',         alt: '[glow] — business card, front and back', title: '[glow] — Business Card',     sub: 'Spot color, front and back' },
-    { src: 'images/concepts/drift.jpg',        alt: 'Drift — hand-lettered business cards',  title: 'Drift — Business Card',        sub: 'Hand-lettered, layered stock' },
-    { src: 'images/concepts/slab.jpg',         alt: 'Slab — matte black gable box',          title: 'Slab — Gable Box',             sub: 'Matte black, single-color print' }
+    { src: 'images/concepts/good-hour.jpg',    w: 1024, h: 559,  alt: 'Good Hour — coffee cup carrier',        title: 'Good Hour — Coffee Carrier',   sub: 'Die-cut cardboard, bold type' },
+    { src: 'images/concepts/loafer.jpg',       w: 1024, h: 559,  alt: 'Loafer — bakery box, two colorways',    title: 'Loafer — Bakery Box',          sub: 'Two-tone kraft, fresh-daily branding' },
+    { src: 'images/concepts/good-measure.jpg', w: 1400, h: 764,  alt: 'Good Measure — sock bands, three colorways', title: 'Good Measure — Sock Bands', sub: 'Ribbed cotton, tonal colorways' },
+    { src: 'images/concepts/amara.jpg',        w: 1400, h: 764,  alt: 'Amara — sparkling yerba mate can carrier', title: 'Amara — Can Carrier',        sub: 'Sparkling yerba mate, 6-pack' },
+    { src: 'images/concepts/daybreak.jpg',     w: 921,  h: 1152, alt: 'Daybreak — cold brew shipper boxes',    title: 'Daybreak — Shipper Box',       sub: 'Cold brew subscription mailer' },
+    { src: 'images/concepts/pace.jpg',         w: 1024, h: 1024, alt: 'Pace — mailer box die-line',            title: 'Pace — Mailer Die-Line',       sub: 'Two-tone kraft, bold interior print' },
+    { src: 'images/concepts/ember.jpg',        w: 896,  h: 1195, alt: 'Ember — stacked clamshell takeout boxes', title: 'Ember — Clamshell Box',      sub: 'Stacked service-line packaging' },
+    { src: 'images/concepts/eave.jpg',         w: 1400, h: 764,  alt: 'Eave — layered hang tag pair',          title: 'Eave — Hangtag Pair',          sub: 'Layered stock, translucent overlay' },
+    { src: 'images/concepts/meridian.jpg',     w: 1400, h: 764,  alt: 'Meridian — glossy gift bag',            title: 'Meridian — Gift Bag',          sub: 'Gloss finish, minimal wordmark' },
+    { src: 'images/concepts/nume.jpg',         w: 1400, h: 764,  alt: 'Nume — cream shopping bags with ribbon handles', title: 'Nume — Shopping Bag', sub: 'Ribbon handle, boutique-weight stock' },
+    { src: 'images/concepts/glow.jpg',         w: 1400, h: 764,  alt: '[glow] — business card, front and back', title: '[glow] — Business Card',     sub: 'Spot color, front and back' },
+    { src: 'images/concepts/drift.jpg',        w: 1400, h: 764,  alt: 'Drift — hand-lettered business cards',  title: 'Drift — Business Card',        sub: 'Hand-lettered, layered stock' },
+    { src: 'images/concepts/slab.jpg',         w: 1400, h: 764,  alt: 'Slab — matte black gable box',          title: 'Slab — Gable Box',             sub: 'Matte black, single-color print' }
   ];
 
   // repeating size pattern -> the asymmetric/bento rhythm (see CSS .size-*).
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const gallery = document.getElementById('workGallery');
   if (gallery) {
-    GALLERY_IMAGES.forEach(({ src, alt, title, sub }, i) => {
+    GALLERY_IMAGES.forEach(({ src, w, h, alt, title, sub }, i) => {
       const entry = document.createElement('div');
       entry.className = `work-gallery__entry size-${GALLERY_SIZE_PATTERN[i % GALLERY_SIZE_PATTERN.length]}`;
 
@@ -135,6 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
       img.src = src;
       img.alt = alt;
       img.loading = 'lazy';
+      // intrinsic size so the browser reserves the right box before the
+      // file has even started downloading — stops the gallery jumping
+      // around as 13 photos load in, which is what reads as "slow".
+      img.width = w;
+      img.height = h;
       img.dataset.title = title;
       img.dataset.sub = sub;
       item.appendChild(img);
