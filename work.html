@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F7F4EF">
   <meta name="description" content="Our work — Premium packaging projects for fashion and fragrance brands across the UK, UAE, and India.">
   <title>Work — Pratik Creation</title>
   <link rel="canonical" href="https://pratikcreation.co.in/work">
@@ -21,10 +22,10 @@
   <meta name="twitter:image" content="https://pratikcreation.co.in/images/projects/suzao/hero.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@300;400;500&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
   <style>
-    :root { --work-orange: #D2531F; }
+    :root { --work-orange: var(--c-ember); }
     .work-page { padding-top: var(--nav-h); position: relative; }
 
     /* giant fixed "WORK" wordmark — permanent background layer, never scrolls.
@@ -40,7 +41,7 @@
       padding-left: var(--page-pad);
       padding-top: var(--sp-16);
       font-family: var(--font-display);
-      font-weight: 700;
+      font-weight: 600;
       font-size: clamp(110px, 15vw, 260px);
       line-height: 1;
       letter-spacing: -0.03em;
@@ -56,7 +57,7 @@
     .work-cross {
       font-family: var(--font-display);
       font-size: 26px;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 1;
       color: var(--work-orange);
       user-select: none;
@@ -131,7 +132,7 @@
     .work-hero__item-title {
       font-family: var(--font-display);
       font-size: clamp(26px, 3.6vw, 46px);
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.1;
       transition: color 0.3s var(--ease), transform 0.3s var(--ease-out);
@@ -140,7 +141,7 @@
     .work-hero__item:hover .work-hero__item-title,
     .work-hero__item:focus-visible .work-hero__item-title,
     .work-hero__item.is-active .work-hero__item-title {
-      color: var(--c-gold);
+      color: var(--c-ember-text);
       transform: translateX(8px);
     }
 
@@ -175,7 +176,7 @@
       justify-content: center;
       border-radius: 2px;
       font-family: var(--font-display);
-      font-weight: 700;
+      font-weight: 600;
       font-size: clamp(22px, 3vw, 34px);
       letter-spacing: -0.01em;
       color: var(--c-ink);
@@ -332,7 +333,7 @@
 
   <!-- NAV -->
   <nav class="nav" role="navigation">
-    <a href="index.html" class="nav__logo">PRATIK<span class="nav__logo-dot">·</span>CREATION</a>
+    <a href="index.html" class="nav__logo">pratik creation</a>
     <ul class="nav__links" role="list">
       <li><a href="work.html"      class="nav__link active">Work</a></li>
       <li><a href="concepts.html"  class="nav__link">Concepts</a></li>
@@ -426,7 +427,7 @@
   <footer class="footer">
     <div class="footer__top">
       <div>
-        <a href="index.html" class="footer__logo">PRATIK·CREATION</a>
+        <a href="index.html" class="footer__logo"><img src="images/brand/pratik-creation-wordmark-black.svg" alt="pratik creation" style="height:22px;width:auto;display:block"></a>
         <p class="footer__tagline">Premium packaging for fashion and fragrance brands. Crafted in Mumbai. Delivered worldwide.</p>
       </div>
       <div>
