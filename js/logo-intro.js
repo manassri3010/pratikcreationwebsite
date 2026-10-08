@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // event fires onUpdate, causing a visible "jump" into place
   applyProgress(0);
 
-  // SAFETY NET: the very first measure() above can run before the Syne
+  // SAFETY NET: the very first measure() above can run before the Poppins
   // webfont has actually finished loading, so it may measure against
   // fallback-font metrics. Once the real font is confirmed ready, the
   // browser reflows the text to its true size — so we re-measure and

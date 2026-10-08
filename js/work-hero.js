@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // web fonts (Syne) load async and can reflow the giant wordmark/list
+    // web fonts (Poppins) load async and can reflow the giant wordmark/list
     // after ScrollTrigger has already cached its trigger positions —
     // refresh once they're actually in so those positions stay accurate
     if (document.fonts && document.fonts.ready) {
