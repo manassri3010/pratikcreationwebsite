@@ -574,7 +574,7 @@ body {
 
 .marquee__item::after {
   content: '·';
-  color: var(--c-ember-on-dark);
+  color: var(--c-ember-text);
   font-size: 18px;
   line-height: 1;
 }

@@ -33,42 +33,40 @@
     /* ── PAGE-SPECIFIC: homepage ── */
 
     /* ══════════════════════════════════════════════════════════
-       FIXED VIDEO BACKGROUND
-       The video sits behind the entire page, permanently — it does
-       not scroll, does not move, and never restarts/re-triggers.
-       All copy across every section keeps its current wording;
-       only colour changes: --c-ink/--c-muted/--c-border/--c-hover-bg
-       are redefined here to light/transparent variants so the same
-       classes used site-wide (t-label, headings, dividers, hover
-       tints) automatically read correctly over the video instead of
-       over the old off-white background.
+       HERO VIDEO BACKGROUND
+       The video is scoped to the hero section only — it scrolls
+       away with the hero like a normal section background, instead
+       of staying pinned behind the whole page. --c-ink/--c-muted/
+       --c-border/--c-hover-bg are redefined on .hero only (to light/
+       transparent variants, so the same classes used site-wide —
+       t-label, headings, dividers, hover tints — read correctly
+       over the video); everything after the hero falls back to the
+       normal site tokens, same as every other page.
        ══════════════════════════════════════════════════════════ */
 
-    body {
-      --c-ink:       rgba(255, 255, 255, 0.94);
-      --c-muted:     rgba(255, 255, 255, 0.62);
-      --c-border:    rgba(255, 255, 255, 0.18);
-      --c-hover-bg:  rgba(255, 255, 255, 0.06);
-      background: transparent;
-    }
-
     .bg-video {
-      position: fixed;
+      position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1;   /* behind all page content, always */
+      z-index: -1;   /* behind the hero's own content only */
     }
 
-    /* ── hero (video is now page-level, this is just the copy) ── */
+    /* ── hero ── */
     .hero {
+      --c-ink:       rgba(255, 255, 255, 0.94);
+      --c-muted:     rgba(255, 255, 255, 0.62);
+      --c-border:    rgba(255, 255, 255, 0.18);
+      --c-hover-bg:  rgba(255, 255, 255, 0.06);
+      background: #0a0a0a; /* fallback while the video loads */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       padding-top: var(--nav-h);
       position: relative;
+      overflow: hidden;
     }
 
     .hero__inner {
@@ -134,18 +132,21 @@
 
     .hero__cta:hover { color: var(--c-muted); }
 
-    /* ── nav — always the light variant now, page bg is always video ── */
-    .nav .nav__link {
+    /* ── nav — light variant while it's sitting over the hero video;
+       switches back to the normal dark-on-paper nav (shared.css's
+       plain defaults) once scrolled past the hero, via the
+       .nav--on-light class toggled by the inline script below. ── */
+    .nav:not(.nav--on-light) .nav__link {
       color: rgba(255, 255, 255, 0.75);
     }
-    .nav .nav__link:hover,
-    .nav .nav__link.active {
+    .nav:not(.nav--on-light) .nav__link:hover,
+    .nav:not(.nav--on-light) .nav__link.active {
       color: #FFFFFF;
     }
-    .nav .nav__link::after {
+    .nav:not(.nav--on-light) .nav__link::after {
       background: #FFFFFF;
     }
-    .nav .nav__link--cta {
+    .nav:not(.nav--on-light) .nav__link--cta {
       color: #FFFFFF;
     }
     .nav .nav__btn,
@@ -154,8 +155,9 @@
     }
 
     /* ── nav logo: foil-shimmer hover — a band of ember/white light
-       sweeps across the wordmark, like light catching a foil stamp ── */
-    .nav .nav__logo {
+       sweeps across the wordmark, like light catching a foil stamp.
+       Only while over the hero video; plain text once past it. ── */
+    .nav:not(.nav--on-light) .nav__logo {
       position: relative;
       background-image: linear-gradient(
         100deg,
@@ -176,7 +178,7 @@
         background-position 0.9s cubic-bezier(0.16, 1, 0.3, 1),
         letter-spacing 0.5s ease;
     }
-    .nav .nav__logo:hover {
+    .nav:not(.nav--on-light) .nav__logo:hover {
       background-position: -80% 0;
       letter-spacing: 0.12em;
       opacity: 1;
@@ -334,7 +336,7 @@
       font-size: clamp(90px, 15vw, 250px);
       line-height: 1;
       letter-spacing: -0.01em;
-      color: rgba(255, 255, 255, 0.28);
+      color: rgba(13, 13, 13, 0.08);
       white-space: nowrap;
       user-select: none;
     }
@@ -371,24 +373,6 @@
   </style>
 </head>
 <body>
-
-  <!-- fixed video background — locked in place, sits behind the entire
-       page at all times, never scrolls, never restarts. Plays
-       immediately on load; fades out near the footer (see
-       js/footer-video-fade.js). -->
-  <video
-    class="bg-video"
-    id="bgVideo"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-    aria-hidden="true"
-  >
-    <source src="images/video/hero.webm" type="video/webm">
-    <source src="images/video/hero.mp4"  type="video/mp4">
-  </video>
 
   <!-- page transition overlay -->
   <div class="page-transition" style="opacity:1;pointer-events:all;position:fixed;inset:0;z-index:200;background:var(--c-bg)"></div>
@@ -436,6 +420,23 @@
 
   <!-- ── HERO ── -->
   <section class="hero" aria-label="Introduction">
+
+    <!-- video background — scoped to the hero, scrolls away with it
+         like a normal section background. Plays immediately on load. -->
+    <video
+      class="bg-video"
+      id="bgVideo"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+    >
+      <source src="images/video/hero.webm" type="video/webm">
+      <source src="images/video/hero.mp4"  type="video/mp4">
+    </video>
+
     <div class="hero__inner container">
 
       <p class="t-label hero__eyebrow reveal">
@@ -639,12 +640,21 @@
   </footer>
 
 
-  <!-- GSAP + ScrollTrigger — drives the fixed background video fading
-       out near the footer (see js/footer-video-fade.js) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/footer-video-fade.js"></script>
-
   <script src="js/main.js"></script>
+  <script>
+    /* ── nav theme switch: light-on-video while over the hero,
+       plain dark-on-paper (shared.css defaults) once scrolled past
+       it — matches every other page's nav from that point on. ── */
+    (function () {
+      const heroEl = document.querySelector('.hero');
+      const navEl  = document.querySelector('.nav');
+      if (!heroEl || !navEl) return;
+      const updateNavTheme = () => {
+        navEl.classList.toggle('nav--on-light', heroEl.getBoundingClientRect().bottom <= 0);
+      };
+      window.addEventListener('scroll', updateNavTheme, { passive: true });
+      updateNavTheme();
+    })();
+  </script>
 </body>
 </html>
