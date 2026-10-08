@@ -132,21 +132,23 @@
 
     .hero__cta:hover { color: var(--c-muted); }
 
-    /* ── nav — light variant while it's sitting over the hero video;
-       switches back to the normal dark-on-paper nav (shared.css's
-       plain defaults) once scrolled past the hero, via the
-       .nav--on-light class toggled by the inline script below. ── */
-    .nav:not(.nav--on-light) .nav__link {
+    /* ── nav — light variant only in its very first, edge-to-edge
+       state over the hero video. The moment it becomes the floating
+       pill (.scrolled, see shared.css — triggers at 60px scroll,
+       well before the hero has scrolled away), its own solid-paper
+       background takes over and it falls back to shared.css's plain
+       dark-on-paper nav styling, same as every other page. ── */
+    .nav:not(.scrolled) .nav__link {
       color: rgba(255, 255, 255, 0.75);
     }
-    .nav:not(.nav--on-light) .nav__link:hover,
-    .nav:not(.nav--on-light) .nav__link.active {
+    .nav:not(.scrolled) .nav__link:hover,
+    .nav:not(.scrolled) .nav__link.active {
       color: #FFFFFF;
     }
-    .nav:not(.nav--on-light) .nav__link::after {
+    .nav:not(.scrolled) .nav__link::after {
       background: #FFFFFF;
     }
-    .nav:not(.nav--on-light) .nav__link--cta {
+    .nav:not(.scrolled) .nav__link--cta {
       color: #FFFFFF;
     }
     .nav .nav__btn,
@@ -157,7 +159,7 @@
     /* ── nav logo: foil-shimmer hover — a band of ember/white light
        sweeps across the wordmark, like light catching a foil stamp.
        Only while over the hero video; plain text once past it. ── */
-    .nav:not(.nav--on-light) .nav__logo {
+    .nav:not(.scrolled) .nav__logo {
       position: relative;
       background-image: linear-gradient(
         100deg,
@@ -178,7 +180,7 @@
         background-position 0.9s cubic-bezier(0.16, 1, 0.3, 1),
         letter-spacing 0.5s ease;
     }
-    .nav:not(.nav--on-light) .nav__logo:hover {
+    .nav:not(.scrolled) .nav__logo:hover {
       background-position: -80% 0;
       letter-spacing: 0.12em;
       opacity: 1;
@@ -641,20 +643,5 @@
 
 
   <script src="js/main.js"></script>
-  <script>
-    /* ── nav theme switch: light-on-video while over the hero,
-       plain dark-on-paper (shared.css defaults) once scrolled past
-       it — matches every other page's nav from that point on. ── */
-    (function () {
-      const heroEl = document.querySelector('.hero');
-      const navEl  = document.querySelector('.nav');
-      if (!heroEl || !navEl) return;
-      const updateNavTheme = () => {
-        navEl.classList.toggle('nav--on-light', heroEl.getBoundingClientRect().bottom <= 0);
-      };
-      window.addEventListener('scroll', updateNavTheme, { passive: true });
-      updateNavTheme();
-    })();
-  </script>
 </body>
 </html>
