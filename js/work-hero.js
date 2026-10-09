@@ -89,29 +89,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (items[0]) selectItem(items[0]);
 
 
-  /* ── Zone 2: unified scroll gallery — flat list, all brands mixed,
-     no per-brand filtering. Each entry carries a short caption (title +
-     one supporting line) and is laid out on a dense bento grid so cell
-     sizes vary instead of sitting in a uniform row/column grid. ────── */
+  /* ── Zone 2: unified scroll gallery. Only Inlook has confirmed, real
+     product photography right now (see pratik-content.md's placeholder
+     list — Cambridge Apparels, Teamo and the UK brand are still
+     waiting on real photos, so they don't appear here; no AI-generated
+     imagery is used to fill the gap). Each entry carries a short
+     caption and is laid out on a dense bento grid so cell sizes vary
+     instead of sitting in a uniform row/column grid. ───────────────── */
   const GALLERY_IMAGES = [
-    { src: 'images/projects/suzao/hero.png',        alt: 'Studio Suzao — full card set',    title: 'Studio Suzao — Card Set',        sub: 'Spot UV, soft-touch finish' },
-    { src: 'images/projects/matiere/hero.png',       alt: 'MATIÈRE — No. 07 Vétiver',        title: 'MATIÈRE — No. 07 Vétiver',       sub: 'Blind deboss, gold foil' },
-    { src: 'images/projects/inlook/hero.png',        alt: 'IN LOOK — hang tag',              title: 'IN LOOK — Hangtag',              sub: 'Foil print, waxed cord' },
-    { src: 'images/projects/r/wine-bag-cream.png',   alt: 'R. — wine bag, cream',            title: 'R. — Wine Bag, Cream',           sub: 'Die-cut handle, foil print' },
-    { src: 'images/projects/suzao/card-front.png',   alt: 'Studio Suzao — card front',       title: 'Studio Suzao — Card Front',      sub: 'Brand identity print' },
-    { src: 'images/projects/matiere/matiere.jpeg',   alt: 'MATIÈRE — full fragrance set',    title: 'MATIÈRE — Fragrance Set',        sub: 'Matte box, tonal palette' },
-    { src: 'images/projects/inlook/multi.png',       alt: 'IN LOOK — tag colorways',         title: 'IN LOOK — Tag Colorways',        sub: 'Three-way foil variant' },
-    { src: 'images/projects/r/wine-bag-black.png',   alt: 'R. — wine bag, black',            title: 'R. — Wine Bag, Black',           sub: 'Gold foil on matte black' },
-    { src: 'images/projects/suzao/card-back.png',    alt: 'Studio Suzao — card back',        title: 'Studio Suzao — Card Back',       sub: 'Brand identity print' },
-    { src: 'images/projects/suzao/tag.png',          alt: 'Studio Suzao — hang tag',         title: 'Studio Suzao — Hangtag',         sub: 'Foil-stamped, die-cut' },
-    { src: 'images/projects/inlook/teami.png',       alt: 'IN LOOK — Teami collection tag',  title: 'IN LOOK — Teami Collection',     sub: 'Textured stock, die-cut window' },
-    { src: 'images/projects/r/lifestyle.jpeg',       alt: 'R. — bottle and bag',             title: 'R. — Bottle & Bag',              sub: 'Full packaging system' }
+    { src: 'images/projects/inlook/hero.png',  alt: 'Inlook hang tag, foil-stamped branding on a floral pattern', title: 'Inlook — Hang Tag',        sub: 'Foil print, waxed cord' },
+    { src: 'images/projects/inlook/multi.png', alt: 'Inlook hang tags in three colourways',                       title: 'Inlook — Tag Colourways',  sub: 'Three-way foil variant' },
+    { src: 'images/projects/inlook/teami.png', alt: 'Inlook Teami collection tag, front and back',                title: 'Inlook — Teami Collection', sub: 'Textured stock, die-cut window' }
   ];
 
   // repeating size pattern -> the asymmetric/bento rhythm (see CSS .size-*).
-  // Column spans sum to 4 within each group of 3 so rows fill cleanly:
-  // lg+sm+tall=4, sm+lg+sm=4, tall+md+sm=4, lg+tall+sm=4.
-  const GALLERY_SIZE_PATTERN = ['lg', 'sm', 'tall', 'sm', 'lg', 'sm', 'tall', 'md', 'sm', 'lg', 'tall', 'sm'];
+  const GALLERY_SIZE_PATTERN = ['lg', 'sm', 'tall'];
 
   const gallery = document.getElementById('workGallery');
   if (gallery) {
