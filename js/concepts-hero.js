@@ -90,12 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (items[0]) selectItem(items[0]);
 
 
-  /* ── Zone 2: unified scroll gallery — flat list, all 13 concept
+  /* ── Zone 2: unified scroll gallery — flat list, all 14 concept
      renders, no per-brand filtering. Each entry carries a short
      caption (title + one supporting line) and an always-visible
      "Concept" tag overlaid on the image itself (not hover-only, so
      it reads on touch devices too), laid out on the same dense
-     bento grid as work.html. ─────────────────────────────────── */
+     bento grid as work.html. MATIÈRE lives here (not on Work) per
+     pratik-content.md: a fictional brand, labelled a concept, never
+     a client. ────────────────────────────────────────────────── */
   const GALLERY_IMAGES = [
     { src: 'images/concepts/good-hour.jpg',    w: 1024, h: 559,  alt: 'Good Hour — coffee cup carrier',        title: 'Good Hour — Coffee Carrier',   sub: 'Die-cut cardboard, bold type' },
     { src: 'images/concepts/loafer.jpg',       w: 1024, h: 559,  alt: 'Loafer — bakery box, two colorways',    title: 'Loafer — Bakery Box',          sub: 'Two-tone kraft, fresh-daily branding' },
@@ -109,12 +111,13 @@ document.addEventListener('DOMContentLoaded', () => {
     { src: 'images/concepts/nume.jpg',         w: 1400, h: 764,  alt: 'Nume — cream shopping bags with ribbon handles', title: 'Nume — Shopping Bag', sub: 'Ribbon handle, boutique-weight stock' },
     { src: 'images/concepts/glow.jpg',         w: 1400, h: 764,  alt: '[glow] — business card, front and back', title: '[glow] — Business Card',     sub: 'Spot color, front and back' },
     { src: 'images/concepts/drift.jpg',        w: 1400, h: 764,  alt: 'Drift — hand-lettered business cards',  title: 'Drift — Business Card',        sub: 'Hand-lettered, layered stock' },
-    { src: 'images/concepts/slab.jpg',         w: 1400, h: 764,  alt: 'Slab — matte black gable box',          title: 'Slab — Gable Box',             sub: 'Matte black, single-color print' }
+    { src: 'images/concepts/slab.jpg',         w: 1400, h: 764,  alt: 'Slab — matte black gable box',          title: 'Slab — Gable Box',             sub: 'Matte black, single-color print' },
+    { src: 'images/projects/matiere/matiere.jpeg', w: 893, h: 1600, alt: 'MATIÈRE fragrance box set, four colourways', title: 'MATIÈRE — Fragrance Set', sub: 'Matte box, tonal palette' }
   ];
 
   // repeating size pattern -> the asymmetric/bento rhythm (see CSS .size-*).
-  // Kept identical to work-hero.js: it cycles by index, so 13 items just
-  // wrap back to 'lg' for the 13th — acceptable per spec.
+  // Kept identical to work-hero.js: it cycles by index, so 14 items just
+  // wrap back to 'lg'/'sm' for the last — acceptable per spec.
   const GALLERY_SIZE_PATTERN = ['lg', 'sm', 'tall', 'sm', 'lg', 'sm', 'tall', 'md', 'sm', 'lg', 'tall', 'sm'];
 
   const gallery = document.getElementById('workGallery');

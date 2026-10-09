@@ -71,6 +71,22 @@
       pointer-events: none;
     }
 
+    /* ── one-line intro, content.md's addition for this page only ── */
+    .concepts-intro {
+      position: relative;
+      z-index: 1;
+      padding: calc(var(--nav-h) + 140px) var(--page-pad) 0;
+      max-width: 420px;
+    }
+    .concepts-intro p {
+      font-size: 15px;
+      color: var(--c-muted);
+      line-height: 1.6;
+    }
+    @media (max-width: 900px) {
+      .concepts-intro { padding: calc(var(--nav-h) + 72px) var(--page-pad-mob) 0; }
+    }
+
     /* ── concept disclosure — the one addition work.html doesn't need.
        Moved to the end of the page (after the CTA, before the footer)
        and styled as a quiet footnote rather than a boxed banner, so it
@@ -418,6 +434,10 @@
       <span class="work-cross">+</span>
     </div>
 
+    <div class="concepts-intro reveal">
+      <p>Ideas we have built to show what is possible.</p>
+    </div>
+
     <div class="work-scroll-zone">
 
       <!-- brand list: sticky, stays locked in view for as long as the
@@ -488,6 +508,11 @@
         <button class="work-hero__item" data-project="slab" data-image="images/concepts/slab.jpg" data-color="#1A1A1A" data-label="Slab">
           <span class="work-hero__item-num">13</span>
           <span class="work-hero__item-title">Slab</span>
+        </button>
+
+        <button class="work-hero__item" data-project="matiere" data-image="images/projects/matiere/hero.png" data-color="#1C2026" data-label="MATIÈRE">
+          <span class="work-hero__item-num">14</span>
+          <span class="work-hero__item-title">MATIÈRE</span>
         </button>
 
       </div>
