@@ -365,18 +365,19 @@ body {
   height: 44px;
   padding: 0 20px;
   border-radius: var(--radius-pill);
-  background: var(--c-ember);
+  /* --c-ember-deep, not --c-ember: pairs with white text at 5.6:1 (AA) */
+  background: var(--c-ember-deep);
   color: #fff;
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.02em;
   white-space: nowrap;
-  transition: background 0.2s;
+  transition: filter 0.2s;
 }
 
 .nav__btn:hover {
-  background: var(--c-ember-deep);
+  filter: brightness(0.88);
 }
 
 @media (max-width: 960px) {
@@ -863,7 +864,7 @@ body {
 
 .footer__copy {
   font-size: 11px;
-  color: rgba(247, 244, 239, 0.45);
+  color: rgba(247, 244, 239, 0.55);
 }
 
 
@@ -924,16 +925,16 @@ body {
 /* primary — accent fill, white text */
 .btn--primary,
 .btn--filled {
-  background: var(--c-ember);
-  border-color: var(--c-ember);
+  /* --c-ember-deep, not --c-ember: this pairs with white text at 5.6:1,
+     where --c-ember only reaches ~3:1 and fails AA for this text size */
+  background: var(--c-ember-deep);
+  border-color: var(--c-ember-deep);
   color: #fff;
 }
 
 .btn--primary:hover,
 .btn--filled:hover {
-  background: var(--c-ember-deep);
-  border-color: var(--c-ember-deep);
-  color: #fff;
+  filter: brightness(0.88);
 }
 
 /* secondary — transparent, line border (alias of the base .btn look,
