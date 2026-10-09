@@ -62,6 +62,122 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  /* ── 2B. DOT FIELD BACKGROUND ───────────────────────────────── */
+  /* a faint, sitewide dot grid, fixed to the viewport (a uniform
+     grid looks identical whether it scrolls with the page or not,
+     so pinning it to the viewport avoids tracking document height).
+     On hover-capable pointers, dots near the cursor push outward
+     and lerp back, like a very subtle liquid. Touch devices and
+     prefers-reduced-motion get the plain static grid — no mousemove
+     to react to on one, no motion wanted on the other. */
+  const dotField = document.querySelector('.dot-field');
+  if (dotField) {
+    const ctx = dotField.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    const SPACING   = 34;   // px between dots
+    const RADIUS    = 1.15; // dot radius, px
+    const ALPHA     = 0.085;
+    const INFLUENCE = 130;  // px — cursor radius that displaces dots
+    const MAX_PUSH  = 16;   // px — how far a dot can be pushed
+    const EASE      = 0.14; // per-frame lerp toward target
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let w = 0, h = 0, dots = [];
+    let mouseX = -9999, mouseY = -9999;
+    let rafId = null;
+
+    function buildGrid() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      dotField.width  = Math.round(w * dpr);
+      dotField.height = Math.round(h * dpr);
+      dotField.style.width  = w + 'px';
+      dotField.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const cols = Math.ceil(w / SPACING) + 1;
+      const rows = Math.ceil(h / SPACING) + 1;
+      dots = [];
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const baseX = i * SPACING;
+          const baseY = j * SPACING;
+          dots.push({ baseX, baseY, x: baseX, y: baseY });
+        }
+      }
+    }
+
+    function drawStatic() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = `rgba(13, 13, 13, ${ALPHA})`;
+      ctx.beginPath();
+      dots.forEach(d => { ctx.moveTo(d.baseX + RADIUS, d.baseY); ctx.arc(d.baseX, d.baseY, RADIUS, 0, Math.PI * 2); });
+      ctx.fill();
+    }
+
+    if (!canHover || reduceMotion) {
+      // static grid only — no mouse tracking, no animation loop
+      buildGrid();
+      drawStatic();
+      let resizeT;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeT);
+        resizeT = setTimeout(() => { buildGrid(); drawStatic(); }, 150);
+      });
+    } else {
+      buildGrid();
+
+      document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+      document.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+      function tick() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = `rgba(13, 13, 13, ${ALPHA})`;
+        ctx.beginPath();
+
+        for (let k = 0; k < dots.length; k++) {
+          const d = dots[k];
+          const dx = d.baseX - mouseX;
+          const dy = d.baseY - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          let targetX = d.baseX, targetY = d.baseY;
+          if (dist < INFLUENCE) {
+            const factor = 1 - dist / INFLUENCE;
+            const push = factor * factor * MAX_PUSH;
+            const nx = dist > 0.001 ? dx / dist : 0;
+            const ny = dist > 0.001 ? dy / dist : 0;
+            targetX = d.baseX + nx * push;
+            targetY = d.baseY + ny * push;
+          }
+
+          d.x += (targetX - d.x) * EASE;
+          d.y += (targetY - d.y) * EASE;
+
+          ctx.moveTo(d.x + RADIUS, d.y);
+          ctx.arc(d.x, d.y, RADIUS, 0, Math.PI * 2);
+        }
+        ctx.fill();
+        rafId = requestAnimationFrame(tick);
+      }
+      rafId = requestAnimationFrame(tick);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { cancelAnimationFrame(rafId); }
+        else { rafId = requestAnimationFrame(tick); }
+      });
+
+      let resizeT;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeT);
+        resizeT = setTimeout(buildGrid, 150);
+      });
+    }
+  }
+
+
   /* ── 3. NAV — SCROLL BORDER ────────────────────────────────── */
   const nav = document.querySelector('.nav');
   if (nav) {

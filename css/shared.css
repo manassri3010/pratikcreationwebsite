@@ -2010,3 +2010,20 @@ html.show-dev-flags .photo-placeholder__label {
   .lightbox { padding: var(--sp-32) var(--page-pad-mob); }
   .lightbox__close { right: var(--page-pad-mob); top: 20px; }
 }
+
+
+/* ── 22. DOT FIELD BACKGROUND ───────────────────────────────── */
+/* a very faint dot grid sitting behind every section, site-wide.
+   position:fixed + z-index:-1 so it paints behind all in-flow
+   content without needing any section background to change — it
+   only shows through wherever a section doesn't already paint its
+   own opaque background. js/main.js draws and animates it (liquid
+   displacement near the cursor on pointer-capable devices; a
+   static grid everywhere else). */
+.dot-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  pointer-events: none;
+}
