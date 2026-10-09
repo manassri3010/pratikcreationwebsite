@@ -213,316 +213,201 @@
     .home-section__body { margin-top: var(--sp-48); }
 
 
-    /* ══════════════════════ 5. THE DIFFERENCE (toggle diagram) ══════════════════════
-       An interactive "disconnected vs connected" diagram: a toggle
-       flips the whole card between the old scattered-suppliers chain
-       and Pratik's single connected hub. Node positions never move —
-       only their labels crossfade and the connecting lines morph from
-       dashed/short (not reaching the hub) to solid/full with a
-       travelling pulse — so the switch reads as one continuous
-       transition rather than a layout jump. Two "extra" nodes (Box
-       maker, Courier) fade out entirely in the connected state, since
-       content.md's "with Pratik" list is genuinely shorter — fewer
-       boxes on screen reinforces "fewer handoffs" on its own. */
+    /* ══════════════════════ 5. THE DIFFERENCE (dual flow rows) ══════════════════════
+       Two always-visible rows, each a horizontal node chain with a
+       continuously travelling pulse dot — Pratik's row animates
+       faster than the usual-way row, reinforcing the speed
+       difference without needing a toggle. Line/pulse insets are set
+       per node-count via .flow-chain--3 / --5 so the pulse always
+       travels exactly from the first node's icon to the last one's,
+       regardless of how many nodes are in a row. */
 
-    .flow-card {
+    .flow-compare {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-24);
+    }
+
+    .flow-row {
       border: 1px solid var(--line);
       border-radius: var(--radius-tile);
-      padding: var(--sp-48);
+      padding: var(--sp-32);
       background: var(--bg-tile);
     }
-
-    .flow-card__status {
-      display: flex;
-      align-items: center;
-      gap: var(--sp-8);
-      margin-bottom: var(--sp-16);
-    }
-    .flow-card__dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--ink-soft);
-      transition: background 0.4s var(--ease);
-    }
-    .flow-card.is-connected .flow-card__dot {
-      background: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
-    .flow-card__status-label {
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
+    .flow-row--fast {
+      border-color: var(--accent-soft-line);
+      background: var(--accent-soft);
     }
 
-    .flow-card__top {
+    .flow-row__top {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
       justify-content: space-between;
-      gap: var(--sp-32);
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: var(--sp-24);
       margin-bottom: var(--sp-32);
     }
 
-    .flow-card__title {
+    .flow-row__label {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
       font-family: var(--font-display);
-      font-size: clamp(22px, 2.6vw, 30px);
+      font-size: 17px;
       font-weight: 500;
-      letter-spacing: -0.015em;
-      margin-bottom: var(--sp-8);
+      letter-spacing: -0.01em;
     }
-
-    .flow-card__sub {
-      font-size: 14px;
-      color: var(--ink-soft);
-    }
-
-    /* toggle switch */
-    .flow-toggle {
-      flex-shrink: 0;
+    .flow-row__icon {
       display: inline-flex;
       align-items: center;
-      gap: var(--sp-12);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-    .flow-toggle__track {
-      width: 44px;
-      height: 26px;
-      border-radius: 999px;
-      background: var(--line);
-      position: relative;
-      transition: background 0.3s var(--ease);
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
       flex-shrink: 0;
     }
-    .flow-card.is-connected .flow-toggle__track {
+    .flow-row__icon::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+    .flow-row__icon--check { background: var(--accent); }
+    .flow-row__icon--check::before { background: #fff; }
+    .flow-row__icon--clock { background: var(--line); }
+    .flow-row__icon--clock::before { background: var(--ink-soft); }
+
+    .flow-row__stat { text-align: right; }
+    .flow-row__stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.2vw, 42px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .flow-row__stat-unit {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent-text);
+      margin-left: 4px;
+    }
+    .flow-row__stat-cap {
+      display: block;
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin-top: var(--sp-4);
+      max-width: 220px;
+    }
+
+    /* node chain + animated line */
+    .flow-chain { position: relative; padding: 0 0 var(--sp-8); }
+
+    .flow-chain__line {
+      position: absolute;
+      top: 13px;
+      height: 2px;
+      background: var(--line);
+      border-radius: 2px;
+      overflow: visible;
+    }
+    .flow-row--fast .flow-chain__line { background: var(--accent-soft-line); }
+    .flow-chain--3 .flow-chain__line { left: 16.667%; right: 16.667%; }
+    .flow-chain--5 .flow-chain__line { left: 10%; right: 10%; }
+
+    .flow-chain__pulse {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      margin-top: -4px;
+      border-radius: 50%;
+      background: var(--ink-soft);
+      animation: flow-pulse 4.6s linear infinite;
+    }
+    .flow-row--fast .flow-chain__pulse {
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation-duration: 2.2s;
+    }
+
+    @keyframes flow-pulse {
+      0%   { left: 0%;   opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    .flow-chain__nodes {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+    }
+    .flow-chain__node {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-8);
+      min-width: 0;
+    }
+    .flow-chain__node-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1.5px solid var(--line);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .flow-row--fast .flow-chain__node-icon { border-color: var(--accent-soft-line); }
+    .flow-chain__node--hub .flow-chain__node-icon {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+    .flow-chain__node--hub .flow-chain__node-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       background: var(--accent);
     }
-    .flow-toggle__thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 1px 3px rgba(13, 13, 13, 0.25);
-      transition: transform 0.3s var(--ease);
-    }
-    .flow-card.is-connected .flow-toggle__thumb {
-      transform: translateX(18px);
-    }
-    .flow-toggle__label {
-      font-size: 13px;
+    .flow-chain__node-label {
+      font-size: 11px;
       font-weight: 500;
       color: var(--ink);
+      text-align: center;
       white-space: nowrap;
     }
 
-    .flow-card__divider {
-      border: none;
-      border-top: 1px solid var(--line);
-      margin-bottom: var(--sp-32);
-    }
-
-    /* diagram canvas */
-    .flow-diagram {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 760 / 360;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-btn);
-      background-image: radial-gradient(rgba(13, 13, 13, 0.08) 1px, transparent 1px);
-      background-size: 20px 20px;
-      transition: background-color 0.5s var(--ease);
-      overflow: hidden;
-    }
-    .flow-card.is-connected .flow-diagram {
-      background-color: var(--accent-soft);
-    }
-
-    .flow-diagram__lines { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-    .flow-path {
-      fill: none;
-      stroke: var(--line);
-      stroke-width: 1.5;
-      stroke-dasharray: 4 5;
-      transition: stroke 0.5s var(--ease), stroke-dasharray 0.5s var(--ease), opacity 0.4s var(--ease);
-    }
-    .flow-card.is-connected .flow-path {
-      stroke: var(--accent);
-      stroke-dasharray: none;
-    }
-    .flow-path--d, .flow-path--e { transition: stroke 0.5s var(--ease), stroke-dasharray 0.5s var(--ease), opacity 0.3s var(--ease); }
-    .flow-card.is-connected .flow-path--d,
-    .flow-card.is-connected .flow-path--e {
-      opacity: 0;
-    }
-
-    .flow-dot {
-      fill: var(--accent);
-      opacity: 0;
-      transition: opacity 0.3s var(--ease) 0.2s;
-    }
-    .flow-card.is-connected .flow-dot {
-      opacity: 1;
-    }
-    .flow-card.is-connected .flow-dot--d,
-    .flow-card.is-connected .flow-dot--e {
-      opacity: 0;
-    }
-
-    .flow-node {
-      position: absolute;
-      transform: translate(-50%, -50%);
+    .flow-row__caption {
       display: flex;
       align-items: center;
       gap: var(--sp-8);
-      width: 150px;
-      padding: 10px 14px;
-      background: var(--bg);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      box-shadow: 0 4px 10px rgba(13, 13, 13, 0.05);
-      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
-    }
-    .flow-node__icon {
-      flex-shrink: 0;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--ink-soft);
-      transition: background 0.4s var(--ease);
-    }
-    .flow-card.is-connected .flow-node__icon {
-      background: var(--accent);
-    }
-    .flow-node__label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--ink);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: opacity 0.2s var(--ease);
-    }
-    .flow-node__label.is-swapping { opacity: 0; }
-
-    .flow-node--extra { transition: opacity 0.4s var(--ease), transform 0.4s var(--ease); }
-    .flow-card.is-connected .flow-node--extra {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.85);
-      pointer-events: none;
-    }
-
-    .flow-hub {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      border: 1.5px dashed var(--ink-soft);
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border 0.4s var(--ease), box-shadow 0.4s var(--ease);
-      z-index: 2;
-    }
-    .flow-card.is-connected .flow-hub {
-      border: 1.5px solid var(--accent);
-      box-shadow: 0 0 0 8px var(--accent-soft);
-    }
-    .flow-hub__dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--ink-soft);
-      transition: background 0.4s var(--ease), transform 0.4s var(--ease);
-    }
-    .flow-card.is-connected .flow-hub__dot {
-      background: var(--accent);
-      transform: scale(1.15);
-    }
-    .flow-hub__caption {
-      position: absolute;
-      bottom: -22px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: var(--font-mono);
-      font-size: 10px;
+      margin-top: var(--sp-24);
+      padding-top: var(--sp-16);
+      border-top: 1px solid var(--line);
+      font-size: 13px;
       color: var(--ink-soft);
-      white-space: nowrap;
     }
+    .flow-row__caption-icon { flex-shrink: 0; width: 14px; text-align: center; color: var(--ink-soft); }
+    .flow-row--fast .flow-row__caption-icon { color: var(--accent-text); }
 
-    .flow-card__closing {
-      margin-top: var(--sp-40);
-      font-size: 14px;
-      color: var(--ink-soft);
-      text-align: center;
+    @media (prefers-reduced-motion: reduce) {
+      .flow-chain__pulse { animation: none; opacity: 0; }
     }
-
-    /* mobile fallback: the organic diagram needs real horizontal room
-       to read (fixed-width node chips around a hub), so below 900px
-       it's replaced with a plain stacked list instead of shrinking —
-       same content, same toggle, same crossfade, just no canvas/lines. */
-    .flow-list { display: none; }
 
     @media (max-width: 900px) {
-      .flow-card { padding: var(--sp-32) var(--page-pad-mob); }
-      .flow-diagram { display: none; }
-      .flow-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-      .flow-list__item {
-        display: flex;
-        align-items: center;
-        gap: var(--sp-12);
-        padding: var(--sp-16) 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .flow-list__item.flow-node--extra {
-        transition: opacity 0.4s var(--ease), max-height 0.4s var(--ease), padding 0.4s var(--ease);
-        max-height: 60px;
-        overflow: hidden;
-      }
-      .flow-card.is-connected .flow-list__item.flow-node--extra {
-        opacity: 0;
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        border-bottom-color: transparent;
-      }
-      .flow-list__dot {
-        flex-shrink: 0;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--ink-soft);
-        transition: background 0.4s var(--ease);
-      }
-      .flow-card.is-connected .flow-list__dot {
-        background: var(--accent);
-      }
-      .flow-list__label {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--ink);
-      }
+      .flow-row { padding: var(--sp-24) var(--page-pad-mob); }
+      .flow-chain__node-label { font-size: 10px; white-space: normal; }
     }
     @media (max-width: 640px) {
-      .flow-toggle__label { display: none; }
+      .flow-row__top { flex-direction: column; align-items: flex-start; }
+      .flow-row__stat { text-align: left; }
+      .flow-row__stat-cap { max-width: none; }
     }
+
+
 
 
     /* ══════════════════════ 6. RANGE BENTO ══════════════════════ */
@@ -954,101 +839,86 @@
         <p class="sec-eyebrow">02 / The Difference</p>
         <h2 class="sec-headline">Same brief.<br><em>A different way forward.</em></h2>
       </div>
-      <div class="flow-card home-section__body reveal reveal-d1" id="flowCard">
 
-        <div class="flow-card__top">
-          <div>
-            <div class="flow-card__status">
-              <span class="flow-card__dot" aria-hidden="true"></span>
-              <span class="flow-card__status-label" id="flowStatusLabel">The Usual Way</span>
+      <div class="flow-compare home-section__body reveal reveal-d1">
+
+        <!-- ROW 1: With Pratik — fast pulse, real lead-time figure -->
+        <div class="flow-row flow-row--fast">
+          <div class="flow-row__top">
+            <div class="flow-row__label">
+              <span class="flow-row__icon flow-row__icon--check" aria-hidden="true"></span>
+              With Pratik
             </div>
-            <h3 class="flow-card__title" id="flowTitle">Too many hands on one box.</h3>
-            <p class="flow-card__sub" id="flowSub">This is what most packaging suppliers look like.</p>
+            <div class="flow-row__stat">
+              <span class="flow-row__stat-num">19&ndash;30</span><span class="flow-row__stat-unit">days</span>
+              <span class="flow-row__stat-cap">door to door, by air</span>
+            </div>
           </div>
-
-          <button class="flow-toggle" id="flowToggle" type="button" aria-pressed="false">
-            <span class="flow-toggle__track" aria-hidden="true"><span class="flow-toggle__thumb"></span></span>
-            <span class="flow-toggle__label" id="flowToggleLabel">Connect Pratik</span>
-          </button>
+          <div class="flow-chain flow-chain--3" aria-hidden="true">
+            <div class="flow-chain__line"><span class="flow-chain__pulse"></span></div>
+            <div class="flow-chain__nodes">
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">One brief</span>
+              </div>
+              <div class="flow-chain__node flow-chain__node--hub">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">One team</span>
+              </div>
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">One delivery</span>
+              </div>
+            </div>
+          </div>
+          <p class="flow-row__caption"><span class="flow-row__caption-icon">&#10003;</span> One brief. One team. One delivery — boxes, tags, labels and bags made under one roof.</p>
         </div>
 
-        <hr class="flow-card__divider">
-
-        <!-- desktop canvas -->
-        <div class="flow-diagram" aria-hidden="true">
-          <svg class="flow-diagram__lines" viewBox="0 0 760 360" preserveAspectRatio="none">
-            <path class="flow-path flow-path--a" d="M185,70 C265.5,70 265.5,180 346,180" />
-            <path class="flow-path flow-path--b" d="M185,180 L346,180" />
-            <path class="flow-path flow-path--c" d="M185,290 C265.5,290 265.5,180 346,180" />
-            <path class="flow-path flow-path--d" d="M414,180 C494.5,180 494.5,110 575,110" />
-            <path class="flow-path flow-path--e" d="M414,180 C494.5,180 494.5,250 575,250" />
-
-            <circle class="flow-dot flow-dot--a" r="4">
-              <animateMotion dur="2.2s" begin="0s" repeatCount="indefinite" path="M185,70 C265.5,70 265.5,180 346,180" />
-            </circle>
-            <circle class="flow-dot flow-dot--b" r="4">
-              <animateMotion dur="2.2s" begin="0.3s" repeatCount="indefinite" path="M185,180 L346,180" />
-            </circle>
-            <circle class="flow-dot flow-dot--c" r="4">
-              <animateMotion dur="2.2s" begin="0.6s" repeatCount="indefinite" path="M185,290 C265.5,290 265.5,180 346,180" />
-            </circle>
-          </svg>
-
-          <div class="flow-node" style="left:14.47%; top:19.44%;">
-            <span class="flow-node__icon" aria-hidden="true"></span>
-            <span class="flow-node__label" data-off="Designer" data-on="One brief">Designer</span>
+        <!-- ROW 2: The usual way — slow pulse, no invented figure -->
+        <div class="flow-row flow-row--slow">
+          <div class="flow-row__top">
+            <div class="flow-row__label">
+              <span class="flow-row__icon flow-row__icon--clock" aria-hidden="true"></span>
+              The Usual Way
+            </div>
+            <div class="flow-row__stat">
+              <span class="flow-row__stat-num">&mdash;</span>
+              <span class="flow-row__stat-cap">No fixed timeline. Depends how many suppliers are involved. <span class="dev-flag">Confirm: typical range</span></span>
+            </div>
           </div>
-          <div class="flow-node" style="left:14.47%; top:50%;">
-            <span class="flow-node__icon" aria-hidden="true"></span>
-            <span class="flow-node__label" data-off="Printer" data-on="One team">Printer</span>
+          <div class="flow-chain flow-chain--5" aria-hidden="true">
+            <div class="flow-chain__line"><span class="flow-chain__pulse"></span></div>
+            <div class="flow-chain__nodes">
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">Designer</span>
+              </div>
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">Printer</span>
+              </div>
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">Label supplier</span>
+              </div>
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">Box maker</span>
+              </div>
+              <div class="flow-chain__node">
+                <span class="flow-chain__node-icon"></span>
+                <span class="flow-chain__node-label">Courier</span>
+              </div>
+            </div>
           </div>
-          <div class="flow-node" style="left:14.47%; top:80.56%;">
-            <span class="flow-node__icon" aria-hidden="true"></span>
-            <span class="flow-node__label" data-off="Label supplier" data-on="One delivery">Label supplier</span>
-          </div>
-          <div class="flow-node flow-node--extra" style="left:85.53%; top:30.56%;">
-            <span class="flow-node__icon" aria-hidden="true"></span>
-            <span class="flow-node__label">Box maker</span>
-          </div>
-          <div class="flow-node flow-node--extra" style="left:85.53%; top:69.44%;">
-            <span class="flow-node__icon" aria-hidden="true"></span>
-            <span class="flow-node__label">Courier</span>
-          </div>
-
-          <div class="flow-hub">
-            <span class="flow-hub__dot"></span>
-            <span class="flow-hub__caption" id="flowHubCaption">Not connected</span>
-          </div>
+          <p class="flow-row__caption"><span class="flow-row__caption-icon">&#9679;</span> More handoffs. More chasing. More delays.</p>
         </div>
 
-        <!-- mobile fallback list -->
-        <div class="flow-list" aria-hidden="true">
-          <div class="flow-list__item">
-            <span class="flow-list__dot"></span>
-            <span class="flow-list__label" data-off="Designer" data-on="One brief">Designer</span>
-          </div>
-          <div class="flow-list__item">
-            <span class="flow-list__dot"></span>
-            <span class="flow-list__label" data-off="Printer" data-on="One team">Printer</span>
-          </div>
-          <div class="flow-list__item">
-            <span class="flow-list__dot"></span>
-            <span class="flow-list__label" data-off="Label supplier" data-on="One delivery">Label supplier</span>
-          </div>
-          <div class="flow-list__item flow-node--extra">
-            <span class="flow-list__dot"></span>
-            <span class="flow-list__label">Box maker</span>
-          </div>
-          <div class="flow-list__item flow-node--extra">
-            <span class="flow-list__dot"></span>
-            <span class="flow-list__label">Courier</span>
-          </div>
-        </div>
-
-        <p class="flow-card__closing">Fewer handoffs means fewer mistakes and a shorter wait.</p>
       </div>
     </div>
   </section>
+
+
 
 
   <!-- ══════════════════════ 6. WHAT WE MAKE ══════════════════════ -->
@@ -1408,80 +1278,5 @@
 
 
   <script src="js/main.js"></script>
-  <script>
-    /* ── "The difference" toggle diagram ──────────────────────────
-       Flips the flow-card between disconnected/connected. Node
-       labels crossfade (fade out → swap text → fade in) rather than
-       jump-cutting, so the whole card reads as one smooth morph. */
-    (function () {
-      const card   = document.getElementById('flowCard');
-      const toggle = document.getElementById('flowToggle');
-      if (!card || !toggle) return;
-
-      const labels = card.querySelectorAll('[data-off][data-on]');
-      const statusLabel = document.getElementById('flowStatusLabel');
-      const title        = document.getElementById('flowTitle');
-      const sub          = document.getElementById('flowSub');
-      const hubCaption   = document.getElementById('flowHubCaption');
-      const toggleLabel  = document.getElementById('flowToggleLabel');
-
-      const COPY = {
-        off: {
-          status: 'The Usual Way',
-          title: 'Too many hands on one box.',
-          sub: 'This is what most packaging suppliers look like.',
-          hub: 'Not connected',
-          toggle: 'Connect Pratik'
-        },
-        on: {
-          status: 'With Pratik',
-          title: 'One team, start to finish.',
-          sub: 'This is what working with Pratik looks like.',
-          hub: 'Pratik Creation',
-          toggle: 'Disconnect Pratik'
-        }
-      };
-
-      let connected = false;
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function applyText(state) {
-        const c = COPY[state];
-        statusLabel.textContent = c.status;
-        title.textContent = c.title;
-        sub.textContent = c.sub;
-        hubCaption.textContent = c.hub;
-        toggleLabel.textContent = c.toggle;
-        labels.forEach(el => { el.textContent = state === 'on' ? el.dataset.on : el.dataset.off; });
-      }
-
-      function setState(toOn) {
-        connected = toOn;
-        toggle.setAttribute('aria-pressed', String(toOn));
-
-        if (prefersReducedMotion) {
-          card.classList.toggle('is-connected', toOn);
-          applyText(toOn ? 'on' : 'off');
-          return;
-        }
-
-        // crossfade: fade the swapping text out, swap it at the
-        // midpoint, then let the card's own state-driven CSS
-        // transitions (lines/hub/nodes) carry the rest
-        const fadeEls = [statusLabel, title, sub, hubCaption, toggleLabel, ...labels];
-        fadeEls.forEach(el => el.style.transition = 'opacity 0.18s ease');
-        fadeEls.forEach(el => el.style.opacity = '0');
-
-        card.classList.toggle('is-connected', toOn);
-
-        setTimeout(() => {
-          applyText(toOn ? 'on' : 'off');
-          fadeEls.forEach(el => el.style.opacity = '1');
-        }, 180);
-      }
-
-      toggle.addEventListener('click', () => setState(!connected));
-    })();
-  </script>
 </body>
 </html>
