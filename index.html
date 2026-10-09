@@ -587,32 +587,53 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
-    .connected-visual__mark {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 1px solid var(--accent-soft-line);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+
+    /* phone + NFC signal — rings are centred on the dynamic island and
+       pulse outward from it so it reads as an active tap rather than a
+       static mark. prefers-reduced-motion freezes them at a clean
+       resting frame instead of mid-pulse. */
+    .phone-signal { width: 70%; }
+    .phone-signal__svg {
+      display: block;
+      width: 100%;
+      aspect-ratio: 300 / 220;
+      overflow: visible;
     }
-    .connected-visual__mark::before,
-    .connected-visual__mark::after {
-      content: '';
-      position: absolute;
-      border: 1px solid var(--accent-soft-line);
-      border-radius: 50%;
+    .phone-signal__body   { fill: none; stroke: var(--accent); stroke-width: 5; }
+    .phone-signal__button { fill: none; stroke: var(--accent); stroke-width: 4; }
+    .phone-signal__island { fill: var(--accent); }
+    .phone-signal__lens   { fill: none; stroke: var(--bg-tile); stroke-width: 1.5; }
+
+    .phone-signal__ring {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 1.4;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: phone-signal-pulse 3.6s var(--ease-out) infinite;
     }
-    .connected-visual__mark::before { width: 170px; height: 170px; }
-    .connected-visual__mark::after  { width: 220px; height: 220px; }
-    .connected-visual__dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--accent);
+    .phone-signal__ring--1 { opacity: 0.4;  animation-delay: 0s; }
+    .phone-signal__ring--2 { opacity: 0.25; animation-delay: 0.9s; }
+    .phone-signal__ring--3 { opacity: 0.14; animation-delay: 1.8s; }
+
+    @keyframes phone-signal-pulse {
+      0%   { transform: scale(0.9); opacity: 0.4; }
+      65%  { opacity: 0.12; }
+      100% { transform: scale(1.06); opacity: 0; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phone-signal__ring {
+        animation: none;
+        transform: scale(1);
+      }
+      .phone-signal__ring--1 { opacity: 0.35; }
+      .phone-signal__ring--2 { opacity: 0.22; }
+      .phone-signal__ring--3 { opacity: 0.12; }
+    }
+
     @media (max-width: 900px) {
       .connected-grid { grid-template-columns: 1fr; }
       .connected-visual { order: -1; max-width: 320px; margin: 0 auto; }
@@ -1124,8 +1145,18 @@
         <a href="mailto:hello@pratikcreation.com" class="btn btn--secondary">Ask about Connected →</a>
       </div>
       <div class="connected-visual reveal reveal-d1" aria-hidden="true">
-        <div class="connected-visual__mark">
-          <span class="connected-visual__dot"></span>
+        <div class="phone-signal">
+          <svg class="phone-signal__svg" viewBox="0 0 300 220" preserveAspectRatio="xMidYMin meet">
+            <circle class="phone-signal__ring phone-signal__ring--3" cx="150" cy="40" r="130"></circle>
+            <circle class="phone-signal__ring phone-signal__ring--2" cx="150" cy="40" r="100"></circle>
+            <circle class="phone-signal__ring phone-signal__ring--1" cx="150" cy="40" r="70"></circle>
+            <rect class="phone-signal__body" x="14" y="8" width="272" height="520" rx="54" ry="54"></rect>
+            <rect class="phone-signal__button" x="2" y="96" width="6" height="30" rx="2"></rect>
+            <rect class="phone-signal__button" x="2" y="136" width="6" height="46" rx="2"></rect>
+            <rect class="phone-signal__button" x="292" y="112" width="6" height="56" rx="2"></rect>
+            <rect class="phone-signal__island" x="118" y="30" width="64" height="20" rx="10"></rect>
+            <circle class="phone-signal__lens" cx="160" cy="40" r="4.5"></circle>
+          </svg>
         </div>
       </div>
     </div>
