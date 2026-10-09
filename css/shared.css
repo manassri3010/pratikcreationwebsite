@@ -101,7 +101,7 @@ select:focus-visible,
   /* layout */
   --page-pad: 60px;       /* left/right page padding desktop */
   --page-pad-mob: 24px;   /* mobile */
-  --nav-h: 116px;         /* clearance below the floating nav pill (top offset + height + breathing room) */
+  --nav-h: 84px;          /* nav bar height (clearance for the full-width bar before it scrolls into a pill) */
   --content-max: 1320px;  /* max content width on very wide screens */
 
   /* transitions */
@@ -282,32 +282,47 @@ body {
 
 
 /* ── 6. NAV ─────────────────────────────────────────────────── */
-/* floating pill, on every page, from first paint — fixed 24px from the
-   top, wordmark left, links centre, primary button right. Gains a
-   stronger shadow once the page has scrolled 40–60px (.scrolled, set
-   by main.js) — not a shape change, just more emphasis. */
+/* full-width bar, edge to edge, at the top of the page on first
+   paint. Once the page scrolls past 60px (.scrolled, set by
+   main.js), it smoothly becomes an inset floating pill. */
 
 .nav {
   position: fixed;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  transform: translateX(0);
   z-index: 100;
-  width: min(calc(100% - 48px), 1120px);
-  height: 68px;
+  width: 100%;
+  height: 84px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-24);
-  padding: 0 10px 0 28px;
-  border-radius: var(--radius-pill);
-  background: var(--c-bg);
-  box-shadow: 0 8px 24px rgba(13, 13, 13, 0.08), 0 1px 4px rgba(13, 13, 13, 0.04);
-  transition: box-shadow 0.3s var(--ease), top 0.3s var(--ease), width 0.3s var(--ease), height 0.3s var(--ease);
+  padding: 0 var(--page-pad);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition:
+    top 0.4s var(--ease),
+    left 0.4s var(--ease),
+    transform 0.4s var(--ease),
+    width 0.4s var(--ease),
+    height 0.4s var(--ease),
+    padding 0.4s var(--ease),
+    border-radius 0.4s var(--ease),
+    background-color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
 }
 
 .nav.scrolled {
   top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(calc(100% - 48px), 1120px);
+  height: 68px;
+  padding: 0 10px 0 28px;
+  border-radius: var(--radius-pill);
+  background: var(--c-bg);
   box-shadow: 0 16px 40px rgba(13, 13, 13, 0.14), 0 2px 10px rgba(13, 13, 13, 0.06);
 }
 
@@ -1950,7 +1965,7 @@ html.show-dev-flags .photo-placeholder__label {
 @media (max-width: 900px) {
   :root {
     --page-pad: var(--page-pad-mob);
-    --nav-h: 92px;
+    --nav-h: 64px;
   }
 
   body {
@@ -1963,14 +1978,15 @@ html.show-dev-flags .photo-placeholder__label {
   .nav__hamburger { display: flex; }
 
   .nav {
-    top: 12px;
-    width: calc(100% - 32px);
-    height: 54px;
-    padding: 0 8px 0 20px;
+    height: 64px;
+    padding: 0 var(--page-pad-mob);
   }
 
   .nav.scrolled {
     top: 12px;
+    width: calc(100% - 32px);
+    height: 54px;
+    padding: 0 8px 0 20px;
   }
 
   .section { padding-top: var(--sp-80); padding-bottom: var(--sp-80); }
