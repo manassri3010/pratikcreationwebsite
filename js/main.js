@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.textContent = btnDefault;
         btn.disabled = false;
         if (errorEl) {
-          errorEl.textContent = 'Something went wrong sending that — please email hello@pratikcreation.com instead.';
+          errorEl.textContent = 'Something went wrong sending that — please email info@pratikcreation.co.in instead.';
           errorEl.hidden = false;
         }
       }
