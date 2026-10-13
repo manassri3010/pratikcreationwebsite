@@ -1572,6 +1572,50 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* auto-scrolling variant — the track is the real logo list rendered
+   twice back to back; the shared marquee-scroll keyframes (── 8.
+   MARQUEE) translate it exactly -50%, so the seam is invisible and
+   the loop is continuous. Pauses on hover, like the text marquee. */
+.logo-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
+          mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
+}
+.logo-marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: var(--sp-64);
+  animation: marquee-scroll 38s linear infinite;
+}
+.logo-marquee:hover .logo-marquee__track { animation-play-state: paused; }
+
+.logo-marquee__item {
+  height: 34px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+  filter: grayscale(1) opacity(0.5);
+  transition: filter 0.2s;
+}
+.logo-marquee__item:hover { filter: grayscale(0) opacity(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee { -webkit-mask-image: none; mask-image: none; }
+  .logo-marquee__track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .logo-marquee__item[aria-hidden="true"] { display: none; }
+}
+
+@media (max-width: 900px) {
+  .logo-marquee__item { height: 26px; }
+  .logo-marquee__track { gap: var(--sp-32); }
+}
+
 
 /* ── 12k. DOT-GRID TEXTURE ──────────────────────────────────── */
 /* faint background texture for light sections — 1px dots, 24px
