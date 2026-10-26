@@ -393,4 +393,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+  /* ── 11. COOKIE BANNER ──────────────────────────────────────── */
+  /* shown once per browser until accepted — same fail-safe pattern
+     as DEV FLAGS above (hidden unless/until the stored choice says
+     otherwise), so a blocked or unavailable localStorage just keeps
+     it showing rather than ever hiding it silently. */
+  const cookieBanner = document.querySelector('.cookie-banner');
+  if (cookieBanner) {
+    const STORAGE_KEY = 'pc_cookie_consent';
+    let alreadyAccepted = false;
+    try { alreadyAccepted = localStorage.getItem(STORAGE_KEY) === 'accepted'; } catch (e) {}
+
+    if (!alreadyAccepted) {
+      setTimeout(() => cookieBanner.classList.add('visible'), 600);
+    }
+
+    const acceptBtn = cookieBanner.querySelector('.cookie-banner__accept');
+    if (acceptBtn) {
+      acceptBtn.addEventListener('click', () => {
+        cookieBanner.classList.remove('visible');
+        try { localStorage.setItem(STORAGE_KEY, 'accepted'); } catch (e) {}
+      });
+    }
+  }
+
 });
