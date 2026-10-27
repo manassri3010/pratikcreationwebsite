@@ -117,3 +117,23 @@ earlier abandoned attempt at this same site, superseded by the current
 lineage) were found to add nothing the current project doesn't already
 have; this session's GitHub access turned out not to permit deleting a
 branch, so that's left for the account owner to do manually on GitHub.
+
+**2026-10-27 — External disk inventoried; "UK Brand" identified.** A full,
+read-only inventory of the PRATIK external disk (separate from this repo —
+run via a local Claude Code session on the account owner's Mac) turned up
+candidate logo/product files for brands already on this site, plus ~39
+brands not yet on it. Full results live at
+`~/Desktop/Pratik-Brand-Assets/INVENTORY.md` on that Mac.
+
+Directly relevant here: **Manas confirmed the long-standing unnamed "UK
+Brand" placeholder is Rawayat by Mannat** — a candidate bag-artwork file
+carrying a London E7 address, which he recognized. The name is now
+confirmed; the logo/photo assets are not yet added to the site (see
+`CONTENT_STATUS.md`, "Pending asset review").
+
+Also decided: no new brands (of the ~39 found) get added to the site right
+now — only product photos/files for brands already live (Cambridge
+Apparels, Teamo, Rawayat by Mannat). For each of those, a mockup and
+screenshot of exactly what's being added and where must be shown and
+explicitly approved before it goes live, same as every other page/feature
+change under this project's workflow.

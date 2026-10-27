@@ -13,8 +13,8 @@ Hosting: Cloudflare Pages/Workers, deployed from this repo's `main` branch
 
 | Page | File | Status | Open items |
 |---|---|---|---|
-| Home | `index.html` | Live, fully built | "Available now" chip list for Connected (`Confirm: which are available now`); product-types + photo for Cambridge Apparels & Teamo work tiles; UK brand name/logo/photo (`Proof: name + logo + photo`); shipping countries (`Confirm: countries`); Pantone matching process (`Confirm: Pantone matching process`); dieline/artwork support details (`Confirm: dieline and artwork support`); batch QC description (`Confirm: batch QC`); "usual way" lead-time figure, if one exists (`Confirm: typical range`) |
-| Work | `work.html` | Live, fully built | UK brand name (`Proof: name`) |
+| Home | `index.html` | Live, fully built | "Available now" chip list for Connected (`Confirm: which are available now`); product-types + photo for Cambridge Apparels & Teamo work tiles — **candidate source files now identified, see "Pending asset review" below**; UK brand name/logo/photo (`Proof: name + logo + photo`) — **name confirmed 2026-10-27 (Rawayat by Mannat), candidate product file found, logo/photo still pending**; shipping countries (`Confirm: countries`); Pantone matching process (`Confirm: Pantone matching process`); dieline/artwork support details (`Confirm: dieline and artwork support`); batch QC description (`Confirm: batch QC`); "usual way" lead-time figure, if one exists (`Confirm: typical range`) |
+| Work | `work.html` | Live, fully built | UK brand name (`Proof: name`) — **confirmed 2026-10-27: Rawayat by Mannat, pending asset review before the page text/photo changes** |
 | Concepts | `concepts.html` | Live, fully built | none known |
 | Process | `process.html` | Live, fully built | shipping countries, Pantone matching, dieline/artwork support, batch QC — same four items as Home (shared copy) |
 | About | `about.html` | Live, fully built | UK brand name + logo (`Proof: name + logo`); **trust strip still uses the old 4-name text placeholder — not yet updated to the real logo marquee used on Home (2026-10-13 decision), pending a call on whether to bring it in line** |
@@ -38,6 +38,32 @@ Hosting: Cloudflare Pages/Workers, deployed from this repo's `main` branch
   asked for at the time — needs a decision, not just a copy-paste, since it
   may be worth asking whether About should carry the full marquee or a
   smaller static set.
+
+## Pending asset review (not yet shown or approved — nothing live changed)
+
+A full inventory of the PRATIK external disk was completed 2026-10-27 (on
+the account owner's Mac, at `~/Desktop/Pratik-Brand-Assets/INVENTORY.md` —
+not part of this repo). It turned up candidate files for three of this
+project's long-standing open items:
+
+- **Cambridge Apparels** — a box dieline (`camb box.cdr` / `.dxf`). A
+  dieline is a production/cutting file, not necessarily finished product
+  photography — needs a look before deciding if it's presentable as-is.
+- **Teamo** — three bag-artwork PDFs; the Teamo logo appears on the bag
+  but there's no standalone logo file. The logo would need extracting from
+  the artwork.
+- **"UK Brand"** — **confirmed 2026-10-27 as Rawayat by Mannat** (the
+  account owner recognized the brand from a candidate bag-artwork PDF
+  carrying a London E7 address). One bag-artwork PDF found; no standalone
+  logo file.
+
+**None of this has been added to the website yet.** Per the account
+owner's instruction (2026-10-27): no new brands get added right now, and
+for these three, a mockup + screenshot of exactly what's being added and
+where must be shown and explicitly approved before anything goes live —
+same discipline as every other page/feature change. Source files need to
+be sent over (this session has no access to the account owner's Mac) before
+that mockup can be built.
 
 ## Branches / history note
 
