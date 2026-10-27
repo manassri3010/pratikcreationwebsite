@@ -89,17 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (items[0]) selectItem(items[0]);
 
 
-  /* ── Zone 2: unified scroll gallery. Only Inlook has confirmed, real
-     product photography right now (see pratik-content.md's placeholder
-     list — Cambridge Apparels, Teamo and the UK brand are still
-     waiting on real photos, so they don't appear here; no AI-generated
-     imagery is used to fill the gap). Each entry carries a short
-     caption and is laid out on a dense bento grid so cell sizes vary
-     instead of sitting in a uniform row/column grid. ───────────────── */
+  /* ── Zone 2: unified scroll gallery. Inlook, Teamo and Rawayat by
+     Mannat have confirmed, real product photography; Cambridge
+     Apparels is still waiting on one (see CONTENT_STATUS.md — it
+     doesn't appear here yet; no AI-generated imagery is used to
+     fill the gap). Each entry carries a short caption and is laid
+     out on a dense bento grid so cell sizes vary instead of sitting
+     in a uniform row/column grid. ───────────────────────────────── */
   const GALLERY_IMAGES = [
     { src: 'images/projects/inlook/hero.png',  alt: 'Inlook hang tag, foil-stamped branding on a floral pattern', title: 'Inlook — Hang Tag',        sub: 'Foil print, waxed cord' },
     { src: 'images/projects/inlook/multi.png', alt: 'Inlook hang tags in three colourways',                       title: 'Inlook — Tag Colourways',  sub: 'Three-way foil variant' },
-    { src: 'images/projects/inlook/teami.png', alt: 'Inlook Teami collection tag, front and back',                title: 'Inlook — Teami Collection', sub: 'Textured stock, die-cut window' }
+    { src: 'images/projects/inlook/teami.png', alt: 'Inlook Teami collection tag, front and back',                title: 'Inlook — Teami Collection', sub: 'Textured stock, die-cut window' },
+    { src: 'images/projects/teamo/hero.png',   alt: 'Teamo shopping bag with foil wordmark',                      title: 'Teamo — Shopping Bag',      sub: 'Paper bag, rope handles' },
+    { src: 'images/projects/rawayat-by-mannat/hero.png', alt: 'Rawayat by Mannat shopping bag with gold foil branding', title: 'Rawayat by Mannat — Shopping Bag', sub: 'Paper bag, rope handles' }
   ];
 
   // repeating size pattern -> the asymmetric/bento rhythm (see CSS .size-*).
