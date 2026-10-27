@@ -137,3 +137,16 @@ Apparels, Teamo, Rawayat by Mannat). For each of those, a mockup and
 screenshot of exactly what's being added and where must be shown and
 explicitly approved before it goes live, same as every other page/feature
 change under this project's workflow.
+
+**2026-10-27 — Teamo and Rawayat by Mannat product photos went live.**
+Manas sent Teamo's three bag-artwork PDFs (three colourways of the same
+design) and Rawayat's one. Each was rendered, trimmed to content, and
+mocked up in the real Home work-tile component before anything changed
+live; Manas reviewed the mockup and approved it as-is ("go ahead and make
+it live"). Shipped: real photos for both on the Home work-tile grid
+(Teamo's dark/vertical colourway chosen — the other two cropped worse into
+the site's 4:5 tile), and "UK Brand" renamed to "Rawayat by Mannat"
+everywhere it appeared (About's trust strip, Work page's hero list —
+text only, no photo added there, since that wasn't part of what was shown
+for approval). Cambridge Apparels stays a placeholder — the only file
+found for it is a box dieline, not finished product photography.

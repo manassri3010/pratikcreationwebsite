@@ -13,11 +13,11 @@ Hosting: Cloudflare Pages/Workers, deployed from this repo's `main` branch
 
 | Page | File | Status | Open items |
 |---|---|---|---|
-| Home | `index.html` | Live, fully built | "Available now" chip list for Connected (`Confirm: which are available now`); product-types + photo for Cambridge Apparels & Teamo work tiles — **candidate source files now identified, see "Pending asset review" below**; UK brand name/logo/photo (`Proof: name + logo + photo`) — **name confirmed 2026-10-27 (Rawayat by Mannat), candidate product file found, logo/photo still pending**; shipping countries (`Confirm: countries`); Pantone matching process (`Confirm: Pantone matching process`); dieline/artwork support details (`Confirm: dieline and artwork support`); batch QC description (`Confirm: batch QC`); "usual way" lead-time figure, if one exists (`Confirm: typical range`) |
-| Work | `work.html` | Live, fully built | UK brand name (`Proof: name`) — **confirmed 2026-10-27: Rawayat by Mannat, pending asset review before the page text/photo changes** |
+| Home | `index.html` | Live, fully built | Cambridge Apparels work-tile photo — still a placeholder, only a box dieline exists for it (not finished product photography), see Known issues; Teamo and "UK Brand" work-tile items **resolved 2026-10-27** — real product photos live, UK Brand renamed to Rawayat by Mannat; "Available now" chip list for Connected (`Confirm: which are available now`); shipping countries (`Confirm: countries`); Pantone matching process (`Confirm: Pantone matching process`); dieline/artwork support details (`Confirm: dieline and artwork support`); batch QC description (`Confirm: batch QC`); "usual way" lead-time figure, if one exists (`Confirm: typical range`) |
+| Work | `work.html` | Live, fully built | UK brand name **resolved 2026-10-27** — renamed to Rawayat by Mannat (text only; this page's own Zone 1 head-image panel and Zone 2 scroll gallery don't show Teamo/Rawayat photos yet — only the Home work-tile grid was shown for approval and shipped, see Known issues for the natural follow-up) |
 | Concepts | `concepts.html` | Live, fully built | none known |
 | Process | `process.html` | Live, fully built | shipping countries, Pantone matching, dieline/artwork support, batch QC — same four items as Home (shared copy) |
-| About | `about.html` | Live, fully built | UK brand name + logo (`Proof: name + logo`); **trust strip still uses the old 4-name text placeholder — not yet updated to the real logo marquee used on Home (2026-10-13 decision), pending a call on whether to bring it in line** |
+| About | `about.html` | Live, fully built | UK brand name **resolved 2026-10-27** — renamed to Rawayat by Mannat in the trust-strip text (still no logo image here, see Known issues); trust strip still uses the old 4-name text placeholder style — not yet updated to the real logo marquee used on Home (2026-10-13 decision), pending a call on whether to bring it in line |
 | Samples | `samples.html` | Live, fully built | kit contents list (`Proof: kit contents`); response-time commitment (`Proof: response time`); **sample-request delivery inbox not reconfirmed since the 2026-10-13 email switch — see Known Issues below** |
 | Terms & Conditions | `terms.html` | Live, new as of 2026-10-26 | registered business name/address (`Confirm: registered business name and address for legal correspondence`); **page is a generic draft — flagged to the account owner as needing their own legal review before relying on it** |
 | work-matiere (MATIÈRE project) | `work-matiere.html` | Live, fully built | none known |
@@ -39,31 +39,39 @@ Hosting: Cloudflare Pages/Workers, deployed from this repo's `main` branch
   may be worth asking whether About should carry the full marquee or a
   smaller static set.
 
-## Pending asset review (not yet shown or approved — nothing live changed)
+## Teamo and Rawayat by Mannat product photos — shipped 2026-10-27
 
-A full inventory of the PRATIK external disk was completed 2026-10-27 (on
-the account owner's Mac, at `~/Desktop/Pratik-Brand-Assets/INVENTORY.md` —
-not part of this repo). It turned up candidate files for three of this
-project's long-standing open items:
+Following the PRATIK external-disk inventory (on the account owner's Mac,
+`~/Desktop/Pratik-Brand-Assets/INVENTORY.md` — not part of this repo), the
+account owner sent over Teamo's bag-artwork PDFs and confirmed "UK Brand"
+is Rawayat by Mannat. Three Teamo colourway renders and the one Rawayat
+render were converted (`pdftoppm` → trimmed with ImageMagick), mocked up
+in the real Home work-tile component, and shown for approval before
+anything went live, per the account owner's explicit instruction. Approved
+and shipped:
 
-- **Cambridge Apparels** — a box dieline (`camb box.cdr` / `.dxf`). A
-  dieline is a production/cutting file, not necessarily finished product
-  photography — needs a look before deciding if it's presentable as-is.
-- **Teamo** — three bag-artwork PDFs; the Teamo logo appears on the bag
-  but there's no standalone logo file. The logo would need extracting from
-  the artwork.
-- **"UK Brand"** — **confirmed 2026-10-27 as Rawayat by Mannat** (the
-  account owner recognized the brand from a candidate bag-artwork PDF
-  carrying a London E7 address). One bag-artwork PDF found; no standalone
-  logo file.
+- `images/projects/teamo/hero.png` — Teamo's dark/vertical bag colourway
+  (one of three shown; the other two cropped worse into the site's 4:5
+  tile or had poor rope-handle contrast on the white colourway).
+- `images/projects/rawayat-by-mannat/hero.png` — Rawayat by Mannat's
+  black/gold bag.
+- Home work-tile grid (`index.html`): both tiles now show the real photo;
+  captions read "Paper bags" (the only type actually visible in the
+  artwork); Rawayat's tile name changed from "UK Brand" to "Rawayat by
+  Mannat"; both `dev-flag`s removed.
+- "UK Brand" → "Rawayat by Mannat" text updated everywhere else it
+  appeared (`about.html` trust strip, `work.html` hero list) — text only.
 
-**None of this has been added to the website yet.** Per the account
-owner's instruction (2026-10-27): no new brands get added right now, and
-for these three, a mockup + screenshot of exactly what's being added and
-where must be shown and explicitly approved before anything goes live —
-same discipline as every other page/feature change. Source files need to
-be sent over (this session has no access to the account owner's Mac) before
-that mockup can be built.
+**Deliberately not done in this pass** (wasn't part of what was shown for
+approval): `work.html`'s own Zone 1 head-image panel and Zone 2 scroll
+gallery don't reference these photos yet — they're a different page with
+different image treatment (`object-fit: contain` vs. the home tile's
+`cover`), and adding them there is a natural small follow-up, not bundled
+in without being shown first.
+
+**Still open:** Cambridge Apparels — only a box dieline (`camb box.cdr` /
+`.dxf`) was found for it, not finished product photography; still a
+placeholder on the Home work-tile grid pending something presentable.
 
 ## Branches / history note
 
